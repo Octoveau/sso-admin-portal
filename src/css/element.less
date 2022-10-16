@@ -1,0 +1,48 @@
+.el-container {
+  height: 100%;
+}
+
+.el-header {
+  border-bottom: solid 1px #e6e6e6;
+  color: #333;
+  line-height: 0.75rem;
+}
+
+.el-aside {
+  color: #333;
+  line-height: 2.5rem;
+}
+
+.el-main {
+  background-color: #e9eef3;
+  color: #333;
+  text-align: center;
+  line-height: 2rem;
+}
+
+.el-menu {
+  height: 100%;
+}
+.el-main {
+  padding: 0 !important;
+}
+
+/* <i/>样式 */
+.no-icon {
+  display: inline-block;
+  margin-right: 0.0625rem;
+  width: 0.225rem;
+}
+
+.is-active {
+  position: relative;
+}
+.is-active::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-color: rgba(64, 158, 255, 0.2);
+}
