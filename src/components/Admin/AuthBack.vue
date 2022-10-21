@@ -39,13 +39,14 @@ export default {
   }
   .container {
     position: absolute;
+    z-index: 2;
     left: 10%;
     top: 50%;
     transform: translateY(-50%);
     padding: 0.2rem;
     min-width: 5rem;
     min-height: 2rem;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.65);
     border-radius: 4px;
     box-shadow: 2px 2px 10px rgba(66, 66, 66, 0.6);
     .h3 {
