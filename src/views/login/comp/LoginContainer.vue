@@ -6,17 +6,9 @@
     <div class="right">
       <div class="header">
         <span class="title">
-          <P
-            :class="this.defaultLabel === 1 ? 'p-choose' : null"
-            @click="changeLabel(1)"
-            >手机号验证码登录</P
-          >
-          <P
-            :class="this.defaultLabel === 2 ? 'p-choose' : null"
-            @click="changeLabel(2)"
-            >账号密码登录</P
-          ></span
-        >
+          <P :class="this.defaultLabel === 1 ? 'p-choose' : null" @click="changeLabel(1)">手机号验证码登录</P>
+          <P :class="this.defaultLabel === 2 ? 'p-choose' : null" @click="changeLabel(2)">账号密码登录</P>
+        </span>
         <span>
           <LoginFormComp></LoginFormComp>
         </span>
@@ -31,8 +23,8 @@
 </template>
 
 <script>
-import LoginFormComp from "@/views/login/comp/LoginForm";
-import loginLeftComp from "@/assets/images/login-left.png";
+import LoginFormComp from '@/views/login/comp/LoginForm';
+import loginLeftComp from '@/assets/images/login-left.png';
 export default {
   components: {
     LoginFormComp,

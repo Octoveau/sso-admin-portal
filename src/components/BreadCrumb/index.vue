@@ -25,7 +25,6 @@ export default {
       breadCrumbList: [],
     };
   },
-
   watch: {
     $route() {
       return this.getBreadCrumbList();
@@ -66,7 +65,7 @@ export default {
 
     // 跳转
     handleJumpLink(item) {
-      this.$router.push(item.path)
+      this.$router.push(item.path);
     },
   },
 };

@@ -3,16 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "start": "npm run serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "dll": "webpack --config ./webpack.dll.js"
+    "dll": "webpack --config ./webpack.dll.js",
+    "husky":"npx husky install"
   },
   "dependencies": {
     "add-asset-html-webpack-plugin": "4.0.1",
     "axios": "^1.1.2",
     "core-js": "^3.6.5",
     "element-ui": "^2.15.10",
+    "husky": "^8.0.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "nprogress": "^0.2.0",

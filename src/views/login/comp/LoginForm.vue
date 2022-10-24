@@ -1,14 +1,7 @@
 <template>
   <div class="login-container">
     <div class="div-form">
-      <el-form
-        ref="loginForm"
-        :model="loginForm"
-        :rules="loginRules"
-        class="login-form"
-        autocomplete="on"
-        label-position="left"
-      >
+      <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
         <el-form-item prop="username">
           <span class="svg-container">
             <svg-icon icon-class="user" />
@@ -41,19 +34,11 @@
             @keyup.enter.native="handleLogin"
           />
           <span class="show-pwd" @click="showPwd">
-            <svg-icon
-              :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
-            />
+            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span>
         </el-form-item>
 
-        <el-button
-          :loading="loading"
-          type="primary"
-          style="width: 100%; margin-bottom: 0.2rem"
-          @click.native.prevent="handleLogin"
-          >登录</el-button
-        >
+        <el-button :loading="loading" type="primary" style="width: 100%; margin-bottom: 0.2rem" @click.native.prevent="handleLogin">登录</el-button>
       </el-form>
     </div>
   </div>
@@ -61,31 +46,27 @@
 
 <script>
 export default {
-  name: "Login",
+  name: 'Login',
   data() {
     return {
       loginForm: {
         username: null,
-        password: "",
+        password: '',
       },
       loginRules: {
-        username: [
-          { required: true, message: "请输入用户手机号", trigger: "blur" },
-        ],
-        password: [
-          { required: true, message: "请输入用户密码", trigger: "blur" },
-        ],
+        username: [{ required: true, message: '请输入用户手机号', trigger: 'blur' }],
+        password: [{ required: true, message: '请输入用户密码', trigger: 'blur' }],
       },
-      passwordType: "password",
+      passwordType: 'password',
       loading: false,
     };
   },
   methods: {
     showPwd() {
-      if (this.passwordType === "password") {
-        this.passwordType = "";
+      if (this.passwordType === 'password') {
+        this.passwordType = '';
       } else {
-        this.passwordType = "password";
+        this.passwordType = 'password';
       }
       this.$nextTick(() => {
         this.$refs.password.focus();
