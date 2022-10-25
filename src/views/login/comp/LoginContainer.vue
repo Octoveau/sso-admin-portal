@@ -10,7 +10,7 @@
           <P :class="this.defaultLabel === 2 ? 'p-choose' : null" @click="changeLabel(2)">账号密码登录</P>
         </span>
         <span>
-          <LoginFormComp></LoginFormComp>
+          <LoginFormComp :registerType="defaultLabel"></LoginFormComp>
         </span>
       </div>
       <div class="footer">

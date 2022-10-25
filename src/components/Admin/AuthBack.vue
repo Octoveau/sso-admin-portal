@@ -1,7 +1,13 @@
 <template>
   <section class="back-section">
     <div class="header">
-      <slot name="header"> </slot>
+      <slot name="header">
+        <header class="header">
+          <el-button type="text">用户管理</el-button>
+          <el-button type="text">关于我们</el-button>
+          <el-button type="text">帮助中心</el-button>
+        </header>
+      </slot>
     </div>
     <div class="container">
       <h3 class="h3">Octoveau统一登录平台</h3>
@@ -24,7 +30,7 @@ export default {
   position: relative;
   width: 100vw;
   height: 100vh;
-  background-image: url("../../assets//images/ssoback.png");
+  background-image: url('../../assets//images/ssoback.png');
   background-repeat: no-repeat;
   background-position: top;
   background-size: 100% 100%;
@@ -35,6 +41,13 @@ export default {
     }
     .el-button--text :hover {
       color: #409eff;
+    }
+    .header {
+      background-color: rgba(0, 0, 0, 0.5);
+      height: 0.6rem;
+      line-height: 0.6rem;
+      text-align: end;
+      padding-right: 0.75rem;
     }
   }
   .container {

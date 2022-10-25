@@ -23,32 +23,33 @@
 </template>
 
 <script>
-import slideImg1 from '@/assets/images/slider/1.png';
-import slideImg2 from '@/assets/images/slider/2.png';
+import { silderConfig } from '@/views/login/help';
 export default {
   name: 'App',
   data() {
     return {
       dialogVisible: true,
-      imgsList: [slideImg1, slideImg2],
+      imgsList: [],
     };
   },
   created() {
-    //   for (let i = 0; i < 6; i++) {
-    //     import(`@/assets/images/slider/${i + 1}.png`).then((res) => {
-    //       this.imgsList.push(res);
-    //     });
-    //   }
+    for (let i = 0; i < 6; i++) {
+      import(`@/assets/images/slider/${i + 1}.png`).then((res) => {
+        this.imgsList.push(res.default);
+      });
+    }
   },
   methods: {
     onSuccess() {
-      console.log('滑块验证通过');
+      silderConfig.isSilderSuccess = true;
+      silderConfig.isShowSilder = false;
+      this.$message.success('验证成功');
     },
     onFail() {
-      console.log('滑块验证不通过');
+      silderConfig.isSilderSuccess = false;
     },
     onClose() {
-      console.log('关闭');
+      silderConfig.isShowSilder = false;
     },
   },
 };

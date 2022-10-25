@@ -1,6 +1,6 @@
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
-import authStorage from '@/utils/auth';
+//import authStorage from '@/utils/auth';
 class RouterGuards {
   constructor(router) {
     this.router = router;
