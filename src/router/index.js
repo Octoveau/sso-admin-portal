@@ -1,14 +1,14 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import RouterGuards from "./config/router.guards";
-import adminRoutes from "./admin";
-import loginRoutes from "./login";
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import RouterGuards from './config/router.guards';
+import adminRoutes from './admin';
+import authRoutes from './auth';
 Vue.use(VueRouter);
 
 const router = new VueRouter({
-  mode: "history",
+  mode: 'history',
   base: process.env.BASE_URL,
-  routes: [...adminRoutes, ...loginRoutes],
+  routes: [...adminRoutes, ...authRoutes],
 });
 // 路由守卫
 new RouterGuards(router).initRouterGuards();

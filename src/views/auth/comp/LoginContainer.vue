@@ -14,9 +14,9 @@
         </span>
       </div>
       <div class="footer">
-        <el-button type="text">立即注册</el-button>
+        <el-button type="text" @click="gotoRegister">立即注册</el-button>
         <span></span>
-        <el-button type="text">忘记密码</el-button>
+        <el-button type="text" @click="resetPwd">忘记密码</el-button>
       </div>
     </div>
   </div>
@@ -36,6 +36,16 @@ export default {
     };
   },
   methods: {
+    gotoRegister() {
+      this.$router.push({
+        name: 'Register',
+      });
+    },
+    resetPwd() {
+      this.$router.push({
+        name: 'PasswordReset',
+      });
+    },
     changeLabel(val) {
       this.defaultLabel = val;
     },
