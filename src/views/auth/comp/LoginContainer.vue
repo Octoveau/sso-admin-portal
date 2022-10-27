@@ -1,7 +1,7 @@
 <template>
   <div class="login-form">
     <div class="left">
-      <el-image :src="loginLeftComp" class=""></el-image>
+      <el-image :src="loginLeftPic"></el-image>
     </div>
     <div class="right">
       <div class="header">
@@ -23,15 +23,15 @@
 </template>
 
 <script>
-import LoginFormComp from '@/views/login/comp/LoginForm';
-import loginLeftComp from '@/assets/images/login-left.png';
+import LoginFormComp from '@/views/auth/comp/LoginForm';
+import loginLeftPic from '@/assets/images/loginicon.png';
 export default {
   components: {
     LoginFormComp,
   },
   data() {
     return {
-      loginLeftComp,
+      loginLeftPic,
       defaultLabel: 1,
     };
   },

@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { silderConfig } from '@/views/login/help';
+import { silderConfig } from '@/views/auth/help';
 export default {
   name: 'App',
   data() {

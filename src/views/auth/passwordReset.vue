@@ -2,23 +2,21 @@
   <section class="main">
     <AuthBackComp>
       <template v-slot:container>
-        <RegisterFormComp></RegisterFormComp>
-      </template>
-      <template v-slot:footer>
-        <el-image :src="footerImg" class="back-img"></el-image>
+        <h3 class="h3">Octoveau统一找回密码端</h3>
+        <ResetFormComp></ResetFormComp>
       </template>
     </AuthBackComp>
   </section>
 </template>
 
 <script>
-import AuthBackComp from '@/components/Admin/AuthBack.vue';
-import RegisterFormComp from '@/views/login/comp/RegisterForm.vue';
+import AuthBackComp from '@/components/Auth/AuthBack.vue';
+import ResetFormComp from '@/views/auth/comp/ResetForm.vue';
 import footerImg from '@/assets/images/footer.png';
 export default {
   components: {
     AuthBackComp,
-    RegisterFormComp,
+    ResetFormComp,
   },
   data() {
     return {
