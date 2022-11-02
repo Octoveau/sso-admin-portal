@@ -41,7 +41,7 @@
             <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span>
         </el-form-item>
-        <el-button :loading="loading" type="primary" style="width: 100%; margin-bottom: 0.2rem">登录</el-button>
+        <el-button :loading="loading" type="primary" style="width: 100%; margin-bottom: 0.2rem" @click="onRegister">注 册</el-button>
       </el-form>
       <div class="footer">
         <b>已有账号?</b>
@@ -54,6 +54,8 @@
 <script>
 import { loginRules, silderConfig } from '../help';
 import loginLeftPic from '@/assets/images/loginicon4.png';
+import commonUtil from '@/utils/index';
+import { registerUser } from '@/api/auth';
 export default {
   name: 'RegisterPage',
   data() {
@@ -64,10 +66,10 @@ export default {
       timeCount: 60,
       isCanSendCode: true,
       loginForm: {
-        phoneNum: undefined,
-        verificationCode: undefined,
-        password: '',
-        rePassword: '',
+        phone: undefined, //11位数字的字符
+        verificationCode: undefined, //验证码
+        password: '', //注册密码
+        rePassword: '', //再次确认密码
       },
       loginRules,
       passwordType: 'password',
@@ -77,6 +79,17 @@ export default {
   },
 
   methods: {
+    //注册
+    onRegister() {
+      let request = {
+        phone: this.loginForm.phone,
+        password: this.loginForm.password,
+        nickName: commonUtil.randomlyCharacters(6), //生成随机的六位昵称，后期可以进行编辑
+      };
+      registerUser(request)
+        .then((res) => {})
+        .finally(() => {});
+    },
     getVerificationCode() {
       this.timer = setInterval(() => {
         this.timeCount--;
@@ -106,7 +119,7 @@ export default {
 .login-container {
   color: #fff;
   display: flex;
-  margin-bottom: 0.3rem;
+  align-items: center;
   .left {
     width: 4rem;
   }
@@ -114,13 +127,14 @@ export default {
     ::v-deep .el-input {
       display: inline-block;
       height: 0.5rem;
-      width: 2rem;
+      line-height: 0.5rem;
+      width: 2.2rem;
       input {
         text-align: left;
         background: transparent;
         border: 0px;
         border-radius: 0px;
-        padding: 0.15rem 0.0625rem 0.15rem 0.1875rem;
+        padding: 0.1rem;
         color: #fff;
         caret-color: #fff;
       }

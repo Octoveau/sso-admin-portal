@@ -55,6 +55,8 @@ export default {
     }
   }
   .container {
+    display: flex;
+    align-items: center;
     position: absolute;
     z-index: 2;
     left: 10%;
@@ -62,7 +64,7 @@ export default {
     transform: translateY(-50%);
     padding: 0.2rem;
     min-width: 5rem;
-    min-height: 2rem;
+    height: 5rem;
     background-color: rgba(0, 0, 0, 0.65);
     border-radius: 4px;
     box-shadow: 2px 2px 10px rgba(66, 66, 66, 0.6);

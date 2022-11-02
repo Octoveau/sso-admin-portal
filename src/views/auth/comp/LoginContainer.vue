@@ -57,6 +57,7 @@ export default {
 .login-form {
   color: #fff;
   display: flex;
+  align-items: center;
   margin-bottom: 0.3rem;
   .left {
     width: 4rem;

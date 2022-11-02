@@ -8,7 +8,8 @@
     "parser": "babel-eslint"
   },
   "rules": {
-    "vue/no-unused-components": 0
+    "vue/no-unused-components": 0,
+    "no-unused-vars": 0
   },
   "globals": {
     "_": true,

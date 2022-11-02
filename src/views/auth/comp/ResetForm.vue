@@ -106,7 +106,7 @@ export default {
 .login-container {
   color: #fff;
   display: flex;
-  margin-bottom: 0.3rem;
+  align-items: center;
   .left {
     width: 4rem;
   }
@@ -114,13 +114,14 @@ export default {
     ::v-deep .el-input {
       display: inline-block;
       height: 0.5rem;
-      width: 2rem;
+      line-height: 0.5rem;
+      width: 2.2rem;
       input {
         text-align: left;
         background: transparent;
         border: 0px;
         border-radius: 0px;
-        padding: 0.15rem 0.0625rem 0.15rem 0.1875rem;
+        padding: 0.1rem;
         color: #fff;
         caret-color: #fff;
       }

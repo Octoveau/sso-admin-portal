@@ -7,7 +7,6 @@
         </span>
         <el-input v-model.trim="loginForm.phoneNum" placeholder="手机号" maxlength="11"></el-input>
       </el-form-item>
-
       <span v-show="registerType === 1">
         <el-form-item prop="verificationCode">
           <span class="svg-container">
@@ -108,13 +107,14 @@ export default {
   ::v-deep .el-input {
     display: inline-block;
     height: 0.5rem;
-    width: 2rem;
+    line-height: 0.5rem;
+    width: 2.2rem;
     input {
       text-align: left;
       background: transparent;
       border: 0px;
       border-radius: 0px;
-      padding: 0.15rem 0.0625rem 0.15rem 0.1875rem;
+      padding: 0.1rem;
       color: #fff;
       caret-color: #fff;
     }
