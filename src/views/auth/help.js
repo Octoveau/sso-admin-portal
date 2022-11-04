@@ -47,6 +47,42 @@ export const loginRules = {
   ],
 };
 
+export const registerRules = {
+  phone: [
+    { required: true, message: '请输入用户手机号', trigger: 'blur' },
+    { validator: validateNum, trigger: 'blur' },
+    { validator: validatePhone, trigger: 'blur' },
+  ],
+  password: [
+    { required: true, message: '请输入用户密码', trigger: 'blur' },
+    { validator: validatePwd, trigger: 'blur' },
+  ],
+  repassword: [
+    { required: true, message: '请再次确认密码', trigger: 'blur' },
+    { validator: validatePwd, trigger: 'blur' },
+  ],
+  verificationCode: [
+    { required: true, message: '请输入验证码', trigger: 'blur' },
+    { validator: validateNum, trigger: 'blur' },
+  ],
+};
+
+export const resetRules = {
+  phone: [
+    { required: true, message: '请输入用户手机号', trigger: 'blur' },
+    { validator: validateNum, trigger: 'blur' },
+    { validator: validatePhone, trigger: 'blur' },
+  ],
+  password: [
+    { required: true, message: '请输入用户密码', trigger: 'blur' },
+    { validator: validatePwd, trigger: 'blur' },
+  ],
+  verificationCode: [
+    { required: true, message: '请输入验证码', trigger: 'blur' },
+    { validator: validateNum, trigger: 'blur' },
+  ],
+};
+
 //Silder控制器
 export const silderConfig = {
   isShowSilder: false,

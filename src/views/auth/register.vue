@@ -17,8 +17,5 @@ export default {
     AuthBackComp,
     RegisterFormComp,
   },
-  data() {
-    return {};
-  },
 };
 </script>
