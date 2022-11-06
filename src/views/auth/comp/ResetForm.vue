@@ -106,6 +106,7 @@ export default {
       getVerificationCode()
         .then((res) => {
           this.curVerCode = this.handleResult(res);
+
           this.handleCode();
         })
         .finally(() => {

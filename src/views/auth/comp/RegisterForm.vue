@@ -103,7 +103,8 @@ export default {
           let request = {
             phone: this.registerForm.phone,
             password: this.registerForm.password,
-            nickName: commonUtil.randomlyCharacters(6), //生成随机的六位昵称，后期可以进行编辑
+            //nickName: commonUtil.randomlyCharacters(6), //生成随机的六位昵称，后期可以进行编辑
+            nickName: 'looper',
           };
           this.registerLoading = true;
           registerUser(request)
@@ -122,7 +123,8 @@ export default {
       this.verCodeLoading = true;
       getVerificationCode()
         .then((res) => {
-          this.curVerCode = this.handleResult(res);
+          this.curVerCode = String(this.handleResult(res).code);
+          this.$message.success(`验证码为:${this.curVerCode}`);
           this.handleCode();
         })
         .finally(() => {
