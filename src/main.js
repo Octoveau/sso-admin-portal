@@ -7,13 +7,13 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import './assets/icons';
 import SlideVerify from 'vue-monoplasty-slide-verify';
-import globalMixin from '@/mixin/index';
+
 Vue.use(SlideVerify);
 Vue.use(ElementUI);
 //引入rem的适配文件，以1920作为参照，1rem就是80px
 import './flexible/';
 Vue.config.productionTip = false;
-Vue.mixin(globalMixin);
+
 new Vue({
   router,
   store,

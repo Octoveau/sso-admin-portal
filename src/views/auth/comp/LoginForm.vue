@@ -1,25 +1,25 @@
 <template>
   <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
-      <el-form-item prop="phoneNum">
+      <el-form-item prop="phone">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
-        <el-input v-model.trim="loginForm.phoneNum" placeholder="手机号" maxlength="11"></el-input>
+        <el-input v-model.trim="loginForm.phone" placeholder="手机号" maxlength="11"></el-input>
       </el-form-item>
-      <span v-show="registerType === 1">
+      <span v-if="registerType === 1">
         <el-form-item prop="verificationCode">
           <span class="svg-container">
             <svg-icon icon-class="edit" />
           </span>
           <el-input v-model.trim="loginForm.verificationCode" placeholder="验证码" name="verificationCode" maxlength="4" />
           <span>
-            <a @click="openSilder" class="a-verification" v-if="isCanSendCode">获取验证码</a>
+            <a @click="onGetVerificationCode" class="a-verification" v-if="isCanSendCode" :loading="verCodeLoading">获取验证码</a>
             <span style="color: rgb(185 185 185)" v-else>重新发送{{ timeCount }}(s)</span>
           </span>
         </el-form-item>
       </span>
-      <span v-show="registerType === 2">
+      <span v-else>
         <el-form-item prop="password">
           <span class="svg-container">
             <svg-icon icon-class="password" />
@@ -30,13 +30,16 @@
           </span>
         </el-form-item>
       </span>
-      <el-button :loading="loading" type="primary" style="width: 100%; margin-bottom: 0.2rem">登录</el-button>
+      <el-button :loading="loading" type="primary" style="width: 100%; margin-bottom: 0.2rem" @click="openSilder">
+        {{ loading ? '登 录 中' : '登 录' }}
+      </el-button>
     </el-form>
   </div>
 </template>
 
 <script>
 import { loginRules, silderConfig } from '../help';
+import { loginUser, getVerificationCode } from '@/api/auth';
 export default {
   name: 'Login',
   props: {
@@ -52,20 +55,21 @@ export default {
       timeCount: 60,
       isCanSendCode: true,
       loginForm: {
-        phoneNum: undefined,
+        phone: undefined,
         verificationCode: undefined,
         password: '',
       },
       loginRules,
       passwordType: 'password',
       loading: false,
+      verCodeLoading: false,
     };
   },
   watch: {
     registerType() {
       //当登录方式切换的时候，做处理
       this.loginForm = {
-        phoneNum: undefined,
+        phone: undefined,
         verificationCode: undefined,
         password: '',
       };
@@ -75,23 +79,61 @@ export default {
       handler() {
         //如果验证成功，发送验证码
         if (this.silderConfig.isSilderSuccess) {
-          this.getVerificationCode();
+          this.onLogin();
         }
       },
       deep: true,
     },
   },
   methods: {
-    openSilder() {
-      this.silderConfig.isShowSilder = true;
+    //登录逻辑
+    onLogin() {
+      this.loading = true;
+      let request = {
+        userName: this.loginForm.phone,
+        password: this.loginForm.password,
+      };
+      loginUser(request)
+        .then((res) => {
+          if (res.code === 200) {
+            this.$message.success('登录成功');
+          }
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
-    getVerificationCode() {
+    openSilder() {
+      this.$refs['loginForm'].validate((valid) => {
+        if (valid) {
+          this.silderConfig.isShowSilder = true;
+        }
+      });
+    },
+    onGetVerificationCode() {
+      //获取验证码
+      this.verCodeLoading = true;
+      getVerificationCode()
+        .then((res) => {
+          console.log(2222, res);
+          this.curVerCode = String(res.code);
+          this.$message.success(`验证码为:${this.curVerCode}`);
+          this.handleCode();
+        })
+        .finally(() => {
+          this.verCodeLoading = false;
+        });
+    },
+    //处理获取验证码后续
+    handleCode() {
       this.timer = setInterval(() => {
         this.timeCount--;
         if (this.timeCount === 0) {
           this.isCanSendCode = true;
           clearInterval(this.timer);
           this.timeCount = 60;
+          //时间到期，验证码重置
+          this.curVerCode = null;
         }
       }, 1000);
       this.isCanSendCode = false;

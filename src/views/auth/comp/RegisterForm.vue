@@ -39,7 +39,7 @@
           </span>
           <el-input v-model.trim="registerForm.rePassword" maxlength="20" :type="passwordType" placeholder="请再次确定密码" name="password" />
           <span class="show-pwd" @click="reShowPwd">
-            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+            <svg-icon :icon-class="rePasswordType === 'password' ? 'eye' : 'eye-open'" />
           </span>
         </el-form-item>
         <el-button :loading="registerLoading" type="primary" style="width: 100%; margin-bottom: 0.2rem" @click="onRegister">
@@ -103,13 +103,18 @@ export default {
           let request = {
             phone: this.registerForm.phone,
             password: this.registerForm.password,
-            //nickName: commonUtil.randomlyCharacters(6), //生成随机的六位昵称，后期可以进行编辑
-            nickName: 'looper',
+            nickName: commonUtil.randomlyCharacters(6), //生成随机的六位昵称，后期可以进行编辑
           };
           this.registerLoading = true;
           registerUser(request)
             .then((res) => {
-              this.handleResult(res, true);
+              if (res.code === 200) {
+                //注册成功进行跳转
+                this.$message.success('注册成功');
+                this.$router.push({
+                  name: 'login',
+                });
+              }
             })
             .finally(() => {
               this.registerLoading = false;
@@ -123,7 +128,7 @@ export default {
       this.verCodeLoading = true;
       getVerificationCode()
         .then((res) => {
-          this.curVerCode = String(this.handleResult(res).code);
+          this.curVerCode = String(res.code);
           this.$message.success(`验证码为:${this.curVerCode}`);
           this.handleCode();
         })

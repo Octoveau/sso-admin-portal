@@ -33,7 +33,7 @@ export default {
     };
   },
   created() {
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 3; i++) {
       import(`@/assets/images/slider/${i + 1}.png`).then((res) => {
         this.imgsList.push(res.default);
       });
@@ -43,7 +43,6 @@ export default {
     onSuccess() {
       silderConfig.isSilderSuccess = true;
       silderConfig.isShowSilder = false;
-      this.$message.success('验证成功');
     },
     onFail() {
       silderConfig.isSilderSuccess = false;
