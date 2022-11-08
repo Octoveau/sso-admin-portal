@@ -7,7 +7,7 @@ const menuList = [
   {
     menu_name: '用户管理',
     menu_icon: 'el-icon-s-home',
-    menu_url: '/client/user/detail',
+    menu_url: '',
     children: [
       {
         menu_name: '用户列表',
