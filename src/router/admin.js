@@ -1,24 +1,30 @@
 const adminRoutes = [
   {
-    path: "/",
-    name: "Layout",
-    component: () => import("@/layouts"),
-    redirect: "/dashboard",
+    path: '/',
+    redirect: '/login',
+  },
+  {
+    path: '/client',
+    name: 'Layout',
+    component: () => import('@/layouts'),
+    redirect: '/dashboard',
     children: [
       {
-        path: "/dashboard",
-        name: "DashBoard",
-        component: () => import("@/views/DashBoard"),
+        path: 'dashboard',
+        name: 'DashBoard',
+        component: () => import('@/views/dashBoard'),
         meta: {
-          title: "DashBoard",
+          title: 'DashBoard',
+          bread: [{ name: 'DashBoard' }],
         },
       },
       {
-        path: "/home",
-        name: "Home",
-        component: () => import("@/views/Home"),
+        path: 'user/detail',
+        name: 'UserDetail',
+        component: () => import('@/views/user/userDetail'),
         meta: {
-          title: "首页",
+          title: '用户列表',
+          bread: [{ name: '用户列表' }],
         },
       },
     ],

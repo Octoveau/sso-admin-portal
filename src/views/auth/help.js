@@ -28,7 +28,7 @@ const validateNum = (rule, value, callback) => {
   }
 };
 export const loginRules = {
-  phoneNum: [
+  phone: [
     { required: true, message: '请输入用户手机号', trigger: 'blur' },
     { validator: validateNum, trigger: 'blur' },
     { validator: validatePhone, trigger: 'blur' },
@@ -53,7 +53,7 @@ export const registerRules = {
     { required: true, message: '请输入用户密码', trigger: 'blur' },
     { validator: validatePwd, trigger: 'blur' },
   ],
-  repassword: [
+  rePassword: [
     { required: true, message: '请再次确认密码', trigger: 'blur' },
     { validator: validatePwd, trigger: 'blur' },
   ],

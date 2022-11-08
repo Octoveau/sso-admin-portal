@@ -15,9 +15,9 @@
 </template>
 
 <script>
-import HeaderComp from "./header";
-import ContentComp from "./content";
-import AsideComp from "./aside";
+import HeaderComp from './header';
+import ContentComp from './content';
+import AsideComp from './aside';
 export default {
   components: {
     HeaderComp,
@@ -27,12 +27,6 @@ export default {
   data() {
     return {};
   },
-
-  computed: {},
-
-  mounted() {},
-
-  methods: {},
 };
 </script>
 <style lang="less" scoped>

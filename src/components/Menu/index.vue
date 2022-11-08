@@ -1,20 +1,12 @@
 <template>
-  <el-menu
-    :default-active="defaultActive"
-    :unique-opened="true"
-    :router="true"
-    popper-append-to-body
-    background-color="#304156"
-    text-color="#bfcbd9"
-    active-text-color="#409eff"
-  >
+  <el-menu :default-active="defaultActive" :unique-opened="true" :router="true">
     <menu-item :menuList="menu"></menu-item>
   </el-menu>
 </template>
 <script>
-import menuItem from "./menuItem";
+import menuItem from './menuItem';
 export default {
-  name: "Menu",
+  name: 'Menu',
   components: { menuItem },
   props: {
     menuList: {
@@ -32,7 +24,7 @@ export default {
       if (path) {
         return path;
       }
-      return "DashBoard";
+      return 'DashBoard';
     },
   },
 };

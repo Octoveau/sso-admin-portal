@@ -11,7 +11,6 @@
           </span>
           <el-input v-model.trim="registerForm.phone" placeholder="手机号" maxlength="11"></el-input>
         </el-form-item>
-
         <el-form-item prop="verificationCode">
           <span class="svg-container">
             <svg-icon icon-class="edit" />
@@ -22,7 +21,6 @@
             <span style="color: rgb(185 185 185)" v-else>重新发送{{ timeCount }}(s)</span>
           </span>
         </el-form-item>
-
         <el-form-item prop="password">
           <span class="svg-container">
             <svg-icon icon-class="password" />
@@ -32,7 +30,6 @@
             <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span>
         </el-form-item>
-
         <el-form-item prop="rePassword">
           <span class="svg-container">
             <svg-icon icon-class="password" />
@@ -112,7 +109,7 @@ export default {
                 //注册成功进行跳转
                 this.$message.success('注册成功');
                 this.$router.push({
-                  name: 'login',
+                  name: 'Login',
                 });
               }
             })
@@ -128,7 +125,7 @@ export default {
       this.verCodeLoading = true;
       getVerificationCode()
         .then((res) => {
-          this.curVerCode = String(res.code);
+          this.curVerCode = String(res.data.code);
           this.$message.success(`验证码为:${this.curVerCode}`);
           this.handleCode();
         })

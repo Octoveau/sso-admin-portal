@@ -3,7 +3,7 @@
     <el-row style="height: 100%">
       <el-col :span="6">
         <div class="logo-title">
-          <span>vue2-admin-template开源模板</span>
+          <span>Octovean用户管理平台</span>
         </div>
       </el-col>
       <el-col :span="12" />
@@ -36,20 +36,15 @@
 export default {
   data() {
     return {
-      userName: "Admin",
+      userName: 'Admin',
     };
   },
-
-  computed: {},
-
-  mounted() {},
-
   methods: {
     handleJumpToPersonal() {},
 
     handleLogout() {
       this.$router.push({
-        name: "Logout",
+        name: 'Logout',
       });
     },
   },

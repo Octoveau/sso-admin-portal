@@ -78,7 +78,7 @@ export default {
     silderConfig: {
       handler() {
         //如果验证成功，发送验证码
-        if (this.silderConfig.isSilderSuccess) {
+        if (this.silderConfig.isSilderSuccess === true) {
           this.onLogin();
         }
       },
@@ -97,10 +97,19 @@ export default {
         .then((res) => {
           if (res.code === 200) {
             this.$message.success('登录成功');
+            //分两种情况，1.登录该平台，2.作为单点登录平台
+            //登录该平台
+            // eslint-disable-next-line no-constant-condition
+            if (true) {
+              //跳转到管理页
+              this.$router.push({ name: 'DashBoard' });
+            }
           }
         })
         .finally(() => {
           this.loading = false;
+          //登录成功之后，下次再次点击登录，需要弹出验证码
+          this.silderConfig.isSilderSuccess = false;
         });
     },
     openSilder() {
@@ -115,7 +124,6 @@ export default {
       this.verCodeLoading = true;
       getVerificationCode()
         .then((res) => {
-          console.log(2222, res);
           this.curVerCode = String(res.code);
           this.$message.success(`验证码为:${this.curVerCode}`);
           this.handleCode();
