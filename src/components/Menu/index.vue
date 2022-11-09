@@ -1,5 +1,5 @@
 <template>
-  <el-menu :default-active="defaultActive" :unique-opened="true" :router="true" background-color="#ffffff">
+  <el-menu :default-active="defaultActive" :unique-opened="true" :router="true" active-text-color="#ffffff" text-color="#ffffffa6" background-color="#000c17">
     <menu-item :menuList="menu"></menu-item>
   </el-menu>
 </template>

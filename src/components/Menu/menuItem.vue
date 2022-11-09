@@ -8,11 +8,11 @@
         </template>
         <!-- 递归 样式添加 更改 -->
         <el-menu-item-group>
-          <el-menu-item index="/client/user/detail">选项1</el-menu-item>
+          <Menu :menuList="item.children"></Menu>
         </el-menu-item-group>
       </el-submenu>
 
-      <el-menu-item v-else :index="item.menu_url ? item.menu_url : ''" :key="index">
+      <el-menu-item v-else :index="item.menu_url ? item.menu_url : ''" :key="index + new Date()">
         <i :class="item.menu_icon ? item.menu_icon : 'no-icon'" />
         <span slot="title">{{ item.menu_name }}</span>
       </el-menu-item>
