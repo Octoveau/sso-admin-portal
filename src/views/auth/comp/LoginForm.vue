@@ -124,7 +124,7 @@ export default {
       this.verCodeLoading = true;
       getVerificationCode()
         .then((res) => {
-          this.curVerCode = String(res.code);
+          this.curVerCode = String(res.data.code);
           this.$message.success(`验证码为:${this.curVerCode}`);
           this.handleCode();
         })
