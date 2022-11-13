@@ -9,12 +9,12 @@
       <el-table-column prop="nickName" label="用户昵称"></el-table-column>
       <el-table-column prop="createDate" label="创建时间">
         <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ getDateStr(scope.row.createDate) }}</span>
+          <span>{{ getDateStr(scope.row.createDate) }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="phone" label="电话信息">
         <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ getPhoneStr(scope.row.phone) }}</span>
+          <span>{{ getPhoneStr(scope.row.phone) }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="active" label="用户状态">
@@ -51,6 +51,7 @@
 import { getUserData, getUserDataByPhone, deleteUserByPhone } from '@/api/user';
 import moment from 'moment';
 export default {
+  name: 'UserDetailPage',
   data() {
     return {
       //用户手机号查询
@@ -158,11 +159,13 @@ export default {
     margin-bottom: 0.2rem;
   }
   /deep/ .el-table {
-    max-height: calc(100vh - 2.5rem);
+    max-height: calc(100vh - 3rem);
+    overflow: auto;
   }
 }
 .footer {
-  margin-top: 0.2rem;
-  text-align: end;
+  position: fixed;
+  bottom: 0.2rem;
+  right: 0.6rem;
 }
 </style>

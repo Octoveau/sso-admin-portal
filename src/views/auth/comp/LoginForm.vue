@@ -40,6 +40,7 @@
 <script>
 import { loginRules, silderConfig } from '../help';
 import { loginUser, getVerificationCode } from '@/api/auth';
+import authStorage from '@/utils/auth';
 export default {
   name: 'Login',
   props: {
@@ -97,6 +98,8 @@ export default {
         .then((res) => {
           if (res.code === 200) {
             this.$message.success('登录成功');
+            //数据写入缓存
+            authStorage.setUserInfo(Object.assign(res.data.user, { token: res.data.token }));
             //分两种情况，1.登录该平台，2.作为单点登录平台
             //登录该平台
             // eslint-disable-next-line no-constant-condition
