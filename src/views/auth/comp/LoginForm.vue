@@ -90,7 +90,7 @@ export default {
     onLogin() {
       this.loading = true;
       let request = {
-        userName: this.loginForm.phone,
+        phone: this.loginForm.phone,
         password: this.loginForm.password,
       };
       loginUser(request)

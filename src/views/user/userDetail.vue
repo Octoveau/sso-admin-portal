@@ -5,7 +5,7 @@
       <el-button type="primary" style="margin-left: 0.2rem" @click="onSearch">查询</el-button>
       <el-button style="margin-left: 0.2rem" @click="onReset">重置</el-button>
     </div>
-    <el-table :border="true" :data="tableData" stripe style="width: 100%">
+    <el-table :border="true" :data="tableData" style="width: 100%">
       <el-table-column prop="nickName" label="用户昵称"></el-table-column>
       <el-table-column prop="createDate" label="创建时间">
         <template slot-scope="scope">
@@ -38,10 +38,10 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="pageInfo.page"
-        :page-sizes="[4, 20, 50, 100]"
+        :page-sizes="[10, 20, 50, 100]"
         :page-size="pageInfo.size"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="11"
+        :total="totleCount"
       ></el-pagination>
     </div>
   </section>
@@ -119,10 +119,13 @@ export default {
       };
       getUserData(request)
         .then((res) => {
-          this.tableData = res.data.map((x) => {
-            x.isDelete = false;
-            return x;
-          });
+          if (res.code === 200) {
+            this.tableData = res.data.data.map((x) => {
+              x.isDelete = false;
+              return x;
+            });
+            this.totleCount = res.data.total;
+          }
         })
         .finally(() => {
           this.isLoading = false;
