@@ -29,15 +29,12 @@ export default {
   data() {
     return {
       dialogVisible: true,
-      imgsList: [],
+      imgsList: [
+        require('../../assets/images/slider/1.png'),
+        require('../../assets/images/slider/1.png'),
+        require('../../assets/images/slider/1.png')
+      ],
     };
-  },
-  created() {
-    for (let i = 0; i < 3; i++) {
-      import(`@/assets/images/slider/${i + 1}.png`).then((res) => {
-        this.imgsList.push(res.default);
-      });
-    }
   },
   methods: {
     onSuccess() {
