@@ -1,6 +1,6 @@
 import axios from 'axios';
 import setupInterceptors from './interceptors';
-//创建axios实例'=
+//创建axios实例'
 const service = axios.create({
   timeout: 30 * 1000,
   withCredentials: true,
