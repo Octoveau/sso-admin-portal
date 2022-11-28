@@ -7,12 +7,12 @@
         </span>
         <el-input v-model.trim="loginForm.phone" placeholder="手机号" maxlength="11"></el-input>
       </el-form-item>
-      <span v-if="registerType === 1">
-        <el-form-item prop="verificationCode">
+      <span v-if="loginType === 1">
+        <el-form-item prop="smsCode">
           <span class="svg-container">
             <svg-icon icon-class="edit" />
           </span>
-          <el-input v-model.trim="loginForm.verificationCode" placeholder="验证码" name="verificationCode" maxlength="4" />
+          <el-input v-model.trim="loginForm.smsCode" placeholder="验证码" name="smsCode" maxlength="4" />
           <span>
             <a @click="onGetVerificationCode" class="a-verification" v-if="isCanSendCode" :loading="verCodeLoading">获取验证码</a>
             <span style="color: rgb(185 185 185)" v-else>重新发送{{ timeCount }}(s)</span>
@@ -39,12 +39,12 @@
 
 <script>
 import { loginRules, silderConfig } from '../help';
-import { loginUser, getVerificationCode } from '@/api/auth';
+import { loginUser, smsCode, loginSmsUser } from '@/api/auth';
 import authStorage from '@/utils/auth';
 export default {
   name: 'Login',
   props: {
-    registerType: {
+    loginType: {
       type: Number,
       default: 1,
     },
@@ -57,7 +57,7 @@ export default {
       isCanSendCode: true,
       loginForm: {
         phone: undefined,
-        verificationCode: undefined,
+        smsCode: undefined,
         password: '',
       },
       loginRules,
@@ -67,11 +67,11 @@ export default {
     };
   },
   watch: {
-    registerType() {
+    loginType() {
       //当登录方式切换的时候，做处理
       this.loginForm = {
         phone: undefined,
-        verificationCode: undefined,
+        smsCode: undefined,
         password: '',
       };
       this.$refs['loginForm'].resetFields();
@@ -88,32 +88,40 @@ export default {
   },
   methods: {
     //登录逻辑
-    onLogin() {
-      this.loading = true;
-      let request = {
-        phone: this.loginForm.phone,
-        password: this.loginForm.password,
-      };
-      loginUser(request)
-        .then((res) => {
-          if (res.code === 200) {
-            this.$message.success('登录成功');
-            //数据写入缓存
-            authStorage.setUserInfo(Object.assign(res.data.user, { token: res.data.token }));
-            //分两种情况，1.登录该平台，2.作为单点登录平台
-            //登录该平台
-            // eslint-disable-next-line no-constant-condition
-            if (true) {
-              //跳转到管理页
-              this.$router.push({ name: 'DashBoard' });
-            }
+    async onLogin() {
+      try {
+        this.loading = true;
+        let result = '';
+        //区别两种登录方式
+        if (this.loginType === 1) {
+          result = await loginSmsUser({
+            phone: this.loginForm.phone,
+            smsCode: this.loginForm.smsCode,
+          });
+        } else {
+          result = await loginUser({
+            phone: this.loginForm.phone,
+            password: this.loginForm.password,
+          });
+        }
+        //处理数据
+        if (result.code === 200) {
+          this.$message.success('登录成功');
+          //数据写入缓存
+          authStorage.setUserInfo(Object.assign(result.data.user, { token: result.data.token }));
+          //分两种情况，1.登录该平台，2.作为单点登录平台
+          // eslint-disable-next-line no-constant-condition
+          if (true) {
+            //跳转到管理页
+            this.$router.push({ name: 'DashBoard' });
           }
-        })
-        .finally(() => {
-          this.loading = false;
-          //登录成功之后，下次再次点击登录，需要弹出验证码
-          this.silderConfig.isSilderSuccess = false;
-        });
+        }
+      } catch (error) {
+        this.loading = false;
+        //登录成功之后，下次再次点击登录，需要弹出验证码
+        this.silderConfig.isSilderSuccess = false;
+        console.error(error);
+      }
     },
     openSilder() {
       this.$refs['loginForm'].validate((valid) => {
@@ -125,11 +133,12 @@ export default {
     onGetVerificationCode() {
       //获取验证码
       this.verCodeLoading = true;
-      getVerificationCode()
+      smsCode(this.loginForm.phone)
         .then((res) => {
-          this.curVerCode = String(res.data.code);
-          this.$message.success(`验证码为:${this.curVerCode}`);
-          this.handleCode();
+          if (res.code === 200) {
+            this.$message.success('验证码发送成功');
+            this.handleCode();
+          }
         })
         .finally(() => {
           this.verCodeLoading = false;
@@ -143,8 +152,6 @@ export default {
           this.isCanSendCode = true;
           clearInterval(this.timer);
           this.timeCount = 60;
-          //时间到期，验证码重置
-          this.curVerCode = null;
         }
       }, 1000);
       this.isCanSendCode = false;

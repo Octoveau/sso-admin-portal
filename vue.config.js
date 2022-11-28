@@ -3,39 +3,8 @@
 
 const path = require('path');
 const ProvidePlugin = require('webpack').ProvidePlugin;
-const DllReferencePlugin = require('webpack').DllReferencePlugin;
-const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
-const fs = require('fs');
-const files = fs.readdirSync('./dll');
-
-// 获取dll文件列表
-const dllReferencePluginArray = [];
-const addAssetsPluginArray = [];
-
-files.forEach((item) => {
-  if (/\.manifest.json$/g.test(item)) {
-    dllReferencePluginArray.push(
-      new DllReferencePlugin({
-        manifest: require(`./dll/${item}`),
-      })
-    );
-  }
-
-  if (/\.js$/g.test(item)) {
-    addAssetsPluginArray.push(
-      new AddAssetHtmlPlugin({
-        // dll文件位置
-        filepath: path.resolve(__dirname, `./dll/${item}`),
-        // dll 引用路径，请使用 绝对路径！！！
-        publicPath: '/dll',
-        // dll最终输出的目录
-        outputPath: './dll',
-      })
-    );
-  }
-});
-
 module.exports = {
+  publicPath: './',
   lintOnSave: true,
   devServer: {
     port: process.env.VUE_APP_PORT,
@@ -58,8 +27,8 @@ module.exports = {
     },
     plugins: [
       // 引入DLL
-      ...addAssetsPluginArray,
-      ...dllReferencePluginArray,
+      // ...addAssetsPluginArray,
+      // ...dllReferencePluginArray,
       //webpack下，按需引入elementui组件
       // Components({
       //   resolvers: [ElementUiResolver()],

@@ -37,7 +37,7 @@ export const loginRules = {
     { required: true, message: '请输入用户密码', trigger: 'blur' },
     { validator: validatePwd, trigger: 'blur' },
   ],
-  verificationCode: [
+  smsCode: [
     { required: true, message: '请输入验证码', trigger: 'blur' },
     { validator: validateNum, trigger: 'blur' },
   ],

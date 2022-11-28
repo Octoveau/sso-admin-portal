@@ -11,11 +11,11 @@
           </span>
           <el-input v-model.trim="registerForm.phone" placeholder="手机号" maxlength="11"></el-input>
         </el-form-item>
-        <el-form-item prop="verificationCode">
+        <el-form-item prop="smsCode">
           <span class="svg-container">
             <svg-icon icon-class="edit" />
           </span>
-          <el-input ref="verificationcode" v-model.trim="registerForm.verificationCode" placeholder="验证码" name="verificationCode" maxlength="4" />
+          <el-input ref="smsCode" v-model.trim="registerForm.smsCode" placeholder="验证码" name="smsCode" maxlength="4" />
           <span>
             <a @click="onGetVerificationCode" class="a-verification" v-if="isCanSendCode" :loading="verCodeLoading">获取验证码</a>
             <span style="color: rgb(185 185 185)" v-else>重新发送{{ timeCount }}(s)</span>
@@ -56,7 +56,7 @@
 import { registerRules } from '../help';
 import registerLeftPic from '@/assets/images/loginicon4.png';
 import commonUtil from '@/utils/index';
-import { registerUser, getVerificationCode } from '@/api/auth';
+import { registerUser, smsCode } from '@/api/auth';
 export default {
   name: 'RegisterPage',
   data() {
@@ -67,7 +67,7 @@ export default {
       isCanSendCode: true,
       registerForm: {
         phone: undefined, //11位数字的字符
-        verificationCode: undefined, //验证码
+        smsCode: undefined, //验证码
         password: '', //注册密码
         rePassword: '', //再次确认密码
       },
@@ -76,7 +76,6 @@ export default {
       rePasswordType: 'password',
       registerLoading: false,
       verCodeLoading: false,
-      curVerCode: null, //远程获取的验证码
     };
   },
 
@@ -88,14 +87,6 @@ export default {
           //验证两次密码是否一致
           if (this.registerForm.password !== this.registerForm.rePassword) {
             return this.$message.warning('两次输入的密码不一致，请重新输入!');
-          }
-          //判断验证码是否发送或者是否输入正确
-          if (this.curVerCode) {
-            if (this.curVerCode !== this.registerForm.verificationCode) {
-              return this.$message.warning('请输入正确的验证码！');
-            }
-          } else {
-            return this.$message.warning('请先获取验证码！');
           }
           let request = {
             phone: this.registerForm.phone,
@@ -123,11 +114,12 @@ export default {
     onGetVerificationCode() {
       //获取验证码
       this.verCodeLoading = true;
-      getVerificationCode()
+      smsCode(this.registerForm.phone)
         .then((res) => {
-          this.curVerCode = String(res.data.code);
-          this.$message.success(`验证码为:${this.curVerCode}`);
-          this.handleCode();
+          if (res.code === 200) {
+            this.$message.success('验证码发送成功');
+            this.handleCode();
+          }
         })
         .finally(() => {
           this.verCodeLoading = false;
@@ -141,8 +133,6 @@ export default {
           this.isCanSendCode = true;
           clearInterval(this.timer);
           this.timeCount = 60;
-          //时间到期，验证码重置
-          this.curVerCode = null;
         }
       }, 1000);
       this.isCanSendCode = false;
