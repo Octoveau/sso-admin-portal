@@ -7,7 +7,6 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import './assets/icons';
 import SlideVerify from 'vue-monoplasty-slide-verify';
-
 Vue.use(SlideVerify);
 Vue.use(ElementUI);
 //引入rem的适配文件，以1920作为参照，1rem就是80px
@@ -19,3 +18,5 @@ new Vue({
   store,
   render: (h) => h(App),
 }).$mount('#app');
+// http://www.octoveau.cn/sso-login/js/chunk-05c51d0b.c7460c29.js
+// http://www.octoveau.cn:8885/sso-login/js/chunk-05c51d0b.c7460c29.js

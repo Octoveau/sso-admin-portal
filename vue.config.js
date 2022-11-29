@@ -4,7 +4,7 @@
 const path = require('path');
 const ProvidePlugin = require('webpack').ProvidePlugin;
 module.exports = {
-  publicPath: './',
+  publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
   lintOnSave: true,
   devServer: {
     port: process.env.VUE_APP_PORT,

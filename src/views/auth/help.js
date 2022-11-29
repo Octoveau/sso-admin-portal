@@ -57,7 +57,7 @@ export const registerRules = {
     { required: true, message: '请再次确认密码', trigger: 'blur' },
     { validator: validatePwd, trigger: 'blur' },
   ],
-  verificationCode: [
+  smsCode: [
     { required: true, message: '请输入验证码', trigger: 'blur' },
     { validator: validateNum, trigger: 'blur' },
   ],

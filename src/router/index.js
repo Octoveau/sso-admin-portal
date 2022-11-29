@@ -7,7 +7,7 @@ Vue.use(VueRouter);
 
 const router = new VueRouter({
   mode: 'history',
-  base: '/sso-login',
+  base: process.env.NODE_ENV === 'production' ? '/sso-login' : '/',
   routes: [...adminRoutes, ...authRoutes],
 });
 // 路由守卫

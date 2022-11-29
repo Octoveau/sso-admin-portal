@@ -1,18 +1,18 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
+    <el-form ref="formData" :model="formData" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
       <el-form-item prop="phone">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
-        <el-input v-model.trim="loginForm.phone" placeholder="手机号" maxlength="11"></el-input>
+        <el-input v-model.trim="formData.phone" placeholder="手机号" maxlength="11"></el-input>
       </el-form-item>
       <span v-if="loginType === 1">
         <el-form-item prop="smsCode">
           <span class="svg-container">
             <svg-icon icon-class="edit" />
           </span>
-          <el-input v-model.trim="loginForm.smsCode" placeholder="验证码" name="smsCode" maxlength="4" />
+          <el-input v-model.trim="formData.smsCode" placeholder="验证码" name="smsCode" maxlength="4" />
           <span>
             <a @click="onGetVerificationCode" class="a-verification" v-if="isCanSendCode">获取验证码</a>
             <span style="color: rgb(185 185 185)" v-else>重新发送{{ timeCount }}(s)</span>
@@ -24,7 +24,7 @@
           <span class="svg-container">
             <svg-icon icon-class="password" />
           </span>
-          <el-input v-model.trim="loginForm.password" maxlength="20" :type="passwordType" placeholder="密码" name="password" />
+          <el-input v-model.trim="formData.password" maxlength="20" :type="passwordType" placeholder="密码" name="password" />
           <span class="show-pwd" @click="showPwd">
             <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span>
@@ -55,7 +55,7 @@ export default {
     return {
       silderConfig,
       isCanSendCode: true,
-      loginForm: {
+      formData: {
         phone: undefined,
         smsCode: undefined,
         password: '',
@@ -68,12 +68,12 @@ export default {
   watch: {
     loginType() {
       //当登录方式切换的时候，做处理
-      this.loginForm = {
+      this.formData = {
         phone: undefined,
         smsCode: undefined,
         password: '',
       };
-      this.$refs['loginForm'].resetFields();
+      this.$refs['formData'].resetFields();
     },
     silderConfig: {
       handler() {
@@ -91,9 +91,9 @@ export default {
       try {
         this.loginLoading = true;
         let request = {
-          phone: this.loginForm.phone,
-          smsCode: this.loginType === 1 ? this.loginForm.smsCode : undefined,
-          password: this.loginType === 2 ? this.loginForm.password : undefined,
+          phone: this.formData.phone,
+          smsCode: this.loginType === 1 ? this.formData.smsCode : undefined,
+          password: this.loginType === 2 ? this.formData.password : undefined,
         };
         let result;
         //区别两种登录方式
@@ -115,14 +115,15 @@ export default {
           }
         }
       } catch (error) {
+        console.error(error);
+      } finally {
         this.loginLoading = false;
         //登录成功之后，下次再次点击登录，需要弹出验证码
         this.silderConfig.isSilderSuccess = false;
-        console.error(error);
       }
     },
     openSilder() {
-      this.$refs['loginForm'].validate((valid) => {
+      this.$refs['formData'].validate((valid) => {
         if (valid) {
           this.silderConfig.isShowSilder = true;
         }

@@ -4,18 +4,18 @@
       <el-image :src="resetLeftPic" style="width: 5rem"></el-image>
     </div>
     <div class="right">
-      <el-form ref="resetForm" :model="resetForm" :rules="resetRules" class="reset-form" autocomplete="on" label-position="left">
+      <el-form ref="formData" :model="formData" :rules="resetRules" class="reset-form" autocomplete="on" label-position="left">
         <el-form-item prop="phone">
           <span class="svg-container">
             <svg-icon icon-class="user" />
           </span>
-          <el-input v-model.trim="resetForm.phone" placeholder="手机号" maxlength="11"></el-input>
+          <el-input v-model.trim="formData.phone" placeholder="手机号" maxlength="11"></el-input>
         </el-form-item>
         <el-form-item prop="smsCode">
           <span class="svg-container">
             <svg-icon icon-class="edit" />
           </span>
-          <el-input ref="smsCode" v-model.trim="resetForm.smsCode" placeholder="验证码" name="smsCode" maxlength="4" />
+          <el-input ref="smsCode" v-model.trim="formData.smsCode" placeholder="验证码" name="smsCode" maxlength="4" />
           <span>
             <a @click="onGetVerificationCode" class="a-verification" v-if="isCanSendCode">获取验证码</a>
             <span style="color: rgb(185 185 185)" v-else>重新发送{{ timeCount }}(s)</span>
@@ -26,7 +26,7 @@
           <span class="svg-container">
             <svg-icon icon-class="password" />
           </span>
-          <el-input v-model.trim="resetForm.password" maxlength="20" :type="passwordType" placeholder="密码" name="password" />
+          <el-input v-model.trim="formData.password" maxlength="20" :type="passwordType" placeholder="请输入重置的密码" name="password" />
           <span class="show-pwd" @click="showPwd">
             <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span>
@@ -55,7 +55,7 @@ export default {
     return {
       resetLeftPic,
       isCanSendCode: true,
-      resetForm: {
+      formData: {
         phone: undefined, //11位数字的字符
         smsCode: undefined, //验证码
         password: '',
@@ -69,12 +69,12 @@ export default {
   methods: {
     //注册
     onReset() {
-      this.$refs['resetForm'].validate((valid) => {
+      this.$refs['formData'].validate((valid) => {
         if (valid) {
           let request = {
-            phone: this.resetForm.phone,
-            password: this.resetForm.password,
-            smsCode: this.resetForm.smsCode, //生成随机的六位昵称，后期可以进行编辑
+            phone: this.formData.phone,
+            password: this.formData.password,
+            smsCode: this.formData.smsCode, //生成随机的六位昵称，后期可以进行编辑
           };
           this.resetLoading = true;
           resetUserPwd(request)
@@ -83,7 +83,9 @@ export default {
                 //注册成功进行跳转
                 this.$message.success('密码重置成功');
                 clearInterval(this.timer);
-                this.gotoRegisterPage();
+                this.$router.push({
+                  name: 'Login',
+                });
               }
             })
             .finally(() => {

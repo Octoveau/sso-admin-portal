@@ -17,7 +17,11 @@ const smsCodeMixin = {
     //获取验证码逻辑
     onGetVerificationCode() {
       //获取验证码
-      smsCode(this.registerForm.phone).then((res) => {
+      if (!this.formData.phone) {
+        this.$message.warning('请先输入手机号');
+        return;
+      }
+      smsCode(this.formData.phone).then((res) => {
         if (res.code === 200) {
           this.$message.success('验证码发送成功');
           this.handleCode();

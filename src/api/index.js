@@ -4,6 +4,7 @@ import setupInterceptors from './interceptors';
 const service = axios.create({
   timeout: 30 * 1000,
   withCredentials: true,
+  baseURL: process.env.NODE_ENV === 'production' ? '/sso-login' : '/',
 });
 //注册axios拦截器
 setupInterceptors(service);
