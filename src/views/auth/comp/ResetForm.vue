@@ -11,14 +11,13 @@
           </span>
           <el-input v-model.trim="resetForm.phone" placeholder="手机号" maxlength="11"></el-input>
         </el-form-item>
-
-        <el-form-item prop="verificationCode">
+        <el-form-item prop="smsCode">
           <span class="svg-container">
             <svg-icon icon-class="edit" />
           </span>
-          <el-input ref="verificationcode" v-model.trim="resetForm.verificationCode" placeholder="验证码" name="verificationCode" maxlength="4" />
+          <el-input ref="smsCode" v-model.trim="resetForm.smsCode" placeholder="验证码" name="smsCode" maxlength="4" />
           <span>
-            <a @click="onGetVerificationCode" class="a-verification" v-if="isCanSendCode" :loading="verCodeLoading">获取验证码</a>
+            <a @click="onGetVerificationCode" class="a-verification" v-if="isCanSendCode">获取验证码</a>
             <span style="color: rgb(185 185 185)" v-else>重新发送{{ timeCount }}(s)</span>
           </span>
         </el-form-item>
@@ -47,26 +46,23 @@
 <script>
 import { resetRules } from '../help';
 import resetLeftPic from '@/assets/images/loginicon4.png';
-import commonUtil from '@/utils/index';
-import { resetUser, getVerificationCode } from '@/api/auth';
+import { resetUserPwd } from '@/api/auth';
+import smsCodeMixin from '@/mixins/ssoCode';
 export default {
   name: 'ResetPage',
+  mixins: [smsCodeMixin],
   data() {
     return {
       resetLeftPic,
-      timer: null,
-      timeCount: 60,
       isCanSendCode: true,
       resetForm: {
         phone: undefined, //11位数字的字符
-        verificationCode: undefined, //验证码
+        smsCode: undefined, //验证码
         password: '',
       },
       resetRules,
       passwordType: 'password',
       resetLoading: false,
-      verCodeLoading: false,
-      curVerCode: null, //远程获取的验证码
     };
   },
 
@@ -75,57 +71,26 @@ export default {
     onReset() {
       this.$refs['resetForm'].validate((valid) => {
         if (valid) {
-          //判断验证码是否发送或者是否输入正确
-          if (this.curVerCode) {
-            if (this.curVerCode !== this.resetForm.verificationCode) {
-              return this.$message.warning('请输入正确的验证码！');
-            }
-          } else {
-            return this.$message.warning('请先获取验证码！');
-          }
           let request = {
             phone: this.resetForm.phone,
             password: this.resetForm.password,
-            nickName: commonUtil.randomlyCharacters(6), //生成随机的六位昵称，后期可以进行编辑
+            smsCode: this.resetForm.smsCode, //生成随机的六位昵称，后期可以进行编辑
           };
           this.resetLoading = true;
-          resetUser(request)
+          resetUserPwd(request)
             .then((res) => {
-              this.handleResult(res, true);
+              if (res.code === 200) {
+                //注册成功进行跳转
+                this.$message.success('密码重置成功');
+                clearInterval(this.timer);
+                this.gotoRegisterPage();
+              }
             })
             .finally(() => {
               this.resetLoading = false;
             });
         }
       });
-    },
-    //获取验证码逻辑
-    onGetVerificationCode() {
-      //获取验证码
-      this.verCodeLoading = true;
-      getVerificationCode()
-        .then((res) => {
-          this.curVerCode = this.handleResult(res);
-
-          this.handleCode();
-        })
-        .finally(() => {
-          this.verCodeLoading = false;
-        });
-    },
-    //处理获取验证码后续
-    handleCode() {
-      this.timer = setInterval(() => {
-        this.timeCount--;
-        if (this.timeCount === 0) {
-          this.isCanSendCode = true;
-          clearInterval(this.timer);
-          this.timeCount = 60;
-          //时间到期，验证码重置
-          this.curVerCode = null;
-        }
-      }, 1000);
-      this.isCanSendCode = false;
     },
     //跳转登录界面
     gotoRegisterPage() {

@@ -8,7 +8,9 @@ export const loginSmsUser = (data) => service.post(`/api/auth/sms/login`, data);
 
 //注册接口
 export const registerUser = (data) => service.post(`/api/users/register`, data);
+
 //忘记密码接口
+export const resetUserPwd = (data) => service.put(`/api/users/password`, data);
 
 //获取验证码
 export const smsCode = (phone) =>

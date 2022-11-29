@@ -14,7 +14,7 @@
           </span>
           <el-input v-model.trim="loginForm.smsCode" placeholder="验证码" name="smsCode" maxlength="4" />
           <span>
-            <a @click="onGetVerificationCode" class="a-verification" v-if="isCanSendCode" :loading="verCodeLoading">获取验证码</a>
+            <a @click="onGetVerificationCode" class="a-verification" v-if="isCanSendCode">获取验证码</a>
             <span style="color: rgb(185 185 185)" v-else>重新发送{{ timeCount }}(s)</span>
           </span>
         </el-form-item>
@@ -30,8 +30,8 @@
           </span>
         </el-form-item>
       </span>
-      <el-button :loading="loading" type="primary" style="width: 100%; margin-bottom: 0.2rem" @click="openSilder">
-        {{ loading ? '登 录 中' : '登 录' }}
+      <el-button :loading="loginLoading" type="primary" style="width: 100%; margin-bottom: 0.2rem" @click="openSilder">
+        {{ loginLoading ? '登 录 中' : '登 录' }}
       </el-button>
     </el-form>
   </div>
@@ -39,10 +39,12 @@
 
 <script>
 import { loginRules, silderConfig } from '../help';
-import { loginUser, smsCode, loginSmsUser } from '@/api/auth';
+import { loginUser, loginSmsUser } from '@/api/auth';
 import authStorage from '@/utils/auth';
+import smsCodeMixin from '@/mixins/ssoCode';
 export default {
   name: 'Login',
+  mixins: [smsCodeMixin],
   props: {
     loginType: {
       type: Number,
@@ -52,8 +54,6 @@ export default {
   data() {
     return {
       silderConfig,
-      timer: null,
-      timeCount: 60,
       isCanSendCode: true,
       loginForm: {
         phone: undefined,
@@ -62,8 +62,7 @@ export default {
       },
       loginRules,
       passwordType: 'password',
-      loading: false,
-      verCodeLoading: false,
+      loginLoading: false,
     };
   },
   watch: {
@@ -90,19 +89,18 @@ export default {
     //登录逻辑
     async onLogin() {
       try {
-        this.loading = true;
-        let result = '';
+        this.loginLoading = true;
+        let request = {
+          phone: this.loginForm.phone,
+          smsCode: this.loginType === 1 ? this.loginForm.smsCode : undefined,
+          password: this.loginType === 2 ? this.loginForm.password : undefined,
+        };
+        let result;
         //区别两种登录方式
         if (this.loginType === 1) {
-          result = await loginSmsUser({
-            phone: this.loginForm.phone,
-            smsCode: this.loginForm.smsCode,
-          });
+          result = await loginSmsUser(request);
         } else {
-          result = await loginUser({
-            phone: this.loginForm.phone,
-            password: this.loginForm.password,
-          });
+          result = await loginUser(request);
         }
         //处理数据
         if (result.code === 200) {
@@ -117,7 +115,7 @@ export default {
           }
         }
       } catch (error) {
-        this.loading = false;
+        this.loginLoading = false;
         //登录成功之后，下次再次点击登录，需要弹出验证码
         this.silderConfig.isSilderSuccess = false;
         console.error(error);
@@ -129,32 +127,6 @@ export default {
           this.silderConfig.isShowSilder = true;
         }
       });
-    },
-    onGetVerificationCode() {
-      //获取验证码
-      this.verCodeLoading = true;
-      smsCode(this.loginForm.phone)
-        .then((res) => {
-          if (res.code === 200) {
-            this.$message.success('验证码发送成功');
-            this.handleCode();
-          }
-        })
-        .finally(() => {
-          this.verCodeLoading = false;
-        });
-    },
-    //处理获取验证码后续
-    handleCode() {
-      this.timer = setInterval(() => {
-        this.timeCount--;
-        if (this.timeCount === 0) {
-          this.isCanSendCode = true;
-          clearInterval(this.timer);
-          this.timeCount = 60;
-        }
-      }, 1000);
-      this.isCanSendCode = false;
     },
     showPwd() {
       this.passwordType === 'password' ? (this.passwordType = '') : (this.passwordType = 'password');
