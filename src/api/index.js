@@ -9,3 +9,9 @@ const service = axios.create({
 //注册axios拦截器
 setupInterceptors(service);
 export default service;
+//  http://www.octoveau.cn/sso-login/api/auth/login
+//  http://www.octoveau.cn:8888/sso-login/api/auth/login
+
+//  http://47.109.22.178:8401/sso-login/api/auth/login
+
+//  http://www.octoveau.cn:8401/api/auth/login

@@ -18,5 +18,3 @@ new Vue({
   store,
   render: (h) => h(App),
 }).$mount('#app');
-// http://www.octoveau.cn/sso-login/js/chunk-05c51d0b.c7460c29.js
-// http://www.octoveau.cn:8885/sso-login/js/chunk-05c51d0b.c7460c29.js
