@@ -4,7 +4,7 @@
 const path = require('path');
 const ProvidePlugin = require('webpack').ProvidePlugin;
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/sso-login/' : '/',
   lintOnSave: true,
   devServer: {
     port: process.env.VUE_APP_PORT,
