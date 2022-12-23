@@ -1,0 +1,33 @@
+language: node_js
+node_js:
+  - 14
+branches:
+  only:
+    - main
+cache:
+  directories:
+    - node_modules
+addons:
+  ssh_known_hosts:
+    - $IP
+before_install:
+  - openssl aes-256-cbc -K $encrypted_9b2d7e19d83c_key -iv $encrypted_9b2d7e19d83c_iv -in id_rsa.enc -out ~/.ssh/id_rsa -d
+  - chmod 600 ~/.ssh/id_rsa
+  - eval $(ssh-agent)
+  - echo -e "Host $IP\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+install:
+  - npm install
+scripts:
+  - npm cache clean --force
+  - npm run lint
+  - npm run build
+  - rsync -az --delete ./dist/* root@$IP:/www/looper/sso-admin-portal/dist/
+  - rsync -az --delete ./bin/* root@$IP:/www/looper/sso-admin-portal/bin/
+  - rsync -az --delete ./Dockerfile root@$IP:/www/looper/sso-admin-portal/
+  - rsync -az --delete ./docker-compose.yml root@$IP:/www/looper/sso-admin-portal/
+  # - ssh root@$IP -o StrictHostKeyChecking=no
+after_success:
+  - ssh  root@$IP "cd /www/looper/sso-admin-portal/;docker build -t registry.cn-chengdu.aliyuncs.com/octoveau/sso-admin-portal ."
+  - ssh  root@$IP "docker login --username=looper卓敏 -p=$pwd registry.cn-chengdu.aliyuncs.com"
+  - ssh  root@$IP "docker push registry.cn-chengdu.aliyuncs.com/octoveau/sso-admin-portal"
+  - ssh  root@$IP "cd /www/looper/sso-admin-portal/;docker-compose -f docker-compose.yml pull;docker-compose -f docker-compose.yml up -d;exit"
