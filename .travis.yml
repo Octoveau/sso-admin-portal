@@ -25,7 +25,6 @@ scripts:
   - rsync -az --delete ./bin/* root@$IP:/www/looper/sso-admin-portal/bin/
   - rsync -az --delete ./Dockerfile root@$IP:/www/looper/sso-admin-portal/
   - rsync -az --delete ./docker-compose.yml root@$IP:/www/looper/sso-admin-portal/
-  # - ssh root@$IP -o StrictHostKeyChecking=no
 after_success:
   - ssh  root@$IP "cd /www/looper/sso-admin-portal/;docker build -t registry.cn-chengdu.aliyuncs.com/octoveau/sso-admin-portal ."
   - ssh  root@$IP "docker login --username=looper卓敏 -p=$pwd registry.cn-chengdu.aliyuncs.com"
