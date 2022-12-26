@@ -8,12 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: 14.x
     steps:
       - uses: actions/checkout@v3
-      - name: npm build
-        run: npm install && npm run build
-      - name: Deploy
+      - name: step npm install
+        run: npm install
+      - name: step npm build
+        run: npm run build
+      - name: step Deploy
         uses: cross-the-world/scp-pipeline@master
         with:
           host: ${{ secrets.USER_HOST }}
