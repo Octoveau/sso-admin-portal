@@ -8,11 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12.x, 16.x]
+        node-version: [10.x, 12.x, 14.x, 15.x, 16.x]
     steps:
       - uses: actions/checkout@v3
       - name: step npm install
-        run: npm install
+        run: yarn
       - name: step npm build
         run: npm run build
       - name: step Deploy
