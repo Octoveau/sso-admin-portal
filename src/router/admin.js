@@ -12,7 +12,7 @@ const adminRoutes = [
       {
         path: 'dashboard',
         name: 'DashBoard',
-        component: () => import('@/views/dashBoard/index'),
+        component: () => import('@/views/dashBoard'),
         meta: {
           title: 'DashBoard',
           bread: [{ name: 'DashBoard' }],
