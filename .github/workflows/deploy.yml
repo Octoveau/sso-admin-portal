@@ -28,7 +28,7 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           ARGS: '-avzr --delete'
-          SOURCE: './dist/*'
+          SOURCE: './dist/*,./bin/*'
           REMOTE_HOST: ${{ secrets.USER_HOST }}
           REMOTE_USER: 'root'
           TARGET: '/www/looper/sso-admin-portal'
