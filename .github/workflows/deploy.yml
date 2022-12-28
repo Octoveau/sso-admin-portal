@@ -15,12 +15,12 @@ jobs:
         run: yarn
       - name: step npm build
         run: npm run build
-      - name: step Deploy
-        uses: cross-the-world/scp-pipeline@main
-        with:
-          host: ${{ secrets.USER_HOST }}
-          user: ${{ secrets.USER_NAME }}
-          pass: ${{ secrets.USER_PASS }}
-          connect_timeout: 10s
-          local: './dist/*'
-          remote: '/www/looper/sso-admin-portal/'
+      - name: Deploy
+        uses: easingthemes/ssh-deploy@v2.0.7
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH }}
+          ARGS: '-rltgoDzvOHH --delete'
+          SOURCE: 'dist/'
+          REMOTE_HOST: '47.109.22.178'
+          REMOTE_USER: 'root'
+          TARGET: '/www/looper/sso-admin-portal'
