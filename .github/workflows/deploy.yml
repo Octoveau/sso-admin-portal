@@ -15,10 +15,10 @@ jobs:
         run: yarn
       - name: step npm build
         run: npm run build
-      - name: Deploy
+      - name: SSH Deploy
         uses: easingthemes/ssh-deploy@v2.2.11
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH }}
+          SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           ARGS: '-avzr --delete'
           SOURCE: 'dist'
           REMOTE_HOST: '47.109.22.178'
