@@ -16,11 +16,11 @@ jobs:
       - name: step npm build
         run: npm run build
       - name: Deploy
-        uses: easingthemes/ssh-deploy@v2.0.7
+        uses: easingthemes/ssh-deploy@v2.2.11
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH }}
-          ARGS: '-rltgoDzvOHH --delete'
-          SOURCE: 'dist/'
+          ARGS: '-avzr --delete'
+          SOURCE: 'dist'
           REMOTE_HOST: '47.109.22.178'
           REMOTE_USER: 'root'
           TARGET: '/www/looper/sso-admin-portal'
