@@ -15,15 +15,12 @@ jobs:
         run: yarn
       - name: step npm build 🚀
         run: npm run build
-      - name: step Deploy 🚀
-        uses: cross-the-world/scp-pipeline@master
-        env:
-          WELCOME: 'ssh scp ssh pipelines'
-          LASTSSH: 'Doing something after copying'
+      - name: 部署到云服务器
+        uses: wangyucode/sftp-upload-action@v1.1
         with:
-          host: ${{ secrets.USER_HOST }}
-          user: ${{ secrets.USER_NAME }}
-          pass: ${{ secrets.USER_PASS }}
-          connect_timeout: 20s
-          local: './dist/*'
-          remote: /www/looper/sso-admin-portal/
+          host: '47.109.22.178' #你的nginx服务器公网ip
+          port: '80' #你的nginx服务器ssh端口
+          username: 'root' #你的nginx服务器用户名
+          password: 'zM1995625@' #你的nginx服务器密码
+          localDir: 'dist' #你vue项目build好的文件的路径,每次服务器上会自动删除对应的文件夹后重新覆盖
+          remoteDir: '/www/looper/sso-admin-portal/'
