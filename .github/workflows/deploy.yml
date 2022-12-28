@@ -1,35 +1,42 @@
 name: ci
-
 on:
   push:
     branches:
       - main
-
 jobs:
-  build-and-deploy:
+  build-sso-admin-portal-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
+      - name: step Checkout 🚀
         uses: actions/checkout@v3
-
-      - name: Use Node.js 16
+      - name: step Use Node.js 16 🚀
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-
-      - name: Build Project
+      - name: step Build Project 🚀
         run: |
           yarn install
           yarn run build
-
-      - name: SSH Deploy
+      - name: SSH Server Deploy 🚀
         uses: easingthemes/ssh-deploy@v2.2.11
         env:
           SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           ARGS: '-avzr --delete'
           SOURCE: './*'
           REMOTE_HOST: ${{ secrets.USER_HOST }}
-          REMOTE_USER: 'root'
+          REMOTE_USER: ${{ secrets.USER_NAME }}
           TARGET: '/www/looper/sso-admin-portal'
           EXCLUDE: '/node_modules/'
+      - name: push Docker Hub 🚀
+        run: |
+          docker login --username=${{ secrets.DOCKER_USER_NAME }} -p=${{ secrets.DOCKER_PASSWORD }} registry.cn-chengdu.aliyuncs.com
+          docker build -t ${{ secrets.DOCKER_NAME }}:latest .
+          docker push ${{ secrets.DOCKER_NAME }}:latest
+      - name: deploy Docker Images 🚀
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.USER_HOST }}
+          username: ${{ secrets.USER_NAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            docker pull ${{ secrets.DOCKER_NAME }}:latest
