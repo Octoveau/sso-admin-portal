@@ -11,16 +11,16 @@ jobs:
         node-version: [16.x]
     steps:
       - uses: actions/checkout@v3
-      - name: step npm install 🚀
+      - name: step npm install
         run: yarn
-      - name: step npm build 🚀
+      - name: step npm build
         run: npm run build
-      - name: 部署到云服务器
-        uses: wangyucode/sftp-upload-action@v1.1
+      - name: step Deploy
+        uses: cross-the-world/scp-pipeline@main
         with:
-          host: '47.109.22.178' #你的nginx服务器公网ip
-          port: '80' #你的nginx服务器ssh端口
-          username: 'root' #你的nginx服务器用户名
-          password: 'zM1995625@' #你的nginx服务器密码
-          localDir: 'dist' #你vue项目build好的文件的路径,每次服务器上会自动删除对应的文件夹后重新覆盖
-          remoteDir: '/www/looper/sso-admin-portal/'
+          host: ${{ secrets.USER_HOST }}
+          user: ${{ secrets.USER_NAME }}
+          pass: ${{ secrets.USER_PASS }}
+          connect_timeout: 10s
+          local: './dist/*'
+          remote: '/www/looper/sso-admin-portal/'
