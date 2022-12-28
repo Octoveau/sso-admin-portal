@@ -15,12 +15,15 @@ jobs:
         run: yarn
       - name: step npm build
         run: npm run build
-      - name: step Deploy
+      - name: step Deploy 🚀
         uses: cross-the-world/scp-pipeline@master
+        env:
+          WELCOME: 'ssh scp ssh pipelines'
+          LASTSSH: 'Doing something after copying'
         with:
           host: ${{ secrets.USER_HOST }}
           user: ${{ secrets.USER_NAME }}
           pass: ${{ secrets.USER_PASS }}
-          connect_timeout: 10s
+          connect_timeout: 20s
           local: './dist/*'
-          remote: /www/looper/sso-admin-portal
+          remote: /www/looper/sso-admin-portal/
