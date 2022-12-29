@@ -25,11 +25,11 @@ jobs:
           SOURCE: './*'
           REMOTE_HOST: ${{ secrets.USER_HOST }}
           REMOTE_USER: ${{ secrets.USER_NAME }}
-          TARGET: '/www/looper/sso-admin-portal'
+          TARGET: '/www/looper/sso-admin-portal/'
           EXCLUDE: '/node_modules/'
       - name: push Docker Hub 🚀
         run: |
-          echo ${{ secrets.DOCKER_PASSWORD }} | docker login --username ${{ secrets.DOCKER_USER_NAME }} --password-stdin
+          docker login -u ${{ secrets.DOCKER_USER_NAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -t ${{ secrets.DOCKER_NAME }}:latest .
           docker push ${{ secrets.DOCKER_NAME }}:latest
       - name: deploy Docker Images 🚀
