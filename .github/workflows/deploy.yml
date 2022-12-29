@@ -27,9 +27,14 @@ jobs:
           REMOTE_USER: ${{ secrets.USER_NAME }}
           TARGET: '/www/looper/sso-admin-portal/'
           EXCLUDE: '/node_modules/'
+      - name: Login To Docker #登录到镜像仓库
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USER_NAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          registry: registry.cn-chengdu.aliyuncs.com/octoveau/sso-admin-portal #镜像仓库地址
       - name: push Docker Hub 🚀
         run: |
-          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login --username ${{ secrets.DOCKER_USER_NAME }} --password-stdin
           docker build -t ${{ secrets.DOCKER_NAME }}:latest .
           docker push ${{ secrets.DOCKER_NAME }}:latest
       - name: deploy Docker Images 🚀
