@@ -30,13 +30,13 @@ jobs:
       - name: Login To Docker 🚀
         uses: docker/login-action@v1
         with:
-          username: ${{ secrets.DOCKER_NAME }}
+          username: ${{ secrets.DOCKER_USER_NAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          registry: ${{ secrets.DOCKER_NAME }}
+          registry: ${{ secrets.DOCKER_PATH }}
       - name: push Docker Hub 🚀
         run: |
-          docker build -t ${{ secrets.DOCKER_NAME }}:latest .
-          docker push ${{ secrets.DOCKER_NAME }}:latest
+          docker build -t ${{ secrets.DOCKER_PATH }}:latest .
+          docker push ${{ secrets.DOCKER_PATH }}:latest
       - name: deploy Docker Images 🚀
         uses: appleboy/ssh-action@master
         with:
@@ -44,6 +44,6 @@ jobs:
           username: ${{ secrets.USER_NAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            docker pull ${{ secrets.DOCKER_NAME }}:latest
+            docker pull ${{ secrets.DOCKER_PATH }}:latest
             ssh  root@${{ secrets.USER_HOST }} "docker rm -f  sso-admin-portal-container;docker rmi registry.cn-chengdu.aliyuncs.com/octoveau/sso-admin-portal"
             ssh  root@${{ secrets.USER_HOST }} "cd /www/looper/sso-admin-portal/;docker-compose -f docker-compose.yml pull;docker-compose -f docker-compose.yml up -d;exit"
