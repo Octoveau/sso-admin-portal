@@ -25,14 +25,14 @@ jobs:
           SOURCE: './*'
           REMOTE_HOST: ${{ secrets.USER_HOST }}
           REMOTE_USER: ${{ secrets.USER_NAME }}
-          TARGET: '/www/looper/sso-admin-portal/'
+          TARGET: ${{secrets.SERVER_SAVE_PATH}}
           EXCLUDE: '/node_modules/'
       - name: Login To Docker 🚀
         uses: docker/login-action@v1
         with:
-          username: looper卓敏
-          password: zM1995625
-          registry: registry.cn-chengdu.aliyuncs.com/octoveau/sso-admin-portal
+          username: ${{ secrets.DOCKER_NAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          registry: ${{ secrets.DOCKER_NAME }}
       - name: push Docker Hub 🚀
         run: |
           docker build -t ${{ secrets.DOCKER_NAME }}:latest .

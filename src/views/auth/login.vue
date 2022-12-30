@@ -2,7 +2,7 @@
   <section class="main">
     <AuthBackComp>
       <template v-slot:container>
-        <h3 class="h3">Octoveau统一登录平台</h3>
+        <h3 class="h3">Octoveau统一登录平台服务</h3>
         <LoginContainerComp></LoginContainerComp>
       </template>
     </AuthBackComp>
