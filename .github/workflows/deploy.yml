@@ -1,4 +1,4 @@
-name: ci
+name: deploy sso-admin-portal 🚀
 on:
   push:
     branches:
