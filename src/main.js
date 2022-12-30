@@ -9,7 +9,7 @@ import './assets/icons';
 import SlideVerify from 'vue-monoplasty-slide-verify';
 Vue.use(SlideVerify);
 Vue.use(ElementUI);
-//引入rem的适配文件，以1920作为参照，1rem就是80px
+//引入rem的适配文件，以1920px作为参照，1rem就是80px
 import './flexible/';
 Vue.config.productionTip = false;
 
