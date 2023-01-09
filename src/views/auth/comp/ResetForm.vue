@@ -1,7 +1,7 @@
 <template>
   <div class="reset-container">
     <div class="left">
-      <el-image :src="resetLeftPic" style="width: 5rem"></el-image>
+      <el-image :src="resetLeftPic"></el-image>
     </div>
     <div class="right">
       <el-form ref="formData" :model="formData" :rules="resetRules" class="reset-form" autocomplete="on" label-position="left">
@@ -18,7 +18,7 @@
           <el-input ref="smsCode" v-model.trim="formData.smsCode" placeholder="验证码" name="smsCode" maxlength="4" />
           <span>
             <a @click="onGetVerificationCode" class="a-verification" v-if="isCanSendCode">获取验证码</a>
-            <span style="color: rgb(185 185 185)" v-else>重新发送{{ timeCount }}(s)</span>
+            <span class="span-verification" v-else>重新发送{{ timeCount }}(s)</span>
           </span>
         </el-form-item>
 
@@ -112,22 +112,34 @@ export default {
   display: flex;
   align-items: center;
   .left {
-    width: 4rem;
+    width: 5rem;
+    min-width: 300px;
   }
   .right {
-    ::v-deep .el-input {
-      display: inline-block;
-      height: 0.5rem;
-      line-height: 0.5rem;
-      width: 2.2rem;
-      input {
-        text-align: left;
-        background: transparent;
-        border: 0px;
-        border-radius: 0px;
-        padding: 0.1rem;
-        color: #fff;
-        caret-color: #fff;
+    width: 5rem;
+    min-width: 300px;
+    ::v-deep .el-form-item__content {
+      display: flex;
+      align-items: center;
+      position: relative;
+      .el-input {
+        display: inline-block;
+        height: 0.5rem;
+        line-height: 0.5rem;
+        width: 2.2rem;
+        input {
+          display: inline-block;
+          height: 0.5rem;
+          line-height: 0.5rem;
+          text-align: left;
+          background: transparent;
+          border: 0px;
+          border-radius: 0px;
+          min-width: 200px;
+          color: #fff;
+          caret-color: #fff;
+          font-size: 0.2rem;
+        }
       }
     }
     ::v-deep .el-form-item {
@@ -137,15 +149,21 @@ export default {
       color: #454545;
     }
     .reset-form {
-      padding: 0.3rem 0.375rem;
-      padding-bottom: 0;
+      padding: 0.2rem;
       position: relative;
-      width: 4rem;
-      max-width: 100%;
-      margin: 0 auto;
-      overflow: hidden;
       .a-verification {
         cursor: pointer;
+        position: absolute;
+        right: 0;
+        transform: translateY(-50%);
+        padding-right: 0.2rem;
+      }
+      .span-verification {
+        color: rgb(185 185 185);
+        position: absolute;
+        right: 0;
+        transform: translateY(-50%);
+        padding-right: 0.2rem;
       }
     }
 
@@ -166,10 +184,9 @@ export default {
       cursor: pointer;
       user-select: none;
     }
-
-    .footer {
-      text-align: center;
-    }
+  }
+  .footer {
+    text-align: center;
   }
 }
 </style>
