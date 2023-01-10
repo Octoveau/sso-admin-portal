@@ -14,7 +14,8 @@ export default {
 
 <style lang="less">
 #app {
-  width: 100%;
+  min-width: 1400px;
+  overflow-x: hidden;
   height: 100%;
 }
 </style>

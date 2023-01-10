@@ -25,16 +25,3 @@ export default {
   },
 };
 </script>
-
-<style lang="less" scoped>
-.main {
-  position: inherit;
-  .back-img {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    opacity: 0.3;
-  }
-}
-</style>

@@ -58,11 +58,13 @@ export default {
   color: #fff;
   display: flex;
   align-items: center;
-  margin-bottom: 0.3rem;
   .left {
-    width: 4rem;
+    width: 5rem;
+    min-width: 300px;
   }
   .right {
+    width: 5rem;
+    min-width: 300px;
     .header {
       .title {
         display: flex;
