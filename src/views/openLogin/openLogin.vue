@@ -1,6 +1,6 @@
 <template>
   <section class="section">
-    <RingLoader v-if="!progressControl" :loading="true" :color="color" :size="size"></RingLoader>
+    <RingLoader :loading="true" :color="color" :size="size"></RingLoader>
   </section>
 </template>
 
@@ -16,8 +16,25 @@ export default {
   components: {
     RingLoader,
   },
-  mounted() {},
-  methods: {},
+  mounted() {
+    //登录过，判断是否过期
+
+    //没有登录过，需要带上
+    this.handleRouter();
+  },
+  methods: {
+    handleRouter() {
+      let sitekey = this.$route.params.sitekey;
+      let redirecturl = this.$route.query.redirecturl;
+      this.$router.push({
+        name: 'Login',
+        query: {
+          redirecturl,
+          sitekey,
+        },
+      });
+    },
+  },
 };
 </script>
 <style scoped lang="less">

@@ -39,7 +39,7 @@
 
 <script>
 import { loginRules, silderConfig } from '../help';
-import { loginUser, loginSmsUser } from '@/api/auth';
+import { loginUser, loginSmsUser, getAuthTicket } from '@/api/auth';
 import authStorage from '@/utils/auth';
 import smsCodeMixin from '@/mixins/ssoCode';
 export default {
@@ -61,6 +61,8 @@ export default {
         password: '',
       },
       loginRules,
+      openSiteKey: '',
+      openRedirectUrl: '',
       passwordType: 'password',
       loginLoading: false,
     };
@@ -104,13 +106,25 @@ export default {
         }
         //处理数据
         if (result.code === 200) {
-          this.$message.success('登录成功');
           //数据写入缓存
           authStorage.setUserInfo(Object.assign(result.data.user, { token: result.data.token }));
-          //分两种情况，1.登录该平台，2.作为单点登录平台
-          // eslint-disable-next-line no-constant-condition
-          if (true) {
-            //跳转到管理页
+          //5ba7b6fe36a04ce0bab97f103907123f
+          //第三方接入的方式，因为存在sitekey
+          if (this.openSiteKey) {
+            //拿到站点的ticket
+            let result = await getAuthTicket({ siteKey: this.openSiteKey });
+            let { ticket, callbackUrl } = result.data;
+            setTimeout(() => {
+              //根据注册的sitekey地址回调回去
+              console.log(111, `${callbackUrl}?ticket=${ticket}&redirecturl=${this.openRedirectUrl}`);
+              this.openRedirectUrl
+                ? window.open(`${callbackUrl}?ticket=${ticket}&redirecturl=${this.openRedirectUrl}`)
+                : window.open(`${callbackUrl}?ticket=${ticket}`);
+            }, 800);
+            this.$message.success('登录成功');
+          } else {
+            this.$message.success('登录成功');
+            //平台自己登录到管理页面
             this.$router.push({ name: 'DashBoard' });
           }
         }
@@ -132,6 +146,10 @@ export default {
     showPwd() {
       this.passwordType === 'password' ? (this.passwordType = '') : (this.passwordType = 'password');
     },
+  },
+  mounted() {
+    this.openSiteKey = this.$route.query.sitekey;
+    this.openRedirectUrl = this.$route.query.redirecturl;
   },
 };
 </script>

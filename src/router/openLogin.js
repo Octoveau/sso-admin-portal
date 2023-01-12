@@ -1,6 +1,6 @@
 const openLoginRoutes = [
   {
-    path: '/openLogin',
+    path: '/openLogin/:sitekey',
     name: 'OpenLogin',
     meta: {
       title: '接入验证',
