@@ -34,16 +34,14 @@ export default {
         remark: '',
       },
       rules: {
-        siteName: [
-          { required: true, message: '请输入SiteKey名称', trigger: 'blur' },
-        ],
+        siteName: [{ required: true, message: '请输入SiteKey名称', trigger: 'blur' }],
         callbackUrl: [
           { required: true, message: '请输入回调地址', trigger: 'blur' },
-          { pattern: /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- ./?%&=] *)?/, message: '请输入正确的回调地址', trigger: 'blur' }
+          { pattern: /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- ./?%&=] *)?/, message: '请输入正确的回调地址', trigger: 'blur' },
         ],
       },
-      loading: false
-    }
+      loading: false,
+    };
   },
   methods: {
     resetForm: function (formName) {
@@ -52,12 +50,12 @@ export default {
     submitForm: function (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.loading = true
+          this.loading = true;
           createSiteKeyData(this.createSitekeyParam)
             .then((res) => {
               if (res.code === 200) {
                 this.$message.success('新建 SiteKey 成功!');
-                this.$router.push('/client/site/detail')
+                this.$router.push('/client/site/detail');
               }
             })
             .catch((err) => {
@@ -66,14 +64,14 @@ export default {
               }
             })
             .finally(() => {
-              this.loading = false
+              this.loading = false;
             });
         } else {
           return false;
         }
       });
     },
-  }
+  },
 };
 </script>
 
@@ -87,7 +85,7 @@ export default {
 .section {
   width: 100%;
   height: 100%;
-  padding: .25rem;
+  padding: 0.25rem;
 
   .main {
     display: flex;
@@ -97,14 +95,14 @@ export default {
     height: 100%;
     background-color: #fff;
     border-radius: 0.0375rem;
-    box-shadow: 0 0 .0625rem 0 #3333334f;
+    box-shadow: 0 0 0.0625rem 0 #3333334f;
 
     .content {
       overflow: auto;
-      padding: 0 .5rem;
+      padding: 0 0.5rem;
 
       ::v-deep .el-form-item {
-        margin-top: .25rem;
+        margin-top: 0.25rem;
 
         .el-form-item__label {
           float: left;
