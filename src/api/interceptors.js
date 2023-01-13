@@ -49,7 +49,7 @@ const setupInterceptors = (request) => {
   // 响应拦截器
   request.interceptors.response.use(
     (resp) => {
-      //从xios里取出api返回的data
+      //从axios里取出api返回的data
       let respData = resp.data;
       if (respData.code !== 200) {
         handleRespCode(respData);

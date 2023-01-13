@@ -116,11 +116,10 @@ export default {
             let { ticket, callbackUrl } = result.data;
             setTimeout(() => {
               //根据注册的sitekey地址回调回去
-              console.log(111, `${callbackUrl}?ticket=${ticket}&redirecturl=${this.openRedirectUrl}`);
               this.openRedirectUrl
                 ? window.open(`${callbackUrl}?ticket=${ticket}&redirecturl=${this.openRedirectUrl}`)
                 : window.open(`${callbackUrl}?ticket=${ticket}`);
-            }, 800);
+            }, 500);
             this.$message.success('登录成功');
           } else {
             this.$message.success('登录成功');
