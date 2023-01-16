@@ -4,7 +4,7 @@ import authStorage from '@/utils/auth';
 class RouterGuards {
   constructor(router) {
     this.router = router;
-    this.whiteRouter = ['Login', 'PasswordReset', 'Logout', 'Register', 'OpenLogin'];
+    this.whiteRouter = ['Login', 'PasswordReset', 'Logout', 'Register', 'OpenLogin', 'OpenLogout'];
   }
 
   // 初始化调用全部方法

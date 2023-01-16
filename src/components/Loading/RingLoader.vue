@@ -22,7 +22,7 @@ export default {
     },
     size: {
       type: String,
-      default: '60px',
+      default: '100px',
     },
     radius: {
       type: String,
