@@ -1,7 +1,7 @@
 <template>
   <section class="section" v-loading="isLoading">
     <div class="header">
-      <el-input maxlength="11" v-model.trim="userSiteKey" placeholder="请输入用户完整的SiteKey" style="width: 5rem"></el-input>
+      <el-input maxlength="40" v-model.trim="userSiteKey" placeholder="请输入用户完整的SiteKey" style="width: 5rem"></el-input>
       <el-button type="primary" style="margin-left: 0.2rem" @click="onSearch">查询</el-button>
       <el-button style="margin-left: 0.2rem" @click="onReset">重置</el-button>
     </div>
@@ -103,6 +103,7 @@ export default {
         size: 10,
         page: 0,
       };
+      this.userSiteKey = '';
       this.serachUserData();
     },
     onSearch() {
@@ -157,13 +158,11 @@ export default {
     margin-bottom: 0.2rem;
   }
   /deep/ .el-table {
-    max-height: calc(100vh - 3rem);
     overflow: auto;
   }
 }
 .footer {
-  position: fixed;
-  bottom: 0.2rem;
-  right: 0.6rem;
+  margin-top: 0.2rem;
+  text-align: end;
 }
 </style>

@@ -5,34 +5,37 @@
       <el-button type="primary" style="margin-left: 0.2rem" @click="onSearch">查询</el-button>
       <el-button style="margin-left: 0.2rem" @click="onReset">重置</el-button>
     </div>
-    <el-table :border="true" :data="tableData" style="width: 100%">
-      <el-table-column prop="nickName" label="用户昵称"></el-table-column>
-      <el-table-column prop="createDate" label="创建时间">
-        <template slot-scope="scope">
-          <span>{{ getDateStr(scope.row.createDate) }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="phone" label="电话信息">
-        <template slot-scope="scope">
-          <span>{{ getPhoneStr(scope.row.phone) }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="active" label="用户状态">
-        <template slot-scope="scope">
-          <el-tag effect="dark" :type="`${scope.row.active ? 'success' : 'danger'}`">{{ scope.row.active ? '使用中' : '已停用' }}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column prop="roles" label="用户角色">
-        <template>
-          <el-tag>普通用户</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作">
-        <template slot-scope="scope">
-          <el-button type="danger" @click="onDelete(scope.row)" :loading="scope.row.isDelete">{{ scope.row.isDelete ? '删除中' : '删除' }}</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <main>
+      <el-table :border="true" :data="tableData" style="width: 100%">
+        <el-table-column prop="nickName" label="用户昵称"></el-table-column>
+        <el-table-column prop="createDate" label="创建时间" width="250">
+          <template slot-scope="scope">
+            <span>{{ getDateStr(scope.row.createDate) }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="phone" label="电话信息" width="200">
+          <template slot-scope="scope">
+            <span>{{ getPhoneStr(scope.row.phone) }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="active" label="用户状态" width="150">
+          <template slot-scope="scope">
+            <el-tag effect="dark" :type="`${scope.row.active ? 'success' : 'danger'}`">{{ scope.row.active ? '使用中' : '已停用' }}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="roles" label="用户角色" width="150">
+          <template>
+            <el-tag>普通用户</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button type="danger" @click="onDelete(scope.row)" :loading="scope.row.isDelete">{{ scope.row.isDelete ? '删除中' : '删除' }}</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </main>
+
     <div class="footer">
       <el-pagination
         @size-change="handleSizeChange"
@@ -103,6 +106,7 @@ export default {
         size: 10,
         page: 0,
       };
+      this.userPhone = '';
       this.serachUserData();
     },
     onInput(data) {
@@ -159,13 +163,11 @@ export default {
     margin-bottom: 0.2rem;
   }
   /deep/ .el-table {
-    max-height: calc(100vh - 3rem);
     overflow: auto;
   }
 }
 .footer {
-  position: fixed;
-  bottom: 0.2rem;
-  right: 0.6rem;
+  margin-top: 0.2rem;
+  text-align: end;
 }
 </style>

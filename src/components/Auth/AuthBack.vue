@@ -9,7 +9,6 @@
         </header>
       </slot>
     </div>
-
     <div class="container">
       <slot name="container"></slot>
     </div>
