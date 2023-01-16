@@ -113,13 +113,12 @@ export default {
     serachUserData() {
       this.isLoading = true;
       let request = {
-        page: this.pageInfo.page - 1,
+        page: this.pageInfo.page ? this.pageInfo.page - 1 : 0,
         size: this.pageInfo.size,
       };
       getsiteKeyData(request)
         .then((res) => {
           if (res.code === 200) {
-            console.log(232222, res.data);
             this.tableData = res.data.data.map((x) => {
               x.isDelete = false;
               return x;
