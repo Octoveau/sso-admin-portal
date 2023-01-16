@@ -22,3 +22,6 @@ export const smsCode = (phone) =>
 
 //根据siteKey登录之后获取ticket
 export const getAuthTicket = (data) => service.post('/api/auth/ticket', data);
+
+//退出登录
+export const logoutSso = (token) => service.get(`/api/openapi/auth/sites/${token}/logout`);

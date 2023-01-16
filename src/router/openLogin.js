@@ -7,6 +7,14 @@ const openLoginRoutes = [
     },
     component: () => import('@/views/openLogin/openLogin.vue'),
   },
+  {
+    path: '/openLogout/:sitetoken',
+    name: 'OpenLogout',
+    meta: {
+      title: '退出登录',
+    },
+    component: () => import('@/views/openLogin/openLogout.vue'),
+  },
 ];
 
 export default openLoginRoutes;

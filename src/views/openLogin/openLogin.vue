@@ -1,18 +1,17 @@
 <template>
   <section class="section">
-    <RingLoader :loading="true" :color="color" :size="size"></RingLoader>
+    <RingLoader :loading="true" :color="color"></RingLoader>
   </section>
 </template>
 
 <script>
-import RingLoader from '@/components/RingLoader';
+import RingLoader from '@/components/Loading/RingLoader';
 import authStorage from '@/utils/auth';
 import { getAuthTicket } from '@/api/auth';
 export default {
   data() {
     return {
       color: '#409eff',
-      size: '100px',
       openSiteKey: '',
       openRedirectUrl: '',
       loginTimer: null,
