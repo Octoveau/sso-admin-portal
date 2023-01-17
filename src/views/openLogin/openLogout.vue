@@ -13,6 +13,7 @@ export default {
     return {
       openSiteToken: '',
       openRedirectUrl: '',
+      openSitekey: '',
       logoutTimer: null,
       logoutNoUserTimer: null,
     };
@@ -30,6 +31,8 @@ export default {
     }
     this.openSiteToken = this.$route.params.sitetoken;
     this.openRedirectUrl = this.$route.query.redirecturl;
+    this.openSitekey = this.$route.query.sitekey;
+
     this.handleLogout();
   },
 
@@ -43,25 +46,32 @@ export default {
     },
     async handleLogout() {
       //判断是否已经是登录过
-      if (!this.openRedirectUrl) {
-        return this.$$message.warning('请提供回调的redirecturl，以?redirecturl=xxx方式');
+      if (!this.openSitekey) {
+        return this.$$message.warning('请提供回调的sitekey');
       }
       let userInfo = JSON.parse(authStorage.getUserInfo());
       if (userInfo) {
-        const result = await logoutSso(this.openSiteToken);
-        if (result.code === 200) {
-          this.logoutTimer = setTimeout(() => {
-            window.open(`${this.openRedirectUrl}`);
-          }, 500);
-          authStorage.removeUserInfo();
-          this.$message.success('退出登录成功');
-        }
+        await logoutSso(this.openSiteToken);
+        this.logoutTimer = setTimeout(() => {
+          this.gotoLogin();
+        }, 500);
+        authStorage.removeUserInfo();
+        this.$message.success('退出登录成功');
       } else {
         this.logoutNoUserTimer = setTimeout(() => {
-          window.open(`${this.openRedirectUrl}`);
+          this.gotoLogin();
         }, 500);
         this.$message.success('当前用户还没进行登录');
       }
+    },
+    gotoLogin() {
+      this.$router.push({
+        name: 'Login',
+        query: {
+          redirecturl: this.openRedirectUrl,
+          sitekey: this.openSitekey,
+        },
+      });
     },
   },
 };

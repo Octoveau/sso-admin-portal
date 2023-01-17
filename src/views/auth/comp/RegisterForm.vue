@@ -34,7 +34,14 @@
           <span class="svg-container">
             <svg-icon icon-class="password" />
           </span>
-          <el-input v-model.trim="formData.rePassword" maxlength="20" :type="rePasswordType" placeholder="请再次确定密码" name="password" />
+          <el-input
+            @keydown.enter.native="onRegister"
+            v-model.trim="formData.rePassword"
+            maxlength="20"
+            :type="rePasswordType"
+            placeholder="请再次确定密码"
+            name="password"
+          />
           <span class="show-pwd" @click="reShowPwd">
             <svg-icon :icon-class="rePasswordType === 'password' ? 'eye' : 'eye-open'" />
           </span>
@@ -53,7 +60,6 @@
 
 <script>
 import { registerRules } from '../help';
-import registerLeftPic from '@/assets/images/loginicon4.png';
 import commonUtil from '@/utils/index';
 import { registerUser } from '@/api/auth';
 import smsCodeMixin from '@/mixins/ssoCode';
@@ -62,7 +68,7 @@ export default {
   mixins: [smsCodeMixin],
   data() {
     return {
-      registerLeftPic,
+      registerLeftPic: `${process.env.VUE_APP_IMAGES_TARGET}/loginregester.png`,
       formData: {
         phone: undefined, //11位数字的字符
         smsCode: undefined, //验证码

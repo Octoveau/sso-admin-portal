@@ -24,14 +24,13 @@
 
 <script>
 import LoginFormComp from '@/views/auth/comp/LoginForm';
-import loginLeftPic from '@/assets/images/loginicon.png';
 export default {
   components: {
     LoginFormComp,
   },
   data() {
     return {
-      loginLeftPic,
+      loginLeftPic: `${process.env.VUE_APP_IMAGES_TARGET}/loginicon.png`,
       defaultLabel: 1,
     };
   },
