@@ -12,16 +12,13 @@
 <script>
 import AuthBackComp from '@/components/Auth/AuthBack.vue';
 import ResetFormComp from '@/views/auth/comp/ResetForm.vue';
-import footerImg from '@/assets/images/footer.png';
 export default {
   components: {
     AuthBackComp,
     ResetFormComp,
   },
   data() {
-    return {
-      footerImg,
-    };
+    return {};
   },
 };
 </script>

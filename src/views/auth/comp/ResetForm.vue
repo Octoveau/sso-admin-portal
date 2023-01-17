@@ -26,7 +26,14 @@
           <span class="svg-container">
             <svg-icon icon-class="password" />
           </span>
-          <el-input v-model.trim="formData.password" maxlength="20" :type="passwordType" placeholder="请输入重置的密码" name="password" />
+          <el-input
+            @keydown.enter.native="onReset"
+            v-model.trim="formData.password"
+            maxlength="20"
+            :type="passwordType"
+            placeholder="请输入重置的密码"
+            name="password"
+          />
           <span class="show-pwd" @click="showPwd">
             <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span>
@@ -45,7 +52,6 @@
 
 <script>
 import { resetRules } from '../help';
-import resetLeftPic from '@/assets/images/loginicon4.png';
 import { resetUserPwd } from '@/api/auth';
 import smsCodeMixin from '@/mixins/ssoCode';
 export default {
@@ -53,7 +59,7 @@ export default {
   mixins: [smsCodeMixin],
   data() {
     return {
-      resetLeftPic,
+      resetLeftPic: `${process.env.VUE_APP_IMAGES_TARGET}/loginreset.png`,
       isCanSendCode: true,
       formData: {
         phone: undefined, //11位数字的字符
