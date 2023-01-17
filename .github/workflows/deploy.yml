@@ -2,7 +2,7 @@ name: deploy sso-admin-portal 🚀
 on:
   push:
     branches:
-      - main
+      - release
 jobs:
   build-sso-admin-portal-deploy:
     runs-on: ubuntu-latest

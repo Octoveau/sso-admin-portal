@@ -9,7 +9,6 @@
         </header>
       </slot>
     </div>
-
     <div class="container">
       <slot name="container"></slot>
     </div>
@@ -20,12 +19,11 @@
 </template>
 
 <script>
-import footerImg from '@/assets/images/footer.png';
 export default {
   data() {
     return {
       mainScreenWidth: null,
-      footerImg,
+      footerImg: `${process.env.VUE_APP_IMAGES_TARGET}/footer.png`,
     };
   },
   mounted() {
@@ -55,7 +53,7 @@ export default {
 .back-section {
   position: relative;
   height: 100vh;
-  background-image: url('../../assets/images/ssoback.png');
+  background-image: url('http://www.octoveau.cn/images/ssoback.png');
   background-repeat: no-repeat;
   background-position: top;
   background-size: 100% 100%;
