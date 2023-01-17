@@ -30,12 +30,12 @@ export default {
     return {
       dialogVisible: true,
       imgsList: [
-        require('../../assets/images/slider/1.png'),
-        require('../../assets/images/slider/2.png'),
-        require('../../assets/images/slider/3.png'),
-        require('../../assets/images/slider/4.png'),
-        require('../../assets/images/slider/5.png'),
-        require('../../assets/images/slider/6.png'),
+        `${process.env.VUE_APP_IMAGES_TARGET}/slider1.png`,
+        `${process.env.VUE_APP_IMAGES_TARGET}/slider2.png`,
+        `${process.env.VUE_APP_IMAGES_TARGET}/slider3.png`,
+        `${process.env.VUE_APP_IMAGES_TARGET}/slider4.png`,
+        `${process.env.VUE_APP_IMAGES_TARGET}/slider5.png`,
+        `${process.env.VUE_APP_IMAGES_TARGET}/slider6.png`,
       ],
     };
   },
