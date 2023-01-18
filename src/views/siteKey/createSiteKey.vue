@@ -4,13 +4,13 @@
       <div class="content">
         <el-form :model="createSitekeyParam" :rules="rules" ref="createSiteKeyForm" v-loading="loading">
           <el-form-item label="SiteKey名称" prop="siteName">
-            <el-input v-model="createSitekeyParam.siteName" autocomplete="off"></el-input>
+            <el-input v-model.trim="createSitekeyParam.siteName" autocomplete="off" maxlength="20"></el-input>
           </el-form-item>
           <el-form-item label="回调地址" prop="callbackUrl">
-            <el-input v-model="createSitekeyParam.callbackUrl" autocomplete="off"></el-input>
+            <el-input v-model.trim="createSitekeyParam.callbackUrl" autocomplete="off" maxlength="20"></el-input>
           </el-form-item>
           <el-form-item label="备注" prop="remark">
-            <el-input type="textarea" v-model.number="createSitekeyParam.remark"></el-input>
+            <el-input type="textarea" v-model="createSitekeyParam.remark" maxlength="100"></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -27,6 +27,9 @@ import { createSiteKeyData } from '@/api/siteKey';
 export default {
   name: 'CreateSiteKeyPage',
   data() {
+    const _validateWeb = (rule, value, callback) => {
+      $validate.validateWeb(value) ? callback() : callback(new Error('请输入正确的回调地址'))
+    }
     return {
       createSitekeyParam: {
         callbackUrl: '',
@@ -34,21 +37,18 @@ export default {
         remark: '',
       },
       rules: {
-        siteName: [
-          { required: true, message: '请输入SiteKey名称', trigger: 'blur' },
-        ],
-        callbackUrl: [
-          { required: true, message: '请输入回调地址', trigger: 'blur' },
-          { pattern: /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- ./?%&=] *)?/, message: '请输入正确的回调地址', trigger: 'blur' }
-        ],
+        siteName: [{ required: true, message: '请输入SiteKey名称', trigger: 'blur' },],
+        callbackUrl: [{ required: true, message: '请输入回调地址', trigger: 'blur' }, { validator: _validateWeb, trigger: 'blur' }],
       },
       loading: false
     }
   },
   methods: {
+    /** 重置表单 */
     resetForm: function (formName) {
       this.$refs[formName].resetFields();
     },
+    /** 提交表单 */
     submitForm: function (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -58,11 +58,9 @@ export default {
               if (res.code === 200) {
                 this.$message.success('新建 SiteKey 成功!');
                 this.$router.push('/client/site/detail')
-              }
-            })
-            .catch((err) => {
-              if (err.code === 409) {
+              } else if (res.code === 409) {
                 //  名称重复
+                this.$message.warning('SiteKey 名称重复!');
               }
             })
             .finally(() => {

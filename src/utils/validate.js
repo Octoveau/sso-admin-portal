@@ -1,5 +1,5 @@
 class Validate {
-  constructor() {}
+  constructor() { }
 
   /*
    * @description 判断是否为中文
@@ -54,6 +54,14 @@ class Validate {
    */
   isExternal(path) {
     return /^(https?:|mailto:|tel:)/.test(path);
+  }
+
+  /**
+   * @description 网址校验
+   * @param {*} path 网址
+   */
+  validateWeb(path) {
+    return /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- ./?%&=] *)?/.test(path)
   }
 }
 
