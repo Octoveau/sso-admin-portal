@@ -5,6 +5,7 @@
   "scripts": {
     "start": "npm run serve",
     "serve": "vue-cli-service serve",
+    "prd": "vue-cli-service serve --mode production",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "dll": "webpack --config ./webpack.dll.js",
