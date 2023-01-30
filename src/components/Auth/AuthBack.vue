@@ -53,7 +53,7 @@ export default {
 .back-section {
   position: relative;
   height: 100vh;
-  background-image: url('http://www.octoveau.cn/images/ssoback.png');
+  background-image: url('http://www.octoveau.cn/file-sso-login/ssoback.png');
   background-repeat: no-repeat;
   background-position: top;
   background-size: 100% 100%;
