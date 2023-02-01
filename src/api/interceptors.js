@@ -17,9 +17,9 @@ const handleRespCode = (respData) => {
     case 500:
       Message.error(respData.message || ERROR_MSG_500);
       break;
-    default:
-      Message.error(respData.message || ERROR_MSG_COMMON);
-      break;
+    // default:
+    //   Message.error(respData.message || ERROR_MSG_COMMON);
+    //   break;
   }
 };
 const setupInterceptors = (request) => {
@@ -49,7 +49,7 @@ const setupInterceptors = (request) => {
   // 响应拦截器
   request.interceptors.response.use(
     (resp) => {
-      //从xios里取出api返回的data
+      //从axios里取出api返回的data
       let respData = resp.data;
       if (respData.code !== 200) {
         handleRespCode(respData);
@@ -59,7 +59,7 @@ const setupInterceptors = (request) => {
     //httpcode不在200-300时候会到异常拦截器，请求异常
     (error) => {
       let message = error?.message || error?.message || ERROE_MSG;
-      Message.error(message);
+      error.config.isNotShowError ? void 0 : Message.error(message);
       return Promise.reject(error);
     }
   );

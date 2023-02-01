@@ -44,7 +44,7 @@ export default {
 
     handleLogout() {
       this.$router.push({
-        name: 'Logout',
+        name: 'ClientLogout',
       });
     },
   },

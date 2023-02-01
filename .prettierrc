@@ -7,6 +7,5 @@
   "trailingComma": "es5",
   "htmlWhitespaceSensitivity": "ignore",
   "endOfLine": "auto",
-  "proseWrap": "never"
-
+  "proseWrap": "never",
 }

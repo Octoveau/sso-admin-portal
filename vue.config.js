@@ -16,6 +16,13 @@ module.exports = {
           '^/api': '/api',
         },
       },
+      '/openapi': {
+        target: process.env.VUE_APP_TARGET_API,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/openapi': '/openapi',
+        },
+      },
     },
   },
   configureWebpack: {

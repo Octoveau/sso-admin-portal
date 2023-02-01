@@ -24,12 +24,12 @@ const loginRoutes = [
     component: () => import('@/views/auth/passwordReset'),
   },
   {
-    path: '/logout',
-    name: 'Logout',
+    path: '/clinet/logout',
+    name: 'ClientLogout',
     meta: {
-      title: '退出登录',
+      title: '客户端退出登录',
     },
-    component: () => import('@/views/auth/logout'),
+    component: () => import('@/views/openLogin/openLogout'),
   },
 ];
 

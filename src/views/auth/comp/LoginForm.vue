@@ -12,7 +12,7 @@
           <span class="svg-container">
             <svg-icon icon-class="edit" />
           </span>
-          <el-input v-model.trim="formData.smsCode" placeholder="验证码" name="smsCode" maxlength="4" />
+          <el-input @keydown.enter.native="openSilder" v-model.trim="formData.smsCode" placeholder="验证码" name="smsCode" maxlength="4" />
           <span>
             <a @click="onGetVerificationCode" class="a-verification" v-if="isCanSendCode">获取验证码</a>
             <span class="span-verification" style="color: rgb(185 185 185)" v-else>重新发送{{ timeCount }}s</span>
@@ -24,7 +24,14 @@
           <span class="svg-container">
             <svg-icon icon-class="password" />
           </span>
-          <el-input v-model.trim="formData.password" maxlength="20" :type="passwordType" placeholder="密码" name="password" />
+          <el-input
+            @keydown.enter.native="openSilder"
+            v-model.trim="formData.password"
+            maxlength="20"
+            :type="passwordType"
+            placeholder="密码"
+            name="password"
+          />
           <span class="show-pwd" @click="showPwd">
             <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span>
@@ -39,7 +46,7 @@
 
 <script>
 import { loginRules, silderConfig } from '../help';
-import { loginUser, loginSmsUser } from '@/api/auth';
+import { loginUser, loginSmsUser, getAuthTicket } from '@/api/auth';
 import authStorage from '@/utils/auth';
 import smsCodeMixin from '@/mixins/ssoCode';
 export default {
@@ -61,6 +68,8 @@ export default {
         password: '',
       },
       loginRules,
+      openSiteKey: '',
+      openRedirectUrl: '',
       passwordType: 'password',
       loginLoading: false,
     };
@@ -104,13 +113,23 @@ export default {
         }
         //处理数据
         if (result.code === 200) {
-          this.$message.success('登录成功');
           //数据写入缓存
           authStorage.setUserInfo(Object.assign(result.data.user, { token: result.data.token }));
-          //分两种情况，1.登录该平台，2.作为单点登录平台
-          // eslint-disable-next-line no-constant-condition
-          if (true) {
-            //跳转到管理页
+          //第三方接入的方式，因为存在sitekey
+          if (this.openSiteKey) {
+            //拿到站点的ticket
+            let result = await getAuthTicket({ siteKey: this.openSiteKey });
+            let { ticket, callbackUrl } = result.data;
+            setTimeout(() => {
+              //根据注册的sitekey地址回调回去
+              this.openRedirectUrl
+                ? window.location.replace(`${callbackUrl}?ticket=${ticket}&redirecturl=${this.openRedirectUrl}`)
+                : window.location.replace(`${callbackUrl}?ticket=${ticket}`);
+            }, 500);
+            this.$message.success('登录成功');
+          } else {
+            this.$message.success('登录成功');
+            //平台自己登录到管理页面
             this.$router.push({ name: 'DashBoard' });
           }
         }
@@ -132,6 +151,10 @@ export default {
     showPwd() {
       this.passwordType === 'password' ? (this.passwordType = '') : (this.passwordType = 'password');
     },
+  },
+  mounted() {
+    this.openSiteKey = this.$route.query.sitekey;
+    this.openRedirectUrl = this.$route.query.redirecturl;
   },
 };
 </script>

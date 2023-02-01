@@ -19,3 +19,12 @@ export const smsCode = (phone) =>
       phone,
     },
   });
+
+//根据siteKey登录之后获取ticket
+export const getAuthTicket = (data) =>
+  service.post('/api/auth/ticket', data, {
+    isNotShowError: true,
+  });
+
+//退出登录
+export const logoutSso = (token) => service.post(`/openapi/auth/sites/${token}/logout`);
