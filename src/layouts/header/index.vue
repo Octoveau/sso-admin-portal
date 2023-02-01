@@ -3,7 +3,8 @@
     <el-row style="height: 100%">
       <el-col :span="6">
         <div class="logo-title">
-          <span>Octovean用户管理平台</span>
+          <!-- <span>Octovean用户管理平台</span> -->
+          <span>模板</span>
         </div>
       </el-col>
       <el-col :span="12" />
