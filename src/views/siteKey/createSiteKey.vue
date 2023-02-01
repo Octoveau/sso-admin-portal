@@ -2,7 +2,7 @@
   <section class="section">
     <div class="main">
       <div class="content">
-        <el-form :model="createSitekeyParam" :rules="rules" ref="createSiteKeyForm" v-loading="loading">
+        <el-form label-width="150px" :model="createSitekeyParam" :rules="rules" ref="createSiteKeyForm" v-loading="loading">
           <el-form-item label="SiteKey名称" prop="siteName">
             <el-input v-model="createSitekeyParam.siteName" autocomplete="off"></el-input>
           </el-form-item>
@@ -103,15 +103,6 @@ export default {
 
       ::v-deep .el-form-item {
         margin-top: 0.25rem;
-
-        .el-form-item__label {
-          float: left;
-          width: 1.875rem;
-        }
-
-        .el-form-item__content {
-          margin-left: 1.875rem;
-        }
       }
     }
 

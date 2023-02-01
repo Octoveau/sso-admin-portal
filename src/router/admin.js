@@ -47,6 +47,26 @@ const adminRoutes = [
           bread: [{ name: '站点信息' }, { name: '创建站点' }],
         },
       },
+
+      //系统配置相关
+      {
+        path: 'system/perm/management',
+        name: 'PermManagement',
+        component: () => import('@/views/system/permManagement'),
+        meta: {
+          title: '角色管理',
+          bread: [{ name: '系统配置' }, { name: '角色管理' }],
+        },
+      },
+      {
+        path: 'system/perm/create',
+        name: 'CreatePerm',
+        component: () => import('@/views/system/createPerm'),
+        meta: {
+          title: '创建权限',
+          bread: [{ name: '系统配置' }, { name: '创建权限' }],
+        },
+      },
     ],
   },
 ];
