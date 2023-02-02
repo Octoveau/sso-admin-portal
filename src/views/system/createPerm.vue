@@ -4,26 +4,26 @@
       <div class="content">
         <el-form label-width="100px" :model="createPerm" :rules="permRules" ref="createPermForm" v-loading="loading">
           <el-form-item label="权限组名称" prop="permGroupName">
-            <el-input v-model="createPerm.permGroupName" autocomplete="off"></el-input>
+            <el-input placeholder="请输入权限组名称" v-model.trim="createPerm.permGroupName" autocomplete="off"></el-input>
           </el-form-item>
           <div class="form-div">
             <div class="div-flex" v-for="(item, index) in createPerm.perms" :key="index">
               <el-form-item label="权限名称" prop="permName">
-                <el-input v-model="item.permName" autocomplete="off"></el-input>
+                <el-input placeholder="请输入权限名称" v-model.trim="item.permName" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="权限值" prop="permValue">
-                <el-input v-model="item.permValue" autocomplete="off"></el-input>
+                <el-input placeholder="请输入权限值" v-model.trim="item.permValue" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="权限行为" prop="action">
-                <el-input v-model="item.action" autocomplete="off"></el-input>
+                <el-select v-model="item.action" placeholder="请选择行为">
+                  <el-option v-for="item in actionOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                </el-select>
               </el-form-item>
             </div>
-
             <i title="添加权限" class="el-icon-circle-plus" @click="onAddPerm"></i>
           </div>
-
           <el-form-item label="备注" prop="remark">
-            <el-input type="textarea" v-model.number="createPerm.remark"></el-input>
+            <el-input type="textarea" v-model.trim="createPerm.remark"></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { createSiteKeyData } from '@/api/siteKey';
+import { permRules, actionOptions } from './help';
 export default {
   name: 'CreateSiteKeyPage',
   data() {
@@ -53,12 +53,8 @@ export default {
         ],
         remark: '',
       },
-      permRules: {
-        permGroupName: [{ required: true, message: '请输入权限组名称', trigger: 'blur' }],
-        action: [{ required: true, message: '请选择权限行为', trigger: 'blur' }],
-        permValue: [{ required: true, message: '请输入权限值', trigger: 'blur' }],
-        permName: [{ required: true, message: '请输入权限名称', trigger: 'blur' }],
-      },
+      permRules,
+      actionOptions,
       loading: false,
     };
   },
@@ -75,6 +71,18 @@ export default {
       });
     },
     resetForm: function (formName) {
+      this.createPerm = {
+        permGroupName: '',
+        perms: [
+          {
+            action: '',
+            permName: '',
+            permValue: '',
+            permPath: '',
+          },
+        ],
+        remark: '',
+      };
       this.$refs[formName].resetFields();
     },
     submitForm: function (formName) {

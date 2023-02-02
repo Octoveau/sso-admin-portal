@@ -84,18 +84,25 @@ export default {
       this.serachUserData();
     },
     onDelete(data) {
-      data.isDelete = true;
-      deleteSiteKey(data.siteKey)
-        .then((res) => {
-          if (res.code === 200) {
-            this.$message.success('删除成功');
-            //刷新数据
-            this.onSearch();
-          }
+      this.$confirm('确定删除吗', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+      })
+        .then(({ value }) => {
+          data.isDelete = true;
+          deleteSiteKey(data.siteKey)
+            .then((res) => {
+              if (res.code === 200) {
+                this.$message.success('删除成功');
+                //刷新数据
+                this.onSearch();
+              }
+            })
+            .finally(() => {
+              data.isDelete = false;
+            });
         })
-        .finally(() => {
-          data.isDelete = false;
-        });
+        .catch(() => {});
     },
     getDateStr(time) {
       return moment(time).format('YYYY年MM月DD日 HH时:mm分:ss秒');
@@ -141,8 +148,10 @@ export default {
               x.isDelete = false;
               return x;
             });
-            this.totleCount = 1;
+            return (this.totleCount = 1);
           }
+          this.tableData = [];
+          this.totleCount = 0;
         })
         .finally(() => {
           this.isLoading = false;

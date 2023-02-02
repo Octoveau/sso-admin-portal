@@ -4,13 +4,13 @@
       <div class="content">
         <el-form label-width="150px" :model="createSitekeyParam" :rules="rules" ref="createSiteKeyForm" v-loading="loading">
           <el-form-item label="SiteKey名称" prop="siteName">
-            <el-input v-model.trim="createSitekeyParam.siteName" autocomplete="off" maxlength="20"></el-input>
+            <el-input placeholder="请输入Sitekey名称" v-model.trim="createSitekeyParam.siteName" autocomplete="off" maxlength="20"></el-input>
           </el-form-item>
           <el-form-item label="回调地址" prop="callbackUrl">
-            <el-input v-model.trim="createSitekeyParam.callbackUrl" autocomplete="off" maxlength="20"></el-input>
+            <el-input placeholder="请输入回调地址" v-model.trim="createSitekeyParam.callbackUrl" autocomplete="off" maxlength="20"></el-input>
           </el-form-item>
           <el-form-item label="备注" prop="remark">
-            <el-input type="textarea" v-model="createSitekeyParam.remark" maxlength="100"></el-input>
+            <el-input type="textarea" v-model.trim="createSitekeyParam.remark" maxlength="100"></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -28,8 +28,8 @@ export default {
   name: 'CreateSiteKeyPage',
   data() {
     const _validateWeb = (rule, value, callback) => {
-      $validate.validateWeb(value) ? callback() : callback(new Error('请输入正确的回调地址'))
-    }
+      $validate.validateWeb(value) ? callback() : callback(new Error('请输入正确的回调地址'));
+    };
     return {
       createSitekeyParam: {
         callbackUrl: '',
@@ -37,8 +37,11 @@ export default {
         remark: '',
       },
       rules: {
-        siteName: [{ required: true, message: '请输入SiteKey名称', trigger: 'blur' },],
-        callbackUrl: [{ required: true, message: '请输入回调地址', trigger: 'blur' }, { validator: _validateWeb, trigger: 'blur' }],
+        siteName: [{ required: true, message: '请输入SiteKey名称', trigger: 'blur' }],
+        callbackUrl: [
+          { required: true, message: '请输入回调地址', trigger: 'blur' },
+          { validator: _validateWeb, trigger: 'blur' },
+        ],
       },
       loading: false,
     };
@@ -57,7 +60,7 @@ export default {
             .then((res) => {
               if (res.code === 200) {
                 this.$message.success('新建 SiteKey 成功!');
-                this.$router.push('/client/site/detail')
+                this.$router.push('/client/site/detail');
               } else if (res.code === 409) {
                 //  名称重复
                 this.$message.warning('SiteKey 名称重复!');

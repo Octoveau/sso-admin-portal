@@ -154,8 +154,10 @@ export default {
               x.isDelete = false;
               return x;
             });
-            this.totleCount = 1;
+            return (this.totleCount = 1);
           }
+          this.tableData = [];
+          this.totleCount = 0;
         })
         .finally(() => {
           this.isLoading = false;
