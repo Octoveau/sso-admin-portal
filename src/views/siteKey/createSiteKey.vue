@@ -37,10 +37,10 @@ export default {
         remark: '',
       },
       rules: {
-        siteName: [{ required: true, message: '请输入SiteKey名称', trigger: 'blur' }],
+        siteName: [{ required: true, message: '请输入SiteKey名称', trigger: 'change' }],
         callbackUrl: [
-          { required: true, message: '请输入回调地址', trigger: 'blur' },
-          { validator: _validateWeb, trigger: 'blur' },
+          { required: true, message: '请输入回调地址', trigger: 'change' },
+          { validator: _validateWeb, trigger: 'change' },
         ],
       },
       loading: false,

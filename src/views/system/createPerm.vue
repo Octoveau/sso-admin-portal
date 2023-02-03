@@ -2,19 +2,40 @@
   <section class="section">
     <div class="main">
       <div class="content">
-        <el-form label-width="100px" :model="createPerm" :rules="permRules" ref="createPermForm" v-loading="loading">
-          <el-form-item label="权限组名称" prop="permGroupName">
+        <el-form label-width="100px" :model="createPerm" ref="createPermForm" v-loading="loading">
+          <el-form-item
+            :rules="[
+              { required: true, message: '请输入权限组名称', trigger: 'change' },
+              { validator: validateStrCallback, trigger: 'change' },
+            ]"
+            label="权限组名称"
+            prop="permGroupName"
+          >
             <el-input placeholder="请输入权限组名称" v-model.trim="createPerm.permGroupName" autocomplete="off"></el-input>
           </el-form-item>
           <div class="form-div">
             <div class="div-flex" v-for="(item, index) in createPerm.perms" :key="index">
-              <el-form-item label="权限名称" prop="permName">
+              <el-form-item
+                :rules="[
+                  { required: true, message: '请输入权限名称', trigger: 'change' },
+                  { validator: validateStrCallback, trigger: 'change' },
+                ]"
+                label="权限名称"
+                :prop="'perms.' + index + '.permName'"
+              >
                 <el-input placeholder="请输入权限名称" v-model.trim="item.permName" autocomplete="off"></el-input>
               </el-form-item>
-              <el-form-item label="权限值" prop="permValue">
+              <el-form-item
+                :rules="[
+                  { required: true, message: '请输入权限值', trigger: 'change' },
+                  { validator: validateStrCallback, trigger: 'change' },
+                ]"
+                label="权限值"
+                :prop="'perms.' + index + '.permValue'"
+              >
                 <el-input placeholder="请输入权限值" v-model.trim="item.permValue" autocomplete="off"></el-input>
               </el-form-item>
-              <el-form-item label="权限行为" prop="action">
+              <el-form-item :rules="{ required: true, message: '请选择权限行为', trigger: 'change' }" label="权限行为" :prop="'perms.' + index + '.action'">
                 <el-select v-model="item.action" placeholder="请选择行为">
                   <el-option v-for="item in actionOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
@@ -36,7 +57,7 @@
 </template>
 
 <script>
-import { permRules, actionOptions } from './help';
+import { validateStrCallback, actionOptions } from './help';
 export default {
   name: 'CreateSiteKeyPage',
   data() {
@@ -53,7 +74,7 @@ export default {
         ],
         remark: '',
       },
-      permRules,
+      validateStrCallback,
       actionOptions,
       loading: false,
     };
@@ -89,6 +110,9 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.loading = true;
+          this.createPerm.perms.forEach((item) => {
+            item.permPath = `${item.action}-${item.permValue}`;
+          });
         } else {
           return false;
         }
