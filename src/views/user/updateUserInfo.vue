@@ -10,6 +10,7 @@
 
 <script>
 import avatarCropper from './components/avatarCropper.vue';
+import dataURLtoBlob from '@/utils/base64toFile';
 export default {
   components: {
     avatarCropper,
@@ -22,8 +23,8 @@ export default {
   },
   methods: {
     closeAvatarDialog(data) {
-      console.log(data);
-      this.imagesFile = (window.URL || window.webkitURL).createObjectURL(data);
+      this.imagesFile = data;
+      let result = dataURLtoBlob(data, '111.png'); //转换成file
       this.dialogVisible = false;
     },
   },

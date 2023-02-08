@@ -119,8 +119,61 @@ export default {
     // 获取截图信息
     getCrop() {
       this.$refs.cropper.getCropBlob((data) => {
-        this.$emit('closeAvatarDialog', data);
+        let url = (window.URL || window.webkitURL).createObjectURL(data);
+        this.imageToCircle(url);
         this.closeDialog();
+      });
+    },
+    imageToCircle(picUrl) {
+      // 通过图片地址换出圆形的图片
+      let radius, diameter, canvas, ctx;
+      let img = new Image();
+      img.setAttribute('crossOrigin', 'anonymous'); // 解决图片跨域访问失败
+      img.src = picUrl;
+      return new Promise((reslove) => {
+        img.addEventListener(
+          'load',
+          () => {
+            let { width, height } = img;
+            if (img.width > img.height) {
+              radius = height / 2;
+            } else {
+              radius = width / 2;
+            }
+            diameter = radius * 2;
+            canvas = document.createElement('canvas');
+            canvas.width = diameter;
+            canvas.height = diameter;
+            ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, diameter, diameter);
+            // 描边
+            ctx.save(); //save和restore可以保证样式属性只运用于该段canvas元素
+            ctx.strokeStyle = '#eee'; //设置边线的颜色
+            ctx.lineWidth = 2;
+            ctx.beginPath(); //开始路径
+            ctx.arc(radius, radius, radius - 5, 0, Math.PI * 2); //画一个整圆.
+            ctx.stroke(); //绘制边线
+
+            // 截圆形图
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(radius, radius, radius - 5, 0, Math.PI * 2);
+            ctx.clip();
+
+            let x = 0,
+              y = 0,
+              swidth = diameter,
+              sheight = diameter;
+
+            ctx.drawImage(img, x, y, swidth, sheight, 0, 0, diameter, diameter);
+            ctx.restore();
+            // toDataURL()是canvas对象的一种方法，用于将canvas对象转换为base64位编码
+            let dataURL = canvas.toDataURL('image/png');
+            this.$emit('closeAvatarDialog', dataURL);
+            reslove(dataURL);
+          },
+          false
+        );
       });
     },
     // 重新上传
