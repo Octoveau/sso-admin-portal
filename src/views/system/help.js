@@ -1,6 +1,6 @@
 //验证手机号码
 const validateStrCallback = (rule, value, callback) => {
-  let regExp = /^[A-Za-z0-9]+$/;
+  let regExp = /^[A-Za-z0-9-]+$/;
   if (regExp.test(value)) {
     callback();
   } else {

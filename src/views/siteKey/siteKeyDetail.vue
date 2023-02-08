@@ -5,7 +5,7 @@
       <el-button type="primary" style="margin-left: 0.2rem" @click="onSearch">查询</el-button>
       <el-button style="margin-left: 0.2rem" @click="onReset">重置</el-button>
     </div>
-    <el-table :border="true" :data="tableData" style="width: 100%">
+    <el-table :header-cell-style="getRowClass" :row-class-name="tableRowClassName" :data="tableData" style="width: 100%">
       <el-table-column prop="siteName" label="SiteKey名称" :show-overflow-tooltip="true" width="200px"></el-table-column>
       <el-table-column prop="siteKey" label="SiteKey" :show-overflow-tooltip="true" width="400px"></el-table-column>
       <el-table-column prop="siteSecret" label="SiteKey密钥" :show-overflow-tooltip="true" width="200px"></el-table-column>
@@ -55,8 +55,10 @@
 <script>
 import { getsiteKeyData, getDataBySiteKey, deleteSiteKey } from '@/api/siteKey';
 import moment from 'moment';
+import tableMixin from '@/mixins/table';
 export default {
   name: 'UserDetailPage',
+  mixins: [tableMixin],
   data() {
     return {
       //用户手机号查询
@@ -169,6 +171,12 @@ export default {
   }
   /deep/ .el-table {
     overflow: auto;
+    .color-row {
+      background: rgb(245, 245, 245);
+    }
+    .has-gutter {
+      color: #fff;
+    }
   }
 }
 .footer {

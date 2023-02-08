@@ -6,14 +6,14 @@
       <el-button style="margin-left: 0.2rem" @click="onReset">重置</el-button>
     </div>
     <main>
-      <el-table :border="true" :data="tableData" style="width: 100%">
+      <el-table :header-cell-style="getRowClass" :row-class-name="tableRowClassName" :data="tableData" style="width: 100%">
         <el-table-column prop="nickName" label="用户昵称"></el-table-column>
-        <el-table-column prop="createDate" label="创建时间" width="250">
+        <el-table-column prop="createDate" label="创建时间" width="350">
           <template slot-scope="scope">
             <span>{{ getDateStr(scope.row.createDate) }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="phone" label="电话信息" width="200">
+        <el-table-column prop="phone" label="电话信息" width="250">
           <template slot-scope="scope">
             <span>{{ getPhoneStr(scope.row.phone) }}</span>
           </template>
@@ -55,8 +55,10 @@
 <script>
 import { getUserData, getUserDataByPhone, deleteUserByPhone } from '@/api/user';
 import moment from 'moment';
+import tableMixin from '@/mixins/table';
 export default {
   name: 'UserDetailPage',
+  mixins: [tableMixin],
   data() {
     return {
       //用户手机号查询
@@ -175,6 +177,12 @@ export default {
   }
   /deep/ .el-table {
     overflow: auto;
+    .color-row {
+      background: rgb(245, 245, 245);
+    }
+    .has-gutter {
+      color: #fff;
+    }
   }
 }
 .footer {

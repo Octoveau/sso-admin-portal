@@ -14,12 +14,12 @@
           <div>
             <el-dropdown>
               <span class="el-dropdown-link">
-                <span>{{ userName }}</span>
+                <span>{{ userInfo.nickName }}</span>
                 <i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item key="0">
-                  <span @click="handleJumpToPersonal">个人中心</span>
+                  <span @click="handleJumpToPersonal">个人设置</span>
                 </el-dropdown-item>
                 <el-dropdown-item key="1">
                   <span @click="handleLogout">退出登录</span>
@@ -34,14 +34,23 @@
 </template>
 
 <script>
+import authStorage from '@/utils/auth';
 export default {
   data() {
     return {
-      userName: 'Admin',
+      userInfo: null,
     };
   },
+  created() {
+    this.userInfo = JSON.parse(authStorage.getUserInfo() || '{}');
+    console.log(111, this.userInfo);
+  },
   methods: {
-    handleJumpToPersonal() {},
+    handleJumpToPersonal() {
+      this.$router.push({
+        name: 'UserUpdate',
+      });
+    },
 
     handleLogout() {
       this.$router.push({

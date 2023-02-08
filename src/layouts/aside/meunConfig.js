@@ -13,6 +13,10 @@ const menuList = [
         menu_name: '用户列表',
         menu_url: '/client/user/detail',
       },
+      {
+        menu_name: '个人管理',
+        menu_url: '/client/user/update',
+      },
     ],
   },
   {
@@ -38,6 +42,10 @@ const menuList = [
     children: [
       {
         menu_name: '角色管理',
+        menu_url: '/client/system/role/management',
+      },
+      {
+        menu_name: '权限管理',
         menu_url: '/client/system/perm/management',
       },
       {

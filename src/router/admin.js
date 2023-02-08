@@ -28,6 +28,15 @@ const adminRoutes = [
           bread: [{ name: '用户管理' }, { name: '用户列表' }],
         },
       },
+      {
+        path: 'user/update',
+        name: 'UserUpdate',
+        component: () => import('@/views/user/updateUserInfo'),
+        meta: {
+          title: '用户设置',
+          bread: [{ name: '用户管理' }, { name: '用户设置' }],
+        },
+      },
       //sitekey相关
       {
         path: 'site/detail',
@@ -50,21 +59,40 @@ const adminRoutes = [
 
       //系统配置相关
       {
-        path: 'system/perm/management',
-        name: 'PermManagement',
-        component: () => import('@/views/system/permManagement'),
+        path: 'system/role/management',
+        name: 'RoleManagement',
+        component: () => import('@/views/system/roleManagement'),
         meta: {
           title: '角色管理',
           bread: [{ name: '系统配置' }, { name: '角色管理' }],
         },
       },
+
+      {
+        path: 'system/perm/management',
+        name: 'PermManagement',
+        component: () => import('@/views/system/permManagement'),
+        meta: {
+          title: '权限管理',
+          bread: [{ name: '系统配置' }, { name: '权限管理' }],
+        },
+      },
       {
         path: 'system/perm/create',
         name: 'CreatePerm',
-        component: () => import('@/views/system/createPerm'),
+        component: () => import('@/views/system/createOrUpdatePerm'),
         meta: {
           title: '创建权限',
           bread: [{ name: '系统配置' }, { name: '创建权限' }],
+        },
+      },
+      {
+        path: 'system/perm/update',
+        name: 'updatePerm',
+        component: () => import('@/views/system/createOrUpdatePerm'),
+        meta: {
+          title: '修改权限',
+          bread: [{ name: '系统配置' }, { name: '修改权限' }],
         },
       },
     ],

@@ -95,7 +95,7 @@ export default {
             phone: this.formData.phone,
             password: this.formData.password,
             smsCode: this.formData.smsCode,
-            nickName: commonUtil.randomlyCharacters(6), //生成随机的六位昵称，后期可以进行编辑
+            nickName: commonUtil.randomlyCharacters(4), //生成随机的六位昵称，后期可以进行编辑
           };
           this.registerLoading = true;
           registerUser(request)

@@ -3,27 +3,13 @@
     <div class="main">
       <div class="content">
         <el-form label-width="100px" :model="createPerm" ref="createPermForm" v-loading="loading">
-          <el-form-item
-            :rules="[
-              { required: true, message: '请输入权限组名称', trigger: 'change' },
-              { validator: validateStrCallback, trigger: 'change' },
-            ]"
-            label="权限组名称"
-            prop="permGroupName"
-          >
-            <el-input placeholder="请输入权限组名称" v-model.trim="createPerm.permGroupName" autocomplete="off"></el-input>
+          <el-form-item :rules="[{ required: true, message: '请输入权限组名称', trigger: 'change' }]" label="权限组名称" prop="permGroupName">
+            <el-input maxlength="6" placeholder="请输入权限组名称" v-model.trim="createPerm.permGroupName" autocomplete="off"></el-input>
           </el-form-item>
           <div class="form-div">
             <div class="div-flex" v-for="(item, index) in createPerm.perms" :key="index">
-              <el-form-item
-                :rules="[
-                  { required: true, message: '请输入权限名称', trigger: 'change' },
-                  { validator: validateStrCallback, trigger: 'change' },
-                ]"
-                label="权限名称"
-                :prop="'perms.' + index + '.permName'"
-              >
-                <el-input placeholder="请输入权限名称" v-model.trim="item.permName" autocomplete="off"></el-input>
+              <el-form-item :rules="[{ required: true, message: '请输入权限名称', trigger: 'change' }]" label="权限名称" :prop="'perms.' + index + '.permName'">
+                <el-input maxlength="10" placeholder="请输入权限名称" v-model.trim="item.permName" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item
                 :rules="[
@@ -44,7 +30,7 @@
             <i title="添加权限" class="el-icon-circle-plus" @click="onAddPerm"></i>
           </div>
           <el-form-item label="备注" prop="remark">
-            <el-input type="textarea" v-model.trim="createPerm.remark"></el-input>
+            <el-input maxlength="100" type="textarea" v-model.trim="createPerm.remark"></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -93,26 +79,29 @@ export default {
     },
     resetForm: function (formName) {
       this.createPerm = {
-        permGroupName: '',
+        permGroupName: '', //权限组名称
         perms: [
+          //一个权限组下的权限，可以很多个
           {
-            action: '',
-            permName: '',
-            permValue: '',
-            permPath: '',
+            action: '', //权限类型，get，post，delete，put
+            permName: '', //权限名称
+            permValue: '', //权限值
+            permPath: '', //permGroupName+action+permValue
           },
         ],
-        remark: '',
+        remark: '', //备注
       };
       this.$refs[formName].resetFields();
     },
     submitForm: function (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.loading = true;
+          // this.loading = true;
           this.createPerm.perms.forEach((item) => {
             item.permPath = `${item.action}-${item.permValue}`;
           });
+
+          console.log(this.createPerm);
         } else {
           return false;
         }

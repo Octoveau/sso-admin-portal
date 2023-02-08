@@ -1,8 +1,10 @@
 import { Message } from 'element-ui';
+import router from '@/router';
 import authStorage from '@/utils/auth';
 const ERROE_MSG = '请求异常,请重试';
 const ERROR_MSG_400 = '请求参数异常';
 const ERROR_MSG_401 = '没有权限访问';
+const ERROR_MSG_404 = '没有数据返回';
 const ERROR_MSG_500 = '服务器异常';
 const ERROR_MSG_COMMON = '请求异常，请重试';
 const WHITE_API = ['/api/auth/login', '/api/users/register', '/api/auth/sms/login', '/api/sms/send', '/api/users/password'];
@@ -14,12 +16,16 @@ const handleRespCode = (respData) => {
     case 401:
       Message.error(respData.message || ERROR_MSG_401);
       break;
+    case 404:
+      Message.error(respData.message || ERROR_MSG_404);
+      break;
     case 500:
       Message.error(respData.message || ERROR_MSG_500);
       break;
-    // default:
-    //   Message.error(respData.message || ERROR_MSG_COMMON);
-    //   break;
+
+    default:
+      Message.error(respData.message || ERROR_MSG_COMMON);
+      break;
   }
 };
 const setupInterceptors = (request) => {
@@ -30,7 +36,6 @@ const setupInterceptors = (request) => {
         return config;
       }
       //需要鉴权的接口
-
       let user = JSON.parse(authStorage.getUserInfo() || null);
       if (!user) {
         Message.error('登录信息已丢失，请先登录');
@@ -58,6 +63,15 @@ const setupInterceptors = (request) => {
     },
     //httpcode不在200-300时候会到异常拦截器，请求异常
     (error) => {
+      if (error.response.status === 401) {
+        Message.error('登录过期,请重新登录');
+        setTimeout(() => {
+          router.replace({
+            name: 'Login',
+          });
+        }, 500);
+        return Promise.reject(error);
+      }
       let message = error?.message || error?.message || ERROE_MSG;
       error.config.isNotShowError ? void 0 : Message.error(message);
       return Promise.reject(error);
