@@ -10,7 +10,13 @@
       <el-col :span="12" />
       <el-col :span="6">
         <div class="header-logout">
-          <svg-icon icon-class="user" style="color: #fff" />
+          <el-image
+            slot="reference"
+            style="height: 32px; vertical-align: middle"
+            :preview-src-list="['http://www.octoveau.cn/file-sso-avatar/looper-avatar.png']"
+            src="http://www.octoveau.cn/file-sso-avatar/looper-avatar.png"
+          ></el-image>
+
           <div>
             <el-dropdown>
               <span class="el-dropdown-link">
@@ -63,7 +69,6 @@ export default {
 <style lang="less" scoped>
 .header-container {
   width: 100%;
-  height: 100%;
   .logo-title {
     text-align: left;
     color: #fff;
