@@ -1,6 +1,6 @@
 <template>
   <section>
-    <MarqueeComp content="wowoo我我我"></MarqueeComp>
+    <MarqueeComp message="vue2-sso-login已经上线,线上地址http://www.octoveau.cn/sso-login/,目前正在增加权限功能"></MarqueeComp>
     <el-container direction="vertical">
       <el-header>
         <header-comp />

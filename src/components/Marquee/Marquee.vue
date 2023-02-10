@@ -1,114 +1,79 @@
 <template>
-  <div class="marquee" :style="{ backgroundColor: bgColor, height }">
-    <span><svg-icon icon-class="broadcast" class-name="brodcast" /></span>
-    <span class="marquee__title" ref="marqueeTitle" :style="{ color, fontSize, animationDuration: speed + 's', '--speed': speed }" v-html="title"></span>
-    <i class="i-deleteel-icon-circle-close"></i>
+  <div class="advert-top">
+    <div>
+      <svg-icon icon-class="broadcast" class-name="brodcast" />
+    </div>
+    <!-- 滚动文字区域 -->
+    <div class="marquee-wrap">
+      <ul class="marquee-box" id="marquee-box">
+        <li class="marquee-list" v-html="message" id="marquee"></li>
+      </ul>
+    </div>
   </div>
 </template>
-
 <script>
-/**
- * NoticeBar 公告栏跑马灯
- * @description 从右往左的跑马灯
- * @property {String} content 显示的内容，支持html
- * @property {String} color 文字颜色，默认#EFF0DB
- * @property {Number} fontSize 文字大小，默认40
- * @property {Number} speed 滚动速度，单位s（播放一次所用时间，默认根据内容宽度计算时间）
- * @property {String} bgColor 背景颜色，默认#CC2529
- * @property {Number} height 背景高度，默认78
- */
 export default {
-  name: 'NoticeBar',
   props: {
-    content: {
+    message: {
       type: String,
-      default: '',
-    },
-    color: {
-      type: String,
-      default: '#E6A23C',
-    },
-    fontSize: {
-      type: String,
-      default: '16px',
-    },
-    speed: {
-      type: Number,
-      default: 0,
-    },
-    bgColor: {
-      type: String,
-      default: 'rgb(250 236 216)',
-    },
-    height: {
-      type: String,
-      default: '0.5rem',
+      required: true,
     },
   },
   data() {
-    return {
-      DEFAULT_SPEED: 143, // 默认速度，每秒跑的距离，单位：px/s
-      title: '',
-    };
+    return {};
   },
-  watch: {
-    content(value) {
-      this.title = value;
-      this.calcSpeed();
-    },
-  },
-  created() {
-    if (this.content) {
-      this.title = this.content;
-      this.calcSpeed();
-    }
+  mounted() {
+    // 延时滚动
+    this.runMarquee();
   },
   methods: {
-    calcSpeed() {
-      if (this.title !== '' && this.speed === 0) {
-        this.$nextTick(() => {
-          let width = this.$refs.marqueeTitle.clientWidth;
-          this.speed = Number(width / this.DEFAULT_SPEED).toFixed(2);
-        });
-      }
+    runMarquee() {
+      // 获取文字 计算后宽度
+      let width = document.getElementById('marquee').getBoundingClientRect().width;
+      let marquee = document.getElementById('marquee-box');
+      let disx = width;
+      marquee.style.right = -width + 'px';
+      //设置位移
+      setInterval(() => {
+        disx -= 2;
+        if (disx < -width) {
+          disx = width; // 如果位移超过文字宽度，则回到起点  marquee-list的margin值
+          marquee.style.right = -width + 'px';
+        }
+        marquee.style.right = -disx + 'px';
+      }, 10); //滚动速度
     },
   },
 };
 </script>
-
-<style scoped="scoped">
-.i-delete {
-  color: #e6a23c;
-  position: absolute;
-  right: 0;
+<style>
+li {
+  list-style: none;
 }
-.marquee {
-  padding: 0 0.4rem;
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-  word-break: break-all;
-  white-space: nowrap;
-  overflow: hidden;
+.advert-top {
   position: relative;
+  display: flex;
+  width: calc(100vw - 100px);
+  height: 30px;
+  background-color: #fff;
+  color: #2d8cf0;
+  font-size: 14px;
+  align-items: center;
 }
-.marquee__title {
-  letter-spacing: 3px;
-  cursor: default;
-  display: inline-block;
-  padding-left: 100%;
-  animation: marqueeMove calc(var(--speed) * 1s) linear infinite;
+/* 以下代码与滚动相关 */
+.marquee-wrap {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  margin-left: 16px;
 }
-.marquee:hover .marquee__title {
-  animation-play-state: paused;
-}
-@keyframes marqueeMove {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-100%);
-  }
+.marquee-box {
+  display: flex;
+  white-space: nowrap;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 </style>

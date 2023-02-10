@@ -3,7 +3,7 @@
     <el-form ref="formData" :model="formData" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
       <el-form-item prop="phone">
         <span class="svg-container">
-          <svg-icon icon-class="user" />
+          <svg-icon icon-class="broadcast" />
         </span>
         <el-input v-model.trim="formData.phone" placeholder="手机号" maxlength="11"></el-input>
       </el-form-item>

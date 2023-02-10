@@ -53,8 +53,8 @@ export default {
   vertical-align: middle;
 }
 .svg-icon-brodcast {
-  width: 0.4rem;
-  height: 0.4rem;
+  width: 0.3rem;
+  height: 0.3rem;
   fill: currentColor;
   overflow: hidden;
   vertical-align: middle;
