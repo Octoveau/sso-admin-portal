@@ -1,5 +1,5 @@
 <template>
-  <div class="advert-top">
+  <div ref="advert" class="advert-top">
     <div>
       <svg-icon icon-class="broadcast" class-name="brodcast" />
     </div>
@@ -9,6 +9,7 @@
         <li class="marquee-list" v-html="message" id="marquee"></li>
       </ul>
     </div>
+    <i class="el-icon-circle-close" @click="onClose"></i>
   </div>
 </template>
 <script>
@@ -20,13 +21,27 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      clientWidth: null,
+    };
+  },
+  model: {
+    prop: 'value',
+    event: 'newValue',
   },
   mounted() {
     // 延时滚动
+    window.addEventListener('resize', () => {
+      this.clientWidth = document.documentElement.clientWidth;
+      this.clientWidth = document.documentElement.clientWidth;
+    });
+
     this.runMarquee();
   },
   methods: {
+    onClose() {
+      this.$emit('newValue', false);
+    },
     runMarquee() {
       // 获取文字 计算后宽度
       let width = document.getElementById('marquee').getBoundingClientRect().width;
@@ -35,8 +50,8 @@ export default {
       marquee.style.right = -width + 'px';
       //设置位移
       setInterval(() => {
-        disx -= 2;
-        if (disx < -width) {
+        disx -= 1.5;
+        if (disx < -(this.clientWidth - 400)) {
           disx = width; // 如果位移超过文字宽度，则回到起点  marquee-list的margin值
           marquee.style.right = -width + 'px';
         }
@@ -46,31 +61,31 @@ export default {
   },
 };
 </script>
-<style>
+<style lang="less" scoped>
+::v-deep .el-icon-circle-close {
+  font-size: 0.3rem;
+  color: #409eff;
+  cursor: pointer;
+}
 li {
   list-style: none;
 }
 .advert-top {
   position: relative;
   display: flex;
-  width: calc(100vw - 100px);
-  height: 30px;
-  background-color: #fff;
-  color: #2d8cf0;
-  font-size: 14px;
+  height: 0.4rem;
+  padding: 0 0.2rem;
+  color: #409eff;
   align-items: center;
 }
 /* 以下代码与滚动相关 */
 .marquee-wrap {
   position: relative;
-  display: flex;
   overflow: hidden;
   width: 100%;
   height: 100%;
-  margin-left: 16px;
 }
 .marquee-box {
-  display: flex;
   white-space: nowrap;
   position: absolute;
   top: 50%;
