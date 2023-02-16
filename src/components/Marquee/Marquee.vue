@@ -9,7 +9,7 @@
         <li class="marquee-list" v-html="message" id="marquee"></li>
       </ul>
     </div>
-    <i class="el-icon-circle-close" @click="onClose"></i>
+    <i class="el-icon-circle-close" class-name="delete" @click="onClose"></i>
   </div>
 </template>
 <script>
@@ -33,9 +33,8 @@ export default {
     // 延时滚动
     window.addEventListener('resize', () => {
       this.clientWidth = document.documentElement.clientWidth;
-      this.clientWidth = document.documentElement.clientWidth;
     });
-
+    this.clientWidth = document.documentElement.clientWidth;
     this.runMarquee();
   },
   methods: {
@@ -63,8 +62,8 @@ export default {
 </script>
 <style lang="less" scoped>
 ::v-deep .el-icon-circle-close {
-  font-size: 0.3rem;
-  color: #409eff;
+  font-size: 24px;
+  color: #fff;
   cursor: pointer;
 }
 li {
@@ -73,9 +72,9 @@ li {
 .advert-top {
   position: relative;
   display: flex;
-  height: 0.4rem;
-  padding: 0 0.2rem;
-  color: #409eff;
+  height: 32px;
+  padding: 0 16px;
+  color: #fff;
   align-items: center;
 }
 /* 以下代码与滚动相关 */

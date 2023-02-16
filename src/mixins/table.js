@@ -14,7 +14,7 @@ const tableMixin = {
     },
     getRowClass({ rowIndex, columnIndex }) {
       if (rowIndex == 0) {
-        return 'background:rgb(0, 0, 0)';
+        return 'background:#409EFF';
       }
     },
   },

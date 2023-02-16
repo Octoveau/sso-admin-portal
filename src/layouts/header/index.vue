@@ -2,8 +2,7 @@
   <div class="header-container">
     <div>
       <div class="logo-title">
-        <!-- <el-image :src="logo"></el-image> -->
-        <span>Octovean用户管理平台</span>
+        <svg-icon icon-class="ssologo" class-name="logo" />
       </div>
     </div>
     <div class="marquee">
@@ -42,11 +41,9 @@
 <script>
 import authStorage from '@/utils/auth';
 import MarqueeComp from '@/components/Marquee/Marquee.vue';
-import logo from '@/assets/icons/logo.png';
 export default {
   data() {
     return {
-      logo,
       value: null,
       userInfo: null,
       isShowMarquee: true,
@@ -82,15 +79,14 @@ export default {
 </script>
 <style lang="less" scoped>
 .header-container {
-  width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   .logo-title {
     color: #fff;
     font-weight: bold;
-    font-size: 0.3rem;
-    width: 180px;
+    font-size: 24px;
+    width: 200px;
     text-align: center;
   }
   .marquee {
@@ -101,21 +97,13 @@ export default {
     display: flex;
     align-items: center;
     justify-content: right;
-    width: 180px;
+    width: 200px;
   }
 
   .el-dropdown-link {
-    margin-left: 0.2rem;
+    margin-left: 16px;
     cursor: pointer;
     color: #fff;
   }
-
-  .el-col {
-    border: 1px solid transparent;
-  }
-}
-
-.el-dropdown-menu {
-  top: 0.5rem !important;
 }
 </style>

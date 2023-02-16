@@ -34,9 +34,9 @@ export default {
 </script>
 <style lang="less" scoped>
 ::v-deep .el-header {
-  height: 0.6rem !important;
-  min-height: 32px;
+  height: 40px !important;
   background-color: #001529;
   border: 0;
+  padding: 0;
 }
 </style>

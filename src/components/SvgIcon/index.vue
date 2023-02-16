@@ -52,10 +52,23 @@ export default {
   overflow: hidden;
   vertical-align: middle;
 }
-.svg-icon-brodcast {
-  width: 0.3rem;
-  height: 0.3rem;
+.svg-icon-delete {
+  width: 24px;
+  height: 24px;
   fill: currentColor;
+  overflow: hidden;
+  vertical-align: middle;
+}
+.svg-icon-brodcast {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+  overflow: hidden;
+  vertical-align: middle;
+}
+.svg-icon-logo {
+  width: 200px;
+  height: 180px;
   overflow: hidden;
   vertical-align: middle;
 }
