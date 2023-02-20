@@ -16,6 +16,7 @@ const adminRoutes = [
         meta: {
           title: 'DashBoard',
           bread: [{ name: 'DashBoard' }],
+          isHideBread: true,
         },
       },
       //用户相关

@@ -18,12 +18,12 @@ export default {
 
 <style lang="less" scoped>
 .main-container {
-  margin: 0 0.2rem;
+  margin: 0 0.1rem;
   position: relative;
   .main-content {
-    height: calc(100vh - 1.2rem);
-    background-color: rgb(251, 251, 251);
-    border: 1px solid rgb(245, 243, 243);
+    height: 100vh;
+    background-color: rgb(240, 239, 239);
+    border: 1px solid rgb(248, 247, 247);
     border-radius: 4px;
   }
 }
