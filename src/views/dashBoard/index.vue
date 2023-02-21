@@ -1,25 +1,25 @@
 <template>
-  <section class="section">
+  <section class="main-section">
     <dashHeaderComp></dashHeaderComp>
     <dashContentComp></dashContentComp>
+    <dashFooterComp></dashFooterComp>
   </section>
 </template>
 
 <script>
 import dashHeaderComp from '@/views/dashBoard/comps/dashHeader';
 import dashContentComp from '@/views/dashBoard/comps/dashContent';
+import dashFooterComp from '@/views/dashBoard/comps/dashFooter';
 export default {
   components: {
     dashHeaderComp,
     dashContentComp,
-  },
-  data() {
-    return {};
+    dashFooterComp,
   },
 };
 </script>
 <style lang="less" scoped>
-.section {
-  padding: 0.2rem;
+.main-section {
+  padding: 0.2rem 0;
 }
 </style>

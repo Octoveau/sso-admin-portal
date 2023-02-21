@@ -65,6 +65,7 @@ export default {
 .header-section {
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
   .div-flex {
     position: relative;
     flex: 1;
