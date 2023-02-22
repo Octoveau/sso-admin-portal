@@ -1,12 +1,9 @@
 <template>
-  <div class="bread-crumb-container">
+  <div class="bread-crumb-container" v-if="getIsHideBread">
     <el-breadcrumb spellcheck="/" class="breadcrumb-inner">
       <transition-group name="breadcrumb">
         <el-breadcrumb-item v-for="(item, index) in breadCrumbList" :key="index">
-          <a v-if="item.jump" @click.prevent="handleJumpLink(item.jump)">
-            {{ item.name }}
-          </a>
-          <a v-else>
+          <a>
             {{ item.name }}
           </a>
         </el-breadcrumb-item>
@@ -30,16 +27,15 @@ export default {
   created() {
     this.getBreadCrumbList();
   },
+  computed: {
+    getIsHideBread() {
+      return this.$route.meta.isHideBread ? false : true;
+    },
+  },
   methods: {
     // 获取面包屑列表
     getBreadCrumbList() {
       this.breadCrumbList = this.$route.meta.bread || [];
-    },
-    // 跳转
-    handleJumpLink(name) {
-      this.$router.push({
-        name,
-      });
     },
   },
 };

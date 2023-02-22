@@ -18,13 +18,9 @@ export default {
 
 <style lang="less" scoped>
 .main-container {
-  margin: 0 0.2rem;
   position: relative;
   .main-content {
-    height: calc(100vh - 1.2rem);
-    background-color: rgb(251, 251, 251);
-    border: 1px solid rgb(245, 243, 243);
-    border-radius: 4px;
+    height: 100vh;
   }
 }
 </style>
