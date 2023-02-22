@@ -27,7 +27,7 @@ export default {
     },
     svgClass() {
       if (this.className) {
-        return 'svg-icon ' + this.className;
+        return 'svg-icon-' + this.className;
       } else {
         return 'svg-icon';
       }
@@ -49,6 +49,26 @@ export default {
   min-width: 16px;
   min-height: 16px;
   fill: currentColor;
+  overflow: hidden;
+  vertical-align: middle;
+}
+.svg-icon-delete {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+  overflow: hidden;
+  vertical-align: middle;
+}
+.svg-icon-brodcast {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+  overflow: hidden;
+  vertical-align: middle;
+}
+.svg-icon-logo {
+  width: 200px;
+  height: 180px;
   overflow: hidden;
   vertical-align: middle;
 }

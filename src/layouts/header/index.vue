@@ -1,46 +1,73 @@
 <template>
   <div class="header-container">
-    <el-row style="height: 100%">
-      <el-col :span="6">
-        <div class="logo-title">
-          <span>Octovean用户管理平台</span>
+    <div>
+      <div class="logo-title">
+        <svg-icon icon-class="ssologo" class-name="logo" />
+      </div>
+    </div>
+    <div class="marquee">
+      <MarqueeComp v-model="value" v-if="isShowMarquee" :message="message"></MarqueeComp>
+    </div>
+    <div>
+      <div class="header-logout">
+        <el-image
+          slot="reference"
+          style="height: 32px; vertical-align: middle"
+          :preview-src-list="['http://www.octoveau.cn/file-sso-avatar/looper-avatar.png']"
+          src="http://www.octoveau.cn/file-sso-avatar/looper-avatar.png"
+        ></el-image>
+
+        <div>
+          <el-dropdown>
+            <span class="el-dropdown-link">
+              <span>{{ userInfo.nickName }}</span>
+              <i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item key="0">
+                <span @click="handleJumpToPersonal">个人设置</span>
+              </el-dropdown-item>
+              <el-dropdown-item key="1">
+                <span @click="handleLogout">退出登录</span>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </div>
-      </el-col>
-      <el-col :span="12" />
-      <el-col :span="6">
-        <div class="header-logout">
-          <svg-icon icon-class="user" style="color: #fff" />
-          <div>
-            <el-dropdown>
-              <span class="el-dropdown-link">
-                <span>{{ userName }}</span>
-                <i class="el-icon-arrow-down el-icon--right"></i>
-              </span>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item key="0">
-                  <span @click="handleJumpToPersonal">个人中心</span>
-                </el-dropdown-item>
-                <el-dropdown-item key="1">
-                  <span @click="handleLogout">退出登录</span>
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </div>
-        </div>
-      </el-col>
-    </el-row>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import authStorage from '@/utils/auth';
+import MarqueeComp from '@/components/Marquee/Marquee.vue';
 export default {
   data() {
     return {
-      userName: 'Admin',
+      value: null,
+      userInfo: null,
+      isShowMarquee: true,
+      message: 'vue2-sso-login已经上线,线上地址http://www.octoveau.cn/sso-login/,目前正在增加权限功能',
     };
   },
+  components: {
+    MarqueeComp,
+  },
+  created() {
+    this.userInfo = JSON.parse(authStorage.getUserInfo() || '{}');
+  },
+  watch: {
+    // 下面这个监听只是为了打印显示
+    value(newValue) {
+      this.isShowMarquee = newValue;
+    },
+  },
   methods: {
-    handleJumpToPersonal() {},
+    handleJumpToPersonal() {
+      this.$router.push({
+        name: 'UserUpdate',
+      });
+    },
 
     handleLogout() {
       this.$router.push({
@@ -52,33 +79,31 @@ export default {
 </script>
 <style lang="less" scoped>
 .header-container {
-  width: 100%;
   height: 100%;
+  display: flex;
+  align-items: center;
   .logo-title {
-    text-align: left;
     color: #fff;
     font-weight: bold;
-    font-size: 0.27rem;
+    font-size: 24px;
+    width: 200px;
+    text-align: center;
+  }
+  .marquee {
+    flex: 1;
   }
 
   .header-logout {
     display: flex;
     align-items: center;
     justify-content: right;
+    width: 200px;
   }
 
   .el-dropdown-link {
-    margin-left: 0.2rem;
+    margin-left: 16px;
     cursor: pointer;
     color: #fff;
   }
-
-  .el-col {
-    border: 1px solid transparent;
-  }
-}
-
-.el-dropdown-menu {
-  top: 0.5rem !important;
 }
 </style>
