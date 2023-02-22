@@ -126,6 +126,9 @@ export default {
       let chartDom = this.$refs[`echratsBarRef`];
       let myChart = echarts.init(chartDom);
       myChart.setOption(option);
+      window.addEventListener('resize', () => {
+        myChart.resize();
+      });
     },
   },
   mounted() {

@@ -7,8 +7,7 @@
       <el-table-column prop="callbackUrl" label="回调地址" width="150"></el-table-column>
       <el-table-column prop="isLoginSuccess" label="接入状况" width="120">
         <template slot-scope="scope">
-          <el-tag size="small" type="success" v-if="scope.row.isLoginSuccess === '成功'">{{ scope.row.isLoginSuccess }}</el-tag>
-          <el-tag size="small" type="danger" v-else>{{ scope.row.isLoginSuccess }}</el-tag>
+          <el-tag size="small" :type="scope.row.isLoginSuccess === '成功' ? 'success' : 'danger'">{{ scope.row.isLoginSuccess }}</el-tag>
         </template>
       </el-table-column>
     </el-table>

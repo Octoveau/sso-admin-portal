@@ -20,6 +20,6 @@ export default {
 </script>
 <style lang="less" scoped>
 .main-section {
-  padding: 0.2rem 0;
+  padding: 0.1rem 0;
 }
 </style>

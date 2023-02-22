@@ -4,43 +4,36 @@
 
 <script>
 import * as echarts from 'echarts';
+import moment from 'moment';
 export default {
+  data() {
+    return {
+      xAxisData: [],
+      successData: [],
+      failData: [],
+    };
+  },
+  created() {
+    for (let i = 0; i < 7; i++) {
+      this.xAxisData.push(moment(new Date().getTime() - i * 1000 * 60 * 60 * 24).format('YYYY-MM-DD'));
+      this.failData.push(Math.floor(Math.random() * (100 - 1) + 1));
+      this.successData.push(Math.floor(Math.random() * (50 - 1) + 1) + this.failData[i]);
+    }
+    this.xAxisData.reverse();
+  },
   methods: {
     randerEcharts() {
-      let xLabel = ['3.26', '3.27', '3.28', '3.29', '3.30', '3.31'];
-      let goToSchool = ['40', '60', '22', '85', '50', '40'];
-      let goOutSchool = ['20', '50', '12', '65', '30', '60'];
-
       let option = {
-        backgroundColor: '#fff',
         tooltip: {
           trigger: 'axis',
           backgroundColor: 'transparent',
           axisPointer: {
             lineStyle: {
-              color: {
-                type: 'linear',
-                x: 0,
-                y: 0,
-                x2: 0,
-                y2: 1,
-                colorStops: [
-                  {
-                    offset: 0,
-                    color: 'rgba(126,199,255,0)', // 0% 处的颜色
-                  },
-                  {
-                    offset: 0.5,
-                    color: 'rgba(126,199,255,1)', // 100% 处的颜色
-                  },
-                  {
-                    offset: 1,
-                    color: 'rgba(126,199,255,0)', // 100% 处的颜色
-                  },
-                ],
-                global: false, // 缺省为 false
-              },
+              color: '#409EFF',
             },
+          },
+          textStyle: {
+            color: '#606266',
           },
         },
         grid: {
@@ -61,36 +54,23 @@ export default {
             axisTick: {
               show: false,
             },
-            data: xLabel,
+            data: this.xAxisData,
           },
         ],
         yAxis: [
           {
-            name: '人数',
-            nameTextStyle: {
-              color: '#7ec7ff',
-              fontSize: 16,
-              padding: 10,
-            },
             min: 0,
             splitLine: {
               show: false,
-              lineStyle: {
-                color: '#192a44',
-              },
+            },
+            axisTick: {
+              show: false,
             },
             axisLine: {
               show: false,
-              lineStyle: {
-                color: '#233653',
-              },
             },
             axisLabel: {
               show: true,
-              textStyle: {
-                color: '#7ec7ff',
-                padding: 16,
-              },
               formatter: function (value) {
                 if (value === 0) {
                   return value;
@@ -98,14 +78,11 @@ export default {
                 return value;
               },
             },
-            axisTick: {
-              show: false,
-            },
           },
         ],
         series: [
           {
-            name: '上学',
+            name: '成功',
             type: 'line',
             symbol: 'circle', // 默认是空心圆（中间是白色的），改成实心圆
             showAllSymbol: true,
@@ -151,10 +128,10 @@ export default {
                 shadowBlur: 20, //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
               },
             },
-            data: goToSchool,
+            data: this.successData,
           },
           {
-            name: '放学',
+            name: '失败',
             type: 'line',
             symbol: 'circle', // 默认是空心圆（中间是白色的），改成实心圆
             showAllSymbol: true,
@@ -200,16 +177,19 @@ export default {
                 shadowBlur: 20, //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
               },
             },
-            data: goOutSchool,
+            data: this.failData,
           },
         ],
       };
       let chartDom = this.$refs[`footerLineRef`];
       let myChart = echarts.init(chartDom);
       myChart.setOption(option);
+      window.addEventListener('resize', () => {
+        myChart.resize();
+      });
       let len = 0;
       setInterval(() => {
-        if (len === xLabel.length) {
+        if (len === this.xAxisData.length) {
           len = 0;
         }
         myChart.dispatchAction({
@@ -221,6 +201,7 @@ export default {
       }, 1000);
     },
   },
+
   mounted() {
     this.randerEcharts();
   },
@@ -229,7 +210,7 @@ export default {
 
 <style scoped lang="less">
 .section {
-  height: 250px;
-  width: 700px;
+  height: 400px;
+  width: 1250px;
 }
 </style>

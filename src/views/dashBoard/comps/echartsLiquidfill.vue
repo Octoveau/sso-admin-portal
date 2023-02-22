@@ -38,12 +38,12 @@ export default {
               show: true,
               borderDistance: 5,
               itemStyle: {
-                borderColor: '#E6A23C',
+                borderColor: 'rgb(160, 207, 255)',
                 borderWidth: 2,
               },
             },
             backgroundStyle: {
-              color: 'rgba(67,209,100,1)',
+              color: '#409EFF',
             },
           },
         ],
@@ -51,6 +51,9 @@ export default {
       let chartDom = this.$refs[`liquid`];
       let myChart = echarts.init(chartDom);
       myChart.setOption(option);
+      window.addEventListener('resize', () => {
+        myChart.resize();
+      });
     },
   },
 };
@@ -59,6 +62,6 @@ export default {
 <style lang="less" scoped>
 .section {
   height: 220px;
-  width: 280px;
+  width: 350px;
 }
 </style>
