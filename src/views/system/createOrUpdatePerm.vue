@@ -21,8 +21,8 @@
               >
                 <el-input placeholder="请输入权限值" v-model.trim="item.permValue" autocomplete="off"></el-input>
               </el-form-item>
-              <el-form-item :rules="{ required: true, message: '请选择权限行为', trigger: 'change' }" label="权限行为" :prop="'perms.' + index + '.action'">
-                <el-select v-model="item.action" placeholder="请选择行为">
+              <el-form-item :rules="{ required: true, message: '请选择权限行为', trigger: 'change' }" label="权限行为" :prop="'perms.' + index + '.permAction'">
+                <el-select v-model="item.permAction" placeholder="请选择行为">
                   <el-option v-for="item in actionOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
               </el-form-item>
@@ -44,6 +44,7 @@
 
 <script>
 import { validateStrCallback, actionOptions } from './help';
+import { createSysPerm, updateSysPerm } from '@/api/system';
 export default {
   name: 'CreateSiteKeyPage',
   data() {
@@ -52,10 +53,9 @@ export default {
         permGroupName: '',
         perms: [
           {
-            action: '',
+            permAction: '',
             permName: '',
             permValue: '',
-            permPath: '',
           },
         ],
         remark: '',
@@ -71,10 +71,9 @@ export default {
         return this.$message.warning('一个权限组下最多创建20个权限');
       }
       this.createPerm.perms.push({
-        action: '',
+        permAction: '',
         permName: '',
         permValue: '',
-        permPath: '',
       });
     },
     resetForm: function (formName) {
@@ -83,10 +82,9 @@ export default {
         perms: [
           //一个权限组下的权限，可以很多个
           {
-            action: '', //权限类型，get，post，delete，put
+            permAction: '', //权限类型，get，post，delete，put
             permName: '', //权限名称
             permValue: '', //权限值
-            permPath: '', //permGroupName+action+permValue
           },
         ],
         remark: '', //备注
@@ -96,11 +94,17 @@ export default {
     submitForm: function (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          // this.loading = true;
-          this.createPerm.perms.forEach((item) => {
-            item.permPath = `${item.action}-${item.permValue}`;
-          });
-
+          this.loading = true;
+          createSysPerm(this.createPerm)
+            .then((res) => {
+              if (res.code === 200) {
+                this.$message.success('创建成功');
+                this.resetForm('createPermForm');
+              }
+            })
+            .finally(() => {
+              this.loading = false;
+            });
           console.log(this.createPerm);
         } else {
           return false;

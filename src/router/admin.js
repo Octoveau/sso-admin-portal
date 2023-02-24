@@ -15,8 +15,7 @@ const adminRoutes = [
         component: () => import('@/views/dashBoard'),
         meta: {
           title: 'DashBoard',
-          bread: [{ name: 'DashBoard' }],
-          isHideBread: true,
+          bread: [{ name: '概览' }, { name: 'DashBoard' }],
         },
       },
       //用户相关

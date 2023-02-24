@@ -20,7 +20,7 @@ export default {
 .main-container {
   position: relative;
   .main-content {
-    height: 100vh;
+    height: calc(100vh - 60px);
   }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="table-wrapper">
-    <el-table :data="tableData" class="swiper-page-table" ref="table" height="220px">
+    <el-table size="mini" :data="tableData" class="swiper-page-table" ref="table" height="220px">
       <el-table-column prop="name" label="接入用户" width="120"></el-table-column>
       <el-table-column prop="accessTime" label="接入时间" width="200"></el-table-column>
       <el-table-column prop="sectionTime" label="在线时间" width="120"></el-table-column>

@@ -1,32 +1,26 @@
 <template>
   <section class="section" v-loading="isLoading">
-    <div class="header">
-      <el-input maxlength="6" v-model.trim="userSiteKey" placeholder="请输入用户完整的权限组名称" style="width: 5rem"></el-input>
-      <el-button type="primary" style="margin-left: 0.2rem" @click="onSearch">查询</el-button>
-      <el-button style="margin-left: 0.2rem" @click="onReset">重置</el-button>
-    </div>
-    <el-table :header-cell-style="getRowClass" :row-class-name="tableRowClassName" :data="tableData" style="width: 100%">
-      <el-table-column prop="siteName" label="权限组名称" :show-overflow-tooltip="true" width="200px"></el-table-column>
-      <el-table-column prop="siteKey" label="权限名称" :show-overflow-tooltip="true" width="400px"></el-table-column>
-      <el-table-column prop="remark" label="备注" :show-overflow-tooltip="true" width="200px"></el-table-column>
-      <el-table-column prop="createBy" label="创建者" :show-overflow-tooltip="true" width="200px"></el-table-column>
-      <el-table-column prop="createDate" label="创建时间" :show-overflow-tooltip="true">
+    <el-table size="mini" :header-cell-style="getRowClass" :data="tableData" style="width: 100%">
+      <el-table-column type="expand">
         <template slot-scope="scope">
-          <span>{{ getDateStr(scope.row.createDate) }}</span>
+          <el-table size="mini" :header-cell-style="getRowClass" :data="scope.row.perms">
+            <el-table-column prop="permName" label="权限名称" width="200"></el-table-column>
+            <el-table-column prop="permValue" label="权限值" width="100"></el-table-column>
+            <el-table-column prop="permAction" label="权限行为" width="100"></el-table-column>
+            <el-table-column prop="permPath" label="权限路径" width="200"></el-table-column>
+          </el-table>
         </template>
       </el-table-column>
-      <el-table-column prop="createDate" label="更新时间" :show-overflow-tooltip="true">
+      <el-table-column prop="permGroupName" label="权限组名称" width="300"></el-table-column>
+      <el-table-column prop="permGroupName" label="创建者"></el-table-column>
+      <el-table-column prop="permGroupName" label="修改者"></el-table-column>
+      <el-table-column prop="permGroupName" label="创建时间"></el-table-column>
+      <el-table-column prop="permGroupName" label="更新时间"></el-table-column>
+      <el-table-column prop="remark" label="备注" width="300"></el-table-column>
+      <el-table-column label="操作" width="150">
         <template slot-scope="scope">
-          <span>{{ getDateStr(scope.row.createDate) }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="操作" width="360px" :show-overflow-tooltip="true">
-        <template slot-scope="scope">
-          <el-button size="small" type="primary" @click="onDelete(scope.row)" :loading="scope.row.isDelete">修改</el-button>
-          <el-button size="small" type="danger" @click="onDelete(scope.row)" :loading="scope.row.isDelete">
-            {{ scope.row.isDelete ? '删除中' : '删除' }}
-          </el-button>
+          <a style="color: red" @click="onDelete(scope.row)">删除</a>
+          <a style="margin-left: 0.2rem" @click="onUpdate(scope.row)">修改</a>
         </template>
       </el-table-column>
     </el-table>
@@ -34,82 +28,56 @@
 </template>
 
 <script>
-import { getsiteKeyData, getDataBySiteKey, deleteSiteKey } from '@/api/siteKey';
-import moment from 'moment';
 import tableMixin from '@/mixins/table';
+import { getAllSysPerms, delateSysPerm } from '@/api/system';
 export default {
   name: 'UserDetailPage',
   mixins: [tableMixin],
   data() {
     return {
-      //用户手机号查询
-      userSiteKey: '',
       isLoading: false,
       tableData: [],
     };
   },
   mounted() {
-    this.serachUserData();
+    this.searchAllSysPerms();
   },
   methods: {
+    //删除权限组
     onDelete(data) {
       this.$confirm('确定删除吗', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
       })
         .then(({ value }) => {
-          data.isDelete = true;
-          deleteSiteKey(data.siteKey)
+          this.isLoading = true;
+          delateSysPerm([data.id])
             .then((res) => {
               if (res.code === 200) {
                 this.$message.success('删除成功');
-                //刷新数据
-                this.onSearch();
               }
             })
             .finally(() => {
-              data.isDelete = false;
+              this.isLoading = false;
+              this.searchAllSysPerms();
             });
         })
         .catch(() => {});
     },
-    getDateStr(time) {
-      return moment(time).format('YYYY年MM月DD日 HH时:mm分:ss秒');
+    //更新权限组
+    onUpdate(data) {
+      this.$router.push({
+        name: 'CreatePerm',
+        query: {
+          id: data.id,
+        },
+      });
     },
-    onReset() {
-      this.userSiteKey = '';
-      this.serachUserData();
-    },
-    onSearch() {
-      //判断是否输入用户手机号进行查询
-      this.userSiteKey ? this.searchUserDataByPhone() : this.serachUserData();
-    },
-    serachUserData() {
+    searchAllSysPerms() {
       this.isLoading = true;
-      getsiteKeyData()
+      getAllSysPerms()
         .then((res) => {
-          if (res.code === 200) {
-            this.tableData = res.data.data.map((x) => {
-              x.isDelete = false;
-              return x;
-            });
-          }
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-    searchUserDataByPhone() {
-      this.isLoading = true;
-      getDataBySiteKey(this.userSiteKey)
-        .then((res) => {
-          if (res.code === 200) {
-            this.tableData = [res.data].map((x) => {
-              x.isDelete = false;
-              return x;
-            });
-          }
-          this.tableData = [];
+          this.tableData = res.data?.data;
         })
         .finally(() => {
           this.isLoading = false;
@@ -121,10 +89,6 @@ export default {
 <style scoped lang="less">
 .section {
   padding: 0.2rem;
-  .header {
-    display: flex;
-    margin-bottom: 0.2rem;
-  }
   /deep/ .el-table {
     overflow: auto;
     .color-row {
