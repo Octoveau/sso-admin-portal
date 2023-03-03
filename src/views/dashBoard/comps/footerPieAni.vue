@@ -82,6 +82,6 @@ export default {
 <style lang="less" scoped>
 .section {
   height: 200px;
-  width: 350px;
+  width: 320px;
 }
 </style>
