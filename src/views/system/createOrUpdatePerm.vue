@@ -1,5 +1,5 @@
 <template>
-  <section class="section">
+  <section class="section" v-loading="isLoading">
     <div class="main">
       <div class="content">
         <el-form label-width="100px" :model="createPerm" ref="createPermForm" v-loading="loading">
@@ -35,7 +35,7 @@
         </el-form>
       </div>
       <div class="footer">
-        <el-button type="primary" style="margin-right: 0.2rem" @click="submitForm('createPermForm')">提交</el-button>
+        <el-button type="primary" style="margin-right: 0.2rem" @click="submitForm('createPermForm')">{{ curPermGroupName ? '修改' : '提交' }}</el-button>
         <el-button @click="resetForm('createPermForm')">重置</el-button>
       </div>
     </div>
@@ -44,11 +44,13 @@
 
 <script>
 import { validateStrCallback, actionOptions } from './help';
-import { createSysPerm, updateSysPerm } from '@/api/system';
+import { createSysPerm, updateSysPerm, getAllSysPerms } from '@/api/system';
 export default {
   name: 'CreateSiteKeyPage',
   data() {
     return {
+      isLoading: false,
+      curPermGroupName: '',
       createPerm: {
         permGroupName: '',
         perms: [
@@ -64,6 +66,22 @@ export default {
       actionOptions,
       loading: false,
     };
+  },
+  created() {
+    this.curPermGroupName = this.$route.query.permGroupName || '';
+    if (this.curPermGroupName) {
+      //根据name获取权限信息
+      this.isLoading = true;
+      getAllSysPerms({ permName: this.curPermGroupName })
+        .then((res) => {
+          if (res.code === 200) {
+            this.createPerm = res.data?.data[0];
+          }
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    }
   },
   methods: {
     onAddPerm() {
@@ -92,20 +110,22 @@ export default {
       this.$refs[formName].resetFields();
     },
     submitForm: function (formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
           this.loading = true;
-          createSysPerm(this.createPerm)
-            .then((res) => {
-              if (res.code === 200) {
-                this.$message.success('创建成功');
-                this.resetForm('createPermForm');
-              }
-            })
-            .finally(() => {
-              this.loading = false;
-            });
-          console.log(this.createPerm);
+          let result;
+          this.curPermGroupName ? (result = await updateSysPerm(this.createPerm)) : (result = await createSysPerm(this.createPerm));
+          console.log(111, result);
+          this.loading = false;
+          // .then((res) => {
+          //   if (res.code === 200) {
+          //     this.$message.success('创建成功');
+          //     this.resetForm('createPermForm');
+          //   }
+          // })
+          // .finally(() => {
+          //   this.loading = false;
+          // });
         } else {
           return false;
         }

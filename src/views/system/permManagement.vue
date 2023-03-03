@@ -69,7 +69,7 @@ export default {
       this.$router.push({
         name: 'CreatePerm',
         query: {
-          id: data.id,
+          permGroupName: data.permGroupName,
         },
       });
     },
