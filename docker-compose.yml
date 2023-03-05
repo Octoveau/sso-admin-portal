@@ -1,6 +1,6 @@
 version: '2'
 services:
-  large-screen:
+  sso-admin-portal:
     build: .
     image: registry.cn-chengdu.aliyuncs.com/octoveau/sso-admin-portal
     ports:

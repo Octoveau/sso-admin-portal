@@ -43,6 +43,7 @@ export default {
 
 <style lang="less" scoped>
 .bread-crumb-container {
-  padding: 12px 0;
+  padding-left: 0.2rem;
+  padding-top: 0.2rem;
 }
 </style>

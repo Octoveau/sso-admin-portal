@@ -35,25 +35,25 @@ const menuList = [
     ],
   },
 
-  // {
-  //   menu_name: '系统设置',
-  //   menu_icon: 'el-icon-s-tools',
-  //   menu_url: '',
-  //   children: [
-  //     {
-  //       menu_name: '角色管理',
-  //       menu_url: '/client/system/role/management',
-  //     },
-  //     {
-  //       menu_name: '权限管理',
-  //       menu_url: '/client/system/perm/management',
-  //     },
-  //     {
-  //       menu_name: '新建权限',
-  //       menu_url: '/client/system/perm/create',
-  //     },
-  //   ],
-  // },
+  {
+    menu_name: '系统设置',
+    menu_icon: 'el-icon-s-tools',
+    menu_url: '',
+    children: [
+      {
+        menu_name: '角色管理',
+        menu_url: '/client/system/role/management',
+      },
+      {
+        menu_name: '权限管理',
+        menu_url: '/client/system/perm/management',
+      },
+      {
+        menu_name: '新建权限',
+        menu_url: '/client/system/perm/create',
+      },
+    ],
+  },
 ];
 
 export default menuList;

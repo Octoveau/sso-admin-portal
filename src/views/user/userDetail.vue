@@ -6,7 +6,7 @@
       <el-button style="margin-left: 0.2rem" @click="onReset">重置</el-button>
     </div>
     <main>
-      <el-table :header-cell-style="getRowClass" :row-class-name="tableRowClassName" :data="tableData" style="width: 100%">
+      <el-table size="mini" :header-cell-style="getRowClass" :row-class-name="tableRowClassName" :data="tableData" style="width: 100%">
         <el-table-column prop="nickName" label="用户昵称"></el-table-column>
         <el-table-column prop="createDate" label="创建时间" width="350">
           <template slot-scope="scope">
