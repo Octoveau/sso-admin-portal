@@ -5,36 +5,34 @@
       <el-button type="primary" style="margin-left: 0.2rem" @click="onSearch">查询</el-button>
       <el-button style="margin-left: 0.2rem" @click="onReset">重置</el-button>
     </div>
-    <el-table :header-cell-style="getRowClass" :row-class-name="tableRowClassName" :data="tableData" style="width: 100%">
-      <el-table-column prop="siteName" label="SiteKey名称" :show-overflow-tooltip="true" width="200px"></el-table-column>
-      <el-table-column prop="siteKey" label="SiteKey" :show-overflow-tooltip="true" width="400px"></el-table-column>
-      <el-table-column prop="siteSecret" label="SiteKey密钥" :show-overflow-tooltip="true" width="200px"></el-table-column>
-      <el-table-column prop="callbackUrl" label="回调地址" :show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="state" label="SiteKey状态" :show-overflow-tooltip="true" width="150px">
+    <el-table size="mini" :header-cell-style="getRowClass" :row-class-name="tableRowClassName" :data="tableData" style="width: 100%">
+      <el-table-column :show-overflow-tooltip="true" prop="siteName" label="SiteKey名称" width="200px"></el-table-column>
+      <el-table-column :show-overflow-tooltip="true" prop="siteKey" label="SiteKey" width="400px"></el-table-column>
+      <el-table-column :show-overflow-tooltip="true" prop="siteSecret" label="SiteKey密钥" width="200px"></el-table-column>
+      <el-table-column :show-overflow-tooltip="true" prop="callbackUrl" label="回调地址"></el-table-column>
+      <el-table-column :show-overflow-tooltip="true" prop="state" label="SiteKey状态" width="150px">
         <template slot-scope="scope">
           <el-tag effect="dark" :type="`${scope.row.state === 'DISBALE' ? 'danger' : 'success'}`">
             {{ scope.row.state === 'DISBALE' ? '冻结中' : '启用中' }}
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="status" label="审批状态" :show-overflow-tooltip="true" width="150px">
+      <el-table-column :show-overflow-tooltip="true" prop="status" label="审批状态" width="150px">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.status === 'PENDING'" effect="dark">审批中</el-tag>
           <el-tag v-if="scope.row.status === 'APPROVED'" effect="dark" type="success">审批通过</el-tag>
           <el-tag v-if="scope.row.status === 'REJECT'" effect="dark" type="danger">审批驳回</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="createBy" label="创建者" :show-overflow-tooltip="true" width="200px"></el-table-column>
-      <el-table-column prop="createDate" label="创建时间" :show-overflow-tooltip="true">
+      <el-table-column :show-overflow-tooltip="true" prop="createBy" label="创建者" width="200px"></el-table-column>
+      <el-table-column :show-overflow-tooltip="true" prop="createDate" label="创建时间">
         <template slot-scope="scope">
           <span>{{ getDateStr(scope.row.createDate) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="150px" :show-overflow-tooltip="true">
+      <el-table-column :show-overflow-tooltip="true" label="操作" width="150px">
         <template slot-scope="scope">
-          <el-button size="small" type="danger" @click="onDelete(scope.row)" :loading="scope.row.isDelete">
-            {{ scope.row.isDelete ? '删除中' : '删除' }}
-          </el-button>
+          <a class="cursor" style="color: red" @click="onDelete(scope.row)">删除</a>
         </template>
       </el-table-column>
     </el-table>

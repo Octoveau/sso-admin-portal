@@ -1,6 +1,6 @@
 <template>
   <section class="section">
-    <el-card>
+    <el-card style="flex: 3">
       <div slot="header">
         <span class="block"></span>
         <strong>sso近7天接入状况</strong>
@@ -10,7 +10,7 @@
       </div>
     </el-card>
 
-    <el-card>
+    <el-card style="flex: 1.18">
       <div slot="header">
         <span class="block"></span>
         <strong>近7天接入的地区排名及成功率</strong>
@@ -42,7 +42,7 @@ export default {
 <style lang="less" scoped>
 .section {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   margin: 0 0.1rem;
   ::v-deep .el-card {
     margin: 0.1rem;

@@ -1,5 +1,5 @@
 <template>
-  <section class="section">
+  <section class="section" v-loading="isLoading">
     <div class="main">
       <div class="content">
         <el-form label-width="100px" :model="createPerm" ref="createPermForm" v-loading="loading">
@@ -21,8 +21,8 @@
               >
                 <el-input placeholder="请输入权限值" v-model.trim="item.permValue" autocomplete="off"></el-input>
               </el-form-item>
-              <el-form-item :rules="{ required: true, message: '请选择权限行为', trigger: 'change' }" label="权限行为" :prop="'perms.' + index + '.action'">
-                <el-select v-model="item.action" placeholder="请选择行为">
+              <el-form-item :rules="{ required: true, message: '请选择权限行为', trigger: 'change' }" label="权限行为" :prop="'perms.' + index + '.permAction'">
+                <el-select v-model="item.permAction" placeholder="请选择行为">
                   <el-option v-for="item in actionOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
               </el-form-item>
@@ -35,7 +35,7 @@
         </el-form>
       </div>
       <div class="footer">
-        <el-button type="primary" style="margin-right: 0.2rem" @click="submitForm('createPermForm')">提交</el-button>
+        <el-button type="primary" style="margin-right: 0.2rem" @click="submitForm('createPermForm')">{{ curPermGroupId ? '修改' : '提交' }}</el-button>
         <el-button @click="resetForm('createPermForm')">重置</el-button>
       </div>
     </div>
@@ -44,18 +44,20 @@
 
 <script>
 import { validateStrCallback, actionOptions } from './help';
+import { createSysPerm, updateSysPerm, getAllSysPerms } from '@/api/system';
 export default {
   name: 'CreateSiteKeyPage',
   data() {
     return {
+      isLoading: false,
+      curPermGroupId: '',
       createPerm: {
         permGroupName: '',
         perms: [
           {
-            action: '',
+            permAction: '',
             permName: '',
             permValue: '',
-            permPath: '',
           },
         ],
         remark: '',
@@ -65,16 +67,31 @@ export default {
       loading: false,
     };
   },
+  created() {
+    this.curPermGroupId = this.$route.query.permGroupName || '';
+    if (this.curPermGroupId) {
+      //根据name获取权限信息
+      this.isLoading = true;
+      getAllSysPerms({ id: this.curPermGroupId })
+        .then((res) => {
+          if (res.code === 200) {
+            this.createPerm = res.data?.data[0];
+          }
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    }
+  },
   methods: {
     onAddPerm() {
       if (this.createPerm.perms.length > 20) {
         return this.$message.warning('一个权限组下最多创建20个权限');
       }
       this.createPerm.perms.push({
-        action: '',
+        permAction: '',
         permName: '',
         permValue: '',
-        permPath: '',
       });
     },
     resetForm: function (formName) {
@@ -83,10 +100,9 @@ export default {
         perms: [
           //一个权限组下的权限，可以很多个
           {
-            action: '', //权限类型，get，post，delete，put
+            permAction: '', //权限类型，get，post，delete，put
             permName: '', //权限名称
             permValue: '', //权限值
-            permPath: '', //permGroupName+action+permValue
           },
         ],
         remark: '', //备注
@@ -94,14 +110,19 @@ export default {
       this.$refs[formName].resetFields();
     },
     submitForm: function (formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          // this.loading = true;
-          this.createPerm.perms.forEach((item) => {
-            item.permPath = `${item.action}-${item.permValue}`;
-          });
-
-          console.log(this.createPerm);
+          this.loading = true;
+          let result;
+          this.curPermGroupId ? (result = await updateSysPerm(this.createPerm)) : (result = await createSysPerm(this.createPerm));
+          this.loading = false;
+          this.$message.success('操作成功');
+          if (result.code === 200 && this.curPermGroupId) {
+            //修改成功返回上一级
+            this.$router.push({
+              name: 'PermManagement',
+            });
+          }
         } else {
           return false;
         }
