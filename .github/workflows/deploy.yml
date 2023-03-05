@@ -45,8 +45,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             docker pull ${{ secrets.DOCKER_PATH }}:latest
-            ssh  root@${{ secrets.USER_HOST } "docker rm -f  sso-admin-portal-container/
-                 docker rmi -f registry.cn-chengdu.aliyuncs.com/octoveau/sso-admin-portal/
-                 cd /www/looper/sso-admin-portal/ && docker-compose -f docker-compose.yml pull/
-                 docker-compose -f docker-compose.yml up -d/
-                 docker rmi $(docker images -q -f dangling=true);exit";
+            ssh  root@${{ secrets.USER_HOST }} "docker rm -f  sso-admin-portal-container"
+            ssh  root@${{ secrets.USER_HOST }} "docker rmi -f registry.cn-chengdu.aliyuncs.com/octoveau/sso-admin-portal"
+            ssh  root@${{ secrets.USER_HOST }} "cd /www/looper/sso-admin-portal/;docker-compose -f docker-compose.yml pull;docker-compose -f docker-compose.yml up -d"
+            ssh  root@${{ secrets.USER_HOST }} "docker rmi $(docker images -q -f dangling=true);exit"
