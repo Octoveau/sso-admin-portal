@@ -21,10 +21,11 @@ export default {
             radius: '100%',
             type: 'gauge',
             detail: {
-              offsetCenter: [0, '30%'],
+              offsetCenter: [0, '40%'],
               fontSize: 16,
               formatter: '{value}%',
             },
+
             data: [
               {
                 value: 50,
@@ -82,6 +83,6 @@ export default {
 <style lang="less" scoped>
 .section {
   height: 200px;
-  width: 320px;
+  width: 100%;
 }
 </style>

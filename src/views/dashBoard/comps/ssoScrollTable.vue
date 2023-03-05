@@ -1,11 +1,11 @@
 <template>
   <div class="table-wrapper">
     <el-table size="mini" :data="tableData" class="swiper-page-table" ref="table" height="220px">
-      <el-table-column prop="name" label="接入用户" width="120"></el-table-column>
-      <el-table-column prop="accessTime" label="接入时间" width="200"></el-table-column>
-      <el-table-column prop="sectionTime" label="在线时间" width="120"></el-table-column>
-      <el-table-column prop="callbackUrl" label="回调地址" width="150"></el-table-column>
-      <el-table-column prop="isLoginSuccess" label="接入状况" width="120">
+      <el-table-column :show-overflow-tooltip="true" prop="name" label="接入用户" width="120"></el-table-column>
+      <el-table-column :show-overflow-tooltip="true" prop="accessTime" label="接入时间"></el-table-column>
+      <el-table-column :show-overflow-tooltip="true" prop="sectionTime" label="在线时间"></el-table-column>
+      <el-table-column :show-overflow-tooltip="true" prop="callbackUrl" label="回调地址"></el-table-column>
+      <el-table-column :show-overflow-tooltip="true" prop="isLoginSuccess" label="接入状况" width="120">
         <template slot-scope="scope">
           <el-tag size="small" :type="scope.row.isLoginSuccess === '成功' ? 'success' : 'danger'">{{ scope.row.isLoginSuccess }}</el-tag>
         </template>

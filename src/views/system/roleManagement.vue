@@ -6,22 +6,22 @@
       <el-button style="margin-left: 0.2rem" @click="onReset">重置</el-button>
     </div>
     <el-table size="mini" :header-cell-style="getRowClass" :row-class-name="tableRowClassName" :data="tableData" style="width: 100%">
-      <el-table-column prop="siteName" label="权限组名称" :show-overflow-tooltip="true" width="200px"></el-table-column>
-      <el-table-column prop="siteKey" label="权限名称" :show-overflow-tooltip="true" width="400px"></el-table-column>
-      <el-table-column prop="remark" label="备注" :show-overflow-tooltip="true" width="200px"></el-table-column>
-      <el-table-column prop="createBy" label="创建者" :show-overflow-tooltip="true" width="200px"></el-table-column>
-      <el-table-column prop="createDate" label="创建时间" :show-overflow-tooltip="true">
+      <el-table-column :show-overflow-tooltip="true" prop="siteName" label="权限组名称" width="200px"></el-table-column>
+      <el-table-column :show-overflow-tooltip="true" prop="siteKey" label="权限名称" width="400px"></el-table-column>
+      <el-table-column :show-overflow-tooltip="true" prop="remark" label="备注" width="200px"></el-table-column>
+      <el-table-column :show-overflow-tooltip="true" prop="createBy" label="创建者" width="200px"></el-table-column>
+      <el-table-column :show-overflow-tooltip="true" prop="createDate" label="创建时间">
         <template slot-scope="scope">
           <span>{{ getDateStr(scope.row.createDate) }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="createDate" label="更新时间" :show-overflow-tooltip="true">
+      <el-table-column :show-overflow-tooltip="true" prop="createDate" label="更新时间">
         <template slot-scope="scope">
           <span>{{ getDateStr(scope.row.createDate) }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" width="360px" :show-overflow-tooltip="true">
+      <el-table-column :show-overflow-tooltip="true" label="操作" width="360px">
         <template slot-scope="scope">
           <el-button size="small" type="primary" @click="onDelete(scope.row)" :loading="scope.row.isDelete">修改</el-button>
           <el-button size="small" type="danger" @click="onDelete(scope.row)" :loading="scope.row.isDelete">

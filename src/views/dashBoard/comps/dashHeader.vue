@@ -64,7 +64,7 @@ export default {
 <style lang="less" scoped>
 .header-section {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   width: 100%;
   .div-flex {
     position: relative;
