@@ -1,6 +1,6 @@
 <template>
   <section class="section">
-    <el-card>
+    <el-card style="flex: 3">
       <div slot="header">
         <span class="block"></span>
         <strong>sso接入详情</strong>
@@ -9,14 +9,14 @@
         <ssoScrollTableComp></ssoScrollTableComp>
       </div>
     </el-card>
-    <el-card>
+    <el-card style="flex: 2">
       <div slot="header">
         <span class="block"></span>
         <strong>近7天接入详情</strong>
       </div>
       <contentAccessDetailComp></contentAccessDetailComp>
     </el-card>
-    <el-card>
+    <el-card style="flex: 2">
       <div slot="header">
         <span class="block"></span>
         <strong>接入成功率</strong>
@@ -47,7 +47,7 @@ export default {
 <style lang="less" scoped>
 .section {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   margin: 0 0.1rem;
   ::v-deep .el-card {
     margin: 0.1rem;

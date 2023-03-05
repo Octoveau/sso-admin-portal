@@ -7,32 +7,32 @@
     </div>
     <main>
       <el-table size="mini" :header-cell-style="getRowClass" :row-class-name="tableRowClassName" :data="tableData" style="width: 100%">
-        <el-table-column prop="nickName" label="用户昵称"></el-table-column>
-        <el-table-column prop="createDate" label="创建时间" width="350">
+        <el-table-column :show-overflow-tooltip="true" prop="nickName" label="用户昵称"></el-table-column>
+        <el-table-column :show-overflow-tooltip="true" prop="createDate" label="创建时间" width="350">
           <template slot-scope="scope">
             <span>{{ getDateStr(scope.row.createDate) }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="phone" label="电话信息" width="250">
+        <el-table-column :show-overflow-tooltip="true" prop="phone" label="电话信息" width="250">
           <template slot-scope="scope">
             <span>{{ getPhoneStr(scope.row.phone) }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="active" label="用户状态" width="150">
+        <el-table-column :show-overflow-tooltip="true" prop="active" label="用户状态" width="250">
           <template slot-scope="scope">
             <el-tag effect="dark" :type="`${scope.row.active ? 'success' : 'danger'}`">{{ scope.row.active ? '使用中' : '已停用' }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="roles" label="用户角色" width="150">
+        <el-table-column :show-overflow-tooltip="true" prop="roles" label="用户角色" width="250">
           <template>
             <el-tag>普通用户</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column :show-overflow-tooltip="true" prop="lastModifiedBy" label="修改者"></el-table-column>
+        <el-table-column :show-overflow-tooltip="true" prop="lastModifiedDate" label="更新时间"></el-table-column>
+        <el-table-column :show-overflow-tooltip="true" label="操作">
           <template slot-scope="scope">
-            <el-button size="small" type="danger" @click="onDelete(scope.row)" :loading="scope.row.isDelete">
-              {{ scope.row.isDelete ? '删除中' : '删除' }}
-            </el-button>
+            <a class="cursor" style="color: red" @click="onDelete(scope.row)">删除</a>
           </template>
         </el-table-column>
       </el-table>
