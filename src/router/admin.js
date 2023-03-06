@@ -95,6 +95,25 @@ const adminRoutes = [
           bread: [{ name: '系统配置' }, { name: '修改权限' }],
         },
       },
+      //创建或者修改role
+      {
+        path: 'system/role/create',
+        name: 'CreateRole',
+        component: () => import('@/views/system/createOrUpdateRole'),
+        meta: {
+          title: '创建角色',
+          bread: [{ name: '系统配置' }, { name: '创建角色' }],
+        },
+      },
+      {
+        path: 'system/role/update',
+        name: 'updateRole',
+        component: () => import('@/views/system/createOrUpdateRole'),
+        meta: {
+          title: '修改角色',
+          bread: [{ name: '系统配置' }, { name: '修改角色' }],
+        },
+      },
     ],
   },
 ];

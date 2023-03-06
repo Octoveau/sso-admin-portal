@@ -2,15 +2,9 @@ import service from './index';
 //创建权限组
 export const createSysPerm = (data) => service.post(`/api/perm/add`, data);
 //获取所有的权限组展示
-export const getAllSysPerms = (params) =>
-  service.get(`/api/perms/query`, {
-    params,
-  });
+export const getAllSysPerms = (params) => service.get(`/api/perms/query`, { params });
 //删除权限组
-export const delateSysPerm = (data) =>
-  service.delete('/api/perm/del', {
-    data,
-  });
+export const delateSysPerm = (data) => service.delete('/api/perm/del', { data });
 //修改权限组
 export const updateSysPerm = (data) => service.put(`/api/perm/update/${data.id}`, data);
 
