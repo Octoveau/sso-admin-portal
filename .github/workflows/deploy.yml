@@ -44,7 +44,7 @@ jobs:
           username: ${{ secrets.USER_NAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            ${PWD}
+            ${{PWD}}
             ls -l
             docker pull ${{ secrets.DOCKER_PATH }}:latest
             make clean
