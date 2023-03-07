@@ -44,8 +44,10 @@ jobs:
           username: ${{ secrets.USER_NAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            ${PWD}
-            ls -l
             docker pull ${{ secrets.DOCKER_PATH }}:latest
-            make clean
-            make build
+      - name: Docker Compose Handle 🚀
+        uses: actions/checkout@v3
+      - name: docker compose clean
+        run: make clean
+      - name: docker compose build
+        run: make build
