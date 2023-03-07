@@ -44,6 +44,7 @@ jobs:
           username: ${{ secrets.USER_NAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
+            echo "path == ${PWD} && ls -l"
             docker pull ${{ secrets.DOCKER_PATH }}:latest
             make clean
             make build
