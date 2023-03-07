@@ -47,6 +47,8 @@ jobs:
             docker pull ${{ secrets.DOCKER_PATH }}:latest
       - name: Docker Compose Handle 🚀
         uses: actions/checkout@v3
+      - name: docker compose test
+        run: make test
       - name: docker compose clean
         run: make clean
       - name: docker compose build
