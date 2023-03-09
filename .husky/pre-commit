@@ -4,7 +4,6 @@ echo "============= lint: ============="
 npm run lint
 
 
-
 MAX_VERSION=999
 STEP=1
 
