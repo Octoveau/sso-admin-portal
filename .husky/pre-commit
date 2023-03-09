@@ -10,7 +10,7 @@ STEP=1
 major=$(cat .version | awk -F "." '{printf$1}')
 minor=$(cat .version | awk -F "." '{printf$2}')
 patch=$(cat .version | awk -F "." '{printf$3}')
-
+echo "$major-$minor-$patch============="
 patch=$(expr $patch + $STEP)
 
 if [ ${patch} -gt ${MAX_VERSION} ]; then
