@@ -4,9 +4,9 @@
 MAX_VERSION=999
 STEP=1
 
-major=$(cat .version | awk -F "." '{printf$1}')
-minor=$(cat .version | awk -F "." '{printf$2}')
-patch=$(cat .version | awk -F "." '{printf$3}')
+major=$(cat ./.version | awk -F "." '{printf$1}')
+minor=$(cat ./.version | awk -F "." '{printf$2}')
+patch=$(cat ./.version | awk -F "." '{printf$3}')
 
 patch=$(expr $patch + $STEP)
 
