@@ -17,8 +17,9 @@ jobs:
         run: |
           yarn install
           yarn run build
-          sh version.sh
-          echo "version11111111 == ${Version}"
+          source version.sh
+          echo "version11111111 "
+          echo ${Version}
       - name: SSH Server Deploy 🚀
         uses: easingthemes/ssh-deploy@v2.2.11
         env:
