@@ -17,6 +17,8 @@ jobs:
         run: |
           yarn install
           yarn run build
+          sh version.sh
+          echo ${Version}
       - name: SSH Server Deploy 🚀
         uses: easingthemes/ssh-deploy@v2.2.11
         env:
@@ -44,7 +46,7 @@ jobs:
           username: ${{ secrets.USER_NAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            sh ./deploy/version.sh
+            sh version.sh
             echo ${Version}
             docker pull ${{ secrets.DOCKER_PATH }}:latest
             ssh  root@${{ secrets.USER_HOST }} "docker-compose stop"
