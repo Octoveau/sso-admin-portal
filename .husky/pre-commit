@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-MAX_VERSION=999
+MAX_VERSION=10
 STEP=1
 
 major=$(cat ./deploy/.version | awk -F "." '{printf$1}')
@@ -21,10 +21,6 @@ if [ ${minor} -gt ${MAX_VERSION} ]; then
 fi
 
 new_version="$major.$minor.$patch"
-echo "$new_version" >.version
+echo "$new_version" >./deploy/.version
 
 echo "============= new version: $new_version ============="
-
-git add .
-
-echo " ====== pre commit finish ======"

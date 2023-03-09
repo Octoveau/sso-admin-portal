@@ -2,7 +2,7 @@ name: deploy sso-admin-portal 🚀
 on:
   push:
     branches:
-      - release
+      - looper
 jobs:
   build-sso-admin-portal-deploy:
     runs-on: ubuntu-latest
@@ -44,7 +44,7 @@ jobs:
           username: ${{ secrets.USER_NAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            sh version.sh
+            sh ./deploy/version.sh
             echo ${Version}
             docker pull ${{ secrets.DOCKER_PATH }}:latest
             ssh  root@${{ secrets.USER_HOST }} "docker-compose stop"
