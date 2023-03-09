@@ -18,8 +18,6 @@ jobs:
           yarn install
           yarn run build
           source version.sh
-          echo "version11111111 "
-          echo ${Version}
       - name: SSH Server Deploy 🚀
         uses: easingthemes/ssh-deploy@v2.2.11
         env:
@@ -38,8 +36,8 @@ jobs:
           registry: ${{ secrets.DOCKER_PATH }}
       - name: push Docker Hub 🚀
         run: |
-          docker build -t ${{ secrets.DOCKER_PATH }}:latest .
-          docker push ${{ secrets.DOCKER_PATH }}:latest
+          docker build -t ${{ secrets.DOCKER_PATH }}:${Version} .
+          docker push ${{ secrets.DOCKER_PATH }}:${Version}
       - name: deploy Docker Images 🚀
         uses: appleboy/ssh-action@master
         with:
@@ -47,9 +45,7 @@ jobs:
           username: ${{ secrets.USER_NAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            sh version.sh
-            echo ${Version}
-            docker pull ${{ secrets.DOCKER_PATH }}:latest
+            docker pull ${{ secrets.DOCKER_PATH }}:${Version}
             ssh  root@${{ secrets.USER_HOST }} "docker-compose stop"
             ssh  root@${{ secrets.USER_HOST }} "cd /www/looper/sso-admin-portal/;docker-compose  pull;docker-compose  up -d"
             ssh  root@${{ secrets.USER_HOST }} "docker rmi $(docker images -q -f dangling=true);exit"
