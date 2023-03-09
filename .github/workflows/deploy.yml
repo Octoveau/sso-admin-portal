@@ -44,12 +44,9 @@ jobs:
           username: ${{ secrets.USER_NAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
+            sh version.sh
+            echo ${Version}
             docker pull ${{ secrets.DOCKER_PATH }}:latest
-      - name: Docker Compose Handle 🚀
-        uses: actions/checkout@v3
-      - name: docker compose test
-        run: make test
-      - name: docker compose clean
-        run: make clean
-      - name: docker compose build
-        run: make build
+            ssh  root@${{ secrets.USER_HOST }} "docker-compose stop"
+            ssh  root@${{ secrets.USER_HOST }} "cd /www/looper/sso-admin-portal/;docker-compose  pull;docker-compose  up -d"
+            ssh  root@${{ secrets.USER_HOST }} "docker rmi $(docker images -q -f dangling=true);exit"
