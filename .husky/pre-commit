@@ -10,7 +10,7 @@ patch=$(cat .version | awk -F "." '{printf$3}')
 
 patch=$(expr $patch + $STEP)
 
-if [ ${patch} -gt ${MAX_VERSION} ]; then
+if [ ${patch} -gt ${MAX_VERSION} ]; then  
   patch=0
   minor=$(expr $minor + $STEP)
 fi
