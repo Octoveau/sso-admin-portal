@@ -36,6 +36,7 @@ jobs:
           registry: ${{ secrets.DOCKER_PATH }}
       - name: push Docker Hub 🚀
         run: |
+          echo "----------${Version}"
           docker build -t ${{ secrets.DOCKER_PATH }}:${Version} .
           docker push ${{ secrets.DOCKER_PATH }}:${Version}
       - name: deploy Docker Images 🚀
