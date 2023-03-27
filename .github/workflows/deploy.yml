@@ -46,5 +46,5 @@ jobs:
           script: |
             docker pull ${{ secrets.DOCKER_PATH }}:latest
             ssh  root@${{ secrets.USER_HOST }} "docker-compose stop"
-            ssh  root@${{ secrets.USER_HOST }} "cd /www/looper/sso-admin-portal/;docker-compose  pull;docker-compose  up -d"
-            ssh  root@${{ secrets.USER_HOST }} "docker rmi $(docker images -q -f dangling=true);exit"
+            ssh  root@${{ secrets.USER_HOST }} "cd /www/looper/sso-admin-portal/;docker-compose -f docker-compose.yml pull;docker-compose -f docker-compose.yml up -d;exit"
+            ssh  root@${{ secrets.USER_HOST }} "docker rmi $(docker images -q -f dangling=true)"
