@@ -1,8 +1,8 @@
-version: '2'
+version: '3'
 services:
   sso-admin-portal:
     build: .
-    image: registry.cn-chengdu.aliyuncs.com/octoveau/sso-admin-portal
+    image: registry.cn-chengdu.aliyuncs.com/octoveau/sso-admin-portal:${Version}
     ports:
       - '8885:80'
     container_name: sso-admin-portal-container
